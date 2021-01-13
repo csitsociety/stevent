@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 class SubmitButton extends React.Component {
 
@@ -11,4 +11,4 @@ class SubmitButton extends React.Component {
     }
 }
 
-export default SubmitButton;
+export default SubmitButton

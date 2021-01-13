@@ -5,6 +5,7 @@ import UserStore from './UserStore'
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 import SubmitButton from './SubmitButton'
+import ClubCreationForm from './ClubCreationForm'
 
 class App extends React.Component{
   
@@ -67,6 +68,7 @@ class App extends React.Component{
         <div className="app">
           <div className="container">
             Welcome! {UserStore.username}
+            <ClubCreationForm/>
             <SubmitButton text={'Log out'} disabled={false} onClick={ () => this.doLogout()}/> 
           </div>
         </div>

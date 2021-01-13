@@ -4,6 +4,7 @@ import SubmitButton from './SubmitButton'
 import UserStore from './UserStore.js'
 
 class SignupForm extends React.Component {
+    
     constructor(props) {
         super(props)
         this.state = {
