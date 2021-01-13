@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "Main.js",
   "license": "MIT",
   "dependencies": {
     "@google-cloud/connect-datastore": "^5.0.2",
