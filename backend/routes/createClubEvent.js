@@ -5,6 +5,7 @@ module.exports = function(app, datastore) {
         const time = req.body.time.trim()
         const hostingClubs = req.body.hostingClubs
         const description = req.body.description.trim()
+        const status = req.body.description.trim()
         //const location
         if (title.length == 0 || date.length == 0 || time.length == 0 || size(hostingClubs) == 0 || description.length == 0) {
             res.json({
@@ -23,7 +24,8 @@ module.exports = function(app, datastore) {
                     time,
                     hostingClubs,
                     description,
-                    attendees: []
+                    attendees: [],
+                    status
                 }
             }
             datastore.upsert(entity)
