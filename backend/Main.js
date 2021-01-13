@@ -33,16 +33,6 @@ app.use(session({
     }
 }))
 
-const entity = {
-    key: datastore.key(['User', "s3787033"]),
-    data: {
-        username: "s3787033",
-        password: "123"
-    }
-}
-
-datastore.upsert(entity)
-
 new Router(app, datastore)
 
 app.get('/', function(req, res) {
