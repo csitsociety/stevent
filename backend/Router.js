@@ -113,7 +113,9 @@ class Router {
                             key: datastore.key(['User', username]),
                             data: {
                                 username,
-                                password: hash
+                                password: hash,
+                                adminClubs: [],
+                                memberClubs: []
                             }
                         }
                         datastore.upsert(entity)
@@ -171,6 +173,78 @@ class Router {
                         success: false
                     })
                 }
+            }
+        })
+    }
+
+    deleteClubPage() {
+        app.post('/createClubPage', async (req, res) => {
+            const clubID = req.body.clubID
+            try {
+                datastore.delete(datastore.key(['Club', clubID]))
+                res.json({
+                    success: true
+                })
+            } catch (e) {
+                res.json({
+                    success: false
+                })
+            }
+        })
+    }
+
+    createClubEvent(app, datastore) {
+        app.post('/createClubPage', async (req, res) => {
+            const title = req.body.title.trim()
+            const date = req.body.date.trim()
+            const time = req.body.time.trim()
+            const hostingClubs = req.body.hostingClubs
+            const description = req.body.description.trim()
+            //const location
+            if (title.length == 0 || date.length == 0 || time.length == 0 || size(hostingClubs) == 0 || description.length == 0) {
+                res.json({
+                    success: false,
+                    msg: "Invalid club details!"
+                })
+                return
+            }
+
+            try {
+                const entity = {
+                    key: datastore.key(['Event', title]),
+                    data: {
+                        title,
+                        date,
+                        time,
+                        hostingClubs,
+                        description,
+                        attendees: []
+                    }
+                }
+                datastore.upsert(entity)
+                res.json({
+                    success: true
+                })
+            } catch (e) {
+                res.json({
+                    success: false
+                })
+            }
+        })
+    }
+
+    deleteClubEvent(app, datastore) {
+        app.post('/createClubPage', async (req, res) => {
+            const title = req.body.title
+            try {
+                datastore.delete(datastore.key(['Event', title]))
+                res.json({
+                    success: true
+                })
+            } catch (e) {
+                res.json({
+                    success: false
+                })
             }
         })
     }
