@@ -16,8 +16,8 @@ const NavigationItem = ({ to, label, ...rest }) => {
 const Navigation = () => {
 	return (
 		<Container>
-			<StyledLink to="/events" label="Events" />
-			<StyledLink to="/profile" label="My Profile" />
+			<NavigationItem to="/events" label="Events" />
+			<NavigationItem to="/profile" label="My Profile" />
 		</Container>
 	);
 };
