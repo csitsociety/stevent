@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -9,6 +9,7 @@ import {
 	TextField,
 	Button,
 	Center,
+	StatusMessage,
 } from 'components';
 import { useAuthStore } from 'stores';
 import { signup } from 'services';
@@ -34,6 +35,7 @@ const initialValues = {
 const Signup = () => {
 	const history = useHistory();
 	const auth = useAuthStore();
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		if (auth.isAuthenticated) {
@@ -43,6 +45,7 @@ const Signup = () => {
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
+		setError(null);
 		try {
 			const response = await signup({
 				username: values.username,
@@ -52,8 +55,10 @@ const Signup = () => {
 			if (response.success) {
 				auth.login(response.username);
 			} else {
-				//TODO: error
-				alert(response.msg);
+				if (response.errors.main) {
+					setError(response.errors.main);
+				}
+				setErrors(response.errors);
 			}
 		} catch (error) {
 			console.error(error);
@@ -69,12 +74,14 @@ const Signup = () => {
 				 	<img src={logo} alt="Stevent Logo" />
 				</LogoWrapper>
 				<Heading>Sign up</Heading>
+				{error && (
+					<StatusMessage onClose={() => setError(null)}>{error}</StatusMessage>
+				)}
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={(values, { setSubmitting, setErrors }) => {
-						//onSubmit(values, setSubmitting, setErrors);
-						console.log(values, setSubmitting, setErrors);
+						onSubmit(values, setSubmitting, setErrors);
 					}}
 				>
 					{props => (

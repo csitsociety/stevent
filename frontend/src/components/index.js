@@ -5,3 +5,4 @@ export { default as Heading } from './Heading/Heading';
 export { default as Paragraph } from './Paragraph/Paragraph';
 export { default as Spinner } from './Spinner/Spinner';
 export { default as Center } from './Center/Center';
+export { default as StatusMessage } from './StatusMessage/StatusMessage';

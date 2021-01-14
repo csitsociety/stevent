@@ -15,7 +15,7 @@ const TextField = ({
 			{label && (
 				<StyledLabel
 					required={required}
-					for={field.name}
+					htmlFor={field.name}
 				>{label}</StyledLabel>
 			)}
 			<StyledInput

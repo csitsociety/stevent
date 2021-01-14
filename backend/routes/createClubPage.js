@@ -7,7 +7,9 @@ module.exports = function(app, datastore) {
         if (clubName.length == 0 || clubDescription.length == 0 || clubSignupLink.length == 0 || clubID.length == 0) {
             res.json({
                 success: false,
-                msg: "Invalid club details!"
+                errors: {
+									main: "Invalid club details"
+								}
             })
             return
         }
@@ -16,7 +18,9 @@ module.exports = function(app, datastore) {
             if (existingClub) {
                 res.json({
                     success: false,
-                    message: "Club ID already exists"
+                    errors: {
+											clubId: "Club ID already exists"
+										}
                 })
             } else {
                 try {

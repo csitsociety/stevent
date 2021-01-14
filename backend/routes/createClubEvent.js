@@ -9,7 +9,9 @@ module.exports = function(app, datastore) {
         if (title.length == 0 || date.length == 0 || time.length == 0 || size(hostingClubs) == 0 || description.length == 0) {
             res.json({
                 success: false,
-                msg: "Invalid club details!"
+                errors: {
+									main: "Invalid event details"
+								}
             })
             return
         }
