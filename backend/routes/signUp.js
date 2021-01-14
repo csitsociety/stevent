@@ -6,7 +6,9 @@ module.exports = function(app, datastore) {
         if (username.length == 0 || password.length == 0) {
             res.json({
                 success: false,
-                msg: "Invalid username or password!"
+                errors: {
+									main: "Invalid username or password!"
+								}
             })
             return
         }

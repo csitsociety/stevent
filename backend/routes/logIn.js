@@ -6,7 +6,9 @@ module.exports = function(app, datastore) {
         if (username.length == 0 || password.length == 0) {
             res.json({
                 success: false,
-                msg: "An error has occured, please try again!"
+                errors: {
+									main: "An error has occured, please try again!"
+								}
             })
             return
         }
@@ -25,7 +27,9 @@ module.exports = function(app, datastore) {
                 } else {
                     res.json({
                         success: false,
-                        msg: 'Incorrect password'
+                        errors: {
+													password: 'Incorrect password'
+												}
                     })
                     return
                 }
@@ -33,7 +37,9 @@ module.exports = function(app, datastore) {
         } else {
             res.json({
                 success: false,
-                msg: 'Couldn\'t find any users with that ID'
+                errors: {
+									username: 'Couldn\'t find any users with that ID'
+								}
             })
         }
     })
