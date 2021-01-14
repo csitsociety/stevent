@@ -8,7 +8,7 @@ By [Max](https://www.linkedin.com/in/maxwellreid/) and [Benji](https://www.linke
 
 1. Clone this repo.
 2. Install yarn and node.
-3. Install nodemon by running `yarn add -g nodemon`.
+3. Install nodemon by running `yarn add nodemon -g`.
 4. Run `yarn i` in both frontend and backend folders to install dependencies.
 5. Run `nodemon Main.js` in the backend folder to start the backend.
 6. Run `yarn run start` in the frontend folder to start the frontend.
