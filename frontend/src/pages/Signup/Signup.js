@@ -79,6 +79,7 @@ const Signup = () => {
 			}
 		} catch (error) {
 			console.error(error);
+			setError('An error occured, please try again');
 		} finally {
 			setSubmitting(false);
 		}
