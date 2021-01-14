@@ -11,23 +11,27 @@ import {
 	Center,
 } from 'components';
 import { useAuthStore } from 'stores';
-import { login } from 'services';
+import { signup } from 'services';
 
-import { PageContainer, FormWrapper, LogoWrapper } from './loginStyle';
+import { PageContainer, FormWrapper, LogoWrapper } from '../Login/loginStyle';
 
 import logo from 'res/logo.svg';
 
 const validationSchema = Yup.object({
 	username: Yup.string().ensure().required('Student/staff number is required'),
-	password: Yup.string().ensure().required('Password is required'),
+	email: Yup.string().ensure().required('Email is required'),
+	password: Yup.string().ensure().required('You need a password'),
+	passwordAgain: Yup.string().ensure().required('You need to enter your password twice'),
 });
 
 const initialValues = {
 	username: '',
+	email: '',
 	password: '',
+	passwordAgain: '',
 };
 
-const Login = () => {
+const Signup = () => {
 	const history = useHistory();
 	const auth = useAuthStore();
 
@@ -40,8 +44,9 @@ const Login = () => {
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
 		try {
-			const response = await login({
+			const response = await signup({
 				username: values.username,
+				email: values.email,
 				password: values.password,
 			});
 			if (response.success) {
@@ -63,25 +68,39 @@ const Login = () => {
 				<LogoWrapper>
 				 	<img src={logo} alt="Stevent Logo" />
 				</LogoWrapper>
-				<Heading>Login</Heading>
+				<Heading>Sign up</Heading>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={(values, { setSubmitting, setErrors }) => {
-						onSubmit(values, setSubmitting, setErrors);
+						//onSubmit(values, setSubmitting, setErrors);
+						console.log(values, setSubmitting, setErrors);
 					}}
 				>
 					{props => (
 						<Form>
 							<TextField
 								name="username"
-								label="Student/staff number (with the letter)"
+								label="What is your student/staff number? (with the letter)"
 								placeholder="s1234567"
 								required
 							/>
 							<TextField
+								name="email"
+								type="email"
+								label="Which email would you like to be contacted with?"
+								placeholder="jenny@example.com"
+								required
+							/>
+							<TextField
 								name="password"
-								label="Password"
+								label="Pick a secure password"
+								type="password"
+								required
+							/>
+							<TextField
+								name="passwordAgain"
+								label="Type the password again"
 								type="password"
 								required
 							/>
@@ -91,9 +110,9 @@ const Login = () => {
 									type="submit"
 									disabled={!(props.isValid && props.dirty)}
 									loading={props.isSubmitting}
-								>Login</Button>
+								>Sign up</Button>
 								<P>
-									Don't have an account? <Link to="/signup">Register here!</Link>
+									Already have an account? <Link to="/login">Login here!</Link>
 								</P>
 							</Center>
 						</Form>
@@ -104,4 +123,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Signup;

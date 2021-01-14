@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import Login from './Login/Login';
+import Signup from './Signup/Signup';
 
 import { Navigation } from 'components';
 import { useAuthStore } from 'stores';
@@ -53,6 +54,7 @@ const Pages = () => {
 				<PrivateRoute path="/profile/:id" component={Profile} exact />*/}
 
 				<Route path="/login" component={Login} exact />
+				<Route path="/signup" component={Signup} exact />
 			</Switch>
 		</>
 	);
