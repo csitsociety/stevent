@@ -1,22 +1,22 @@
-const express = require('express')
-const app = express()
-const path = require('path')
-const session = require('express-session')
-const Router = require('./Router')
-const cors = require('cors')
+const config = require('./config');
 
-const {Datastore} = require('@google-cloud/datastore')
-const {DatastoreStore} = require('@google-cloud/connect-datastore')
+const express = require('express');
+const app = express();
+const path = require('path');
+const session = require('express-session');
+const Router = require('./Router');
+const cors = require('cors');
 
-const datastore = new Datastore({
-    projectId: "cc-assignment-clubs"
-})
+const { Datastore } = require('@google-cloud/datastore');
+const { DatastoreStore } = require('@google-cloud/connect-datastore');
 
-app.use(express.static(path.join(__dirname, 'index.html')))
-app.use(express.json())
-app.options("*", cors({origin: ["http://localhost:3000", "https://localhost:3000"]}))
-app.use(cors({origin: ["http://localhost:3000", "https://localhost:3000"]}))
-app.enable('trust proxy')
+const datastore = new Datastore({ projectId: config.projectId });
+
+app.use(express.static(path.join(__dirname, 'index.html')));
+app.use(express.json());
+app.options("*", cors({ origin: [config.client] }));
+app.use(cors({ origin: [config.client] }));
+app.enable('trust proxy');
 
 app.use(session({
     store: new DatastoreStore({
@@ -31,12 +31,12 @@ app.use(session({
         maxAge: (1825 * 86400 * 1000),
         httpOnly: false
     }
-}))
+}));
 
-new Router(app, datastore)
+new Router(app, datastore);
 
 app.get('/', function(req, res) {
-    res.send("Hello world")
-})
+    res.send('<pre>Stevent API')
+});
 
-app.listen(3001)
+app.listen(config.port);
