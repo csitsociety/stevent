@@ -19,8 +19,15 @@ import { PageContainer, FormWrapper, LogoWrapper } from './loginStyle';
 import logo from 'res/logo.svg';
 
 const validationSchema = Yup.object({
-	username: Yup.string().ensure().required('Student/staff number is required'),
-	password: Yup.string().ensure().required('Password is required'),
+	username: Yup
+		.string()
+		.ensure()
+		.required('Student/staff number is required')
+		.matches(/[s|S|e|E][0-9]./, 'Student/staff number must be a letter followed by numbers'),
+	password: Yup
+		.string()
+		.ensure()
+		.required('Password is required'),
 });
 
 const initialValues = {
