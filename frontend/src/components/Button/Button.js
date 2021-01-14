@@ -10,7 +10,7 @@ const Button = ({
 }) => {
 	return (
 		<StyledButton
-			loading={loading}
+			className={loading ? 'loading' : ''}
 			{...rest}
 		>
 			{loading && (

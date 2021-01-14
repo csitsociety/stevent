@@ -17,10 +17,10 @@ export const StyledButton = styled.button`
 		cursor: default;
 	`};
 
-	${props => props.loading && `
+	&.loading {
 		cursor: default;
 		color: transparent;
-	`};
+	}
 `;
 
 export const SpinnerWrapper = styled.div`

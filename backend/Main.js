@@ -14,8 +14,8 @@ const datastore = new Datastore({
 
 app.use(express.static(path.join(__dirname, 'index.html')))
 app.use(express.json())
-app.options("*", cors({origin: ["http://localhost:3001", "https://localhost:3001"], credentials: true}))
-app.use(cors({origin: ["http://localhost:3001", "https://localhost:3001"], credentials: true}))
+app.options("*", cors({origin: ["http://localhost:3000", "https://localhost:3000"]}))
+app.use(cors({origin: ["http://localhost:3000", "https://localhost:3000"]}))
 app.enable('trust proxy')
 
 app.use(session({
@@ -39,4 +39,4 @@ app.get('/', function(req, res) {
     res.send("Hello world")
 })
 
-app.listen(3000)
+app.listen(3001)

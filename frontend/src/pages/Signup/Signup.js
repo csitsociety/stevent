@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -73,8 +73,7 @@ const Signup = () => {
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={(values, { setSubmitting, setErrors }) => {
-						//onSubmit(values, setSubmitting, setErrors);
-						console.log(values, setSubmitting, setErrors);
+						onSubmit(values, setSubmitting, setErrors);
 					}}
 				>
 					{props => (

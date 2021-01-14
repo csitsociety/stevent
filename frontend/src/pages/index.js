@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Switch,
   Route,
   Redirect,
-  RouteProps,
   useLocation,
   useHistory,
 } from 'react-router-dom';
