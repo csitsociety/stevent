@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {EventColumnStyle} from './eventsStyle'
+import { EventColumnStyle } from './eventsStyle';
 
 import {
 	EventListing,
@@ -9,19 +9,22 @@ import {
 
 import { useAuthStore } from 'stores';
 
+import event_img from 'res/test_event.png';
+
 const Events = () => {
 	const auth = useAuthStore();
 	return (
-		<div>
-		<EventFilter/>
-		<EventColumnStyle>
-
-			<EventListing eventSrc="res/test_event.png"/>
-			<EventListing eventSrc="res/test_event.png"/>
-			<EventListing eventSrc="res/test_event.png"/>
-			<EventListing eventSrc="res/test_event.png"/>
-		</EventColumnStyle>
-		</div>
+		<>
+			<EventFilter/>
+			<EventColumnStyle>
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+			</EventColumnStyle>
+		</>
 	)
 }
 

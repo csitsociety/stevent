@@ -35,6 +35,7 @@ export const ProfileContainer = styled.main`
 	box-sizing: border-box;
 	padding: 20px;
 	border-radius: 5px;
+	margin-bottom: 20px;
 
 	> h2 {
 		margin: 0;
@@ -48,4 +49,11 @@ export const ProfilePicture = styled.img`
 	object-fit: cover;
 	background-color: #EEE;
 	border: 0;
+`;
+
+export const Events = styled.div`
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 0 20px;
+	margin: 10px 0;
 `;
