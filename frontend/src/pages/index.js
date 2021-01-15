@@ -9,6 +9,7 @@ import {
 
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
+import Events from './Events/Events';
 
 import { Navigation } from 'components';
 import { useAuthStore } from 'stores';
@@ -46,10 +47,10 @@ const Pages = () => {
 			)}
 
 			<Switch>
-				<Redirect from="/" to="/login" exact />
+				<Redirect from="/" to="/events" exact />
 
-				{/*<PrivateRoute path="/events" component={Events} exact />
-				<PrivateRoute path="/profile" component={Profile} exact />
+				<PrivateRoute path="/events" component={Events} exact />
+				{/*<PrivateRoute path="/profile" component={Profile} exact />
 				<PrivateRoute path="/profile/:id" component={Profile} exact />*/}
 
 				<Route path="/login" component={Login} exact />
