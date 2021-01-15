@@ -12,6 +12,9 @@ module.exports = function(app, datastore) {
         } else {
             res.json({
                 success: false,
+                errors: {
+                    "main": "Could not find " + entityType
+                }
             })
         }
     })
