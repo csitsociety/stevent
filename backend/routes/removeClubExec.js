@@ -3,7 +3,7 @@ module.exports = function(app, datastore) {
         const clubID = req.body.clubID
         const oldExecID = req.body.oldExecID
         const query = datastore.createQuery("User").filter("__key__","=",datastore.key(['User', oldExecID]))
-        const execAccount = datastore.runQuery(query)
+        const execAccount = (await datastore.runQuery(query))[0][0]
         if (execAccount) {
             let club = datastore.get(datastore.key("Club", clubID))
             if (club.execs.contains(oldExecID)) {
