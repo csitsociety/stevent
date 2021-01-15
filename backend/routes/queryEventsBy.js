@@ -1,19 +1,15 @@
 module.exports = function(app, datastore) {
     app.post('/queryEventsBy', async (req, res) => {
-        let filters = req.body.filters
+        const filter = req.body.filter
         const query = datastore.createQuery('Event')
-        events = datastore.runQuery(query)
-        for (var i in filters) {
-            if (filters[i] != null) {
-                for (j = 0; j < events.length; j++) {
-                    if (i == "title") {
-                        if (!(events[j].title.toLowerCase()).includes(filters["title"].toLowerCase())) {
-                            events.remove(j)
-                        }
-                    } else if (i == "club") {
-                        if (!(events[j].clubs.toLowerCase()).includes(filters["club"].toLowerCase())) {
-                            events.remove(j)
-                        }
+        let events = (await datastore.runQuery(query))[0][0]
+        let matchingEvents = []
+        for (i = 0; i < events.length; i++) {
+            for (var prop in events[i]) {
+                if (Object.prototype.hasOwnProperty.call(events, prop)) {
+                    if (events[i].prop.toLowerCase().includes(filter.toLowerCase())) {
+                        matchingEvents.push(events[i])
+                        break
                     }
                 }
             }
