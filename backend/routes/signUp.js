@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 module.exports = function(app, datastore) {
     app.post('/signup', async (req, res) => {
-        const username = req.body.username
+        let username = req.body.username
         const email = req.body.email
         const password = req.body.password
         if (username.length == 0 || password.length == 0 || email.length == 0) {
@@ -23,7 +23,7 @@ module.exports = function(app, datastore) {
                         key: datastore.key(['User', username]),
                         data: {
                             username,
-														email,
+							email,
                             password: hash,
                             adminClubs: [],
                             memberClubs: []
@@ -40,6 +40,13 @@ module.exports = function(app, datastore) {
                     success: false,
                 })
             }
+        } else {
+            res.json({
+                success: false,
+                errors: {
+                    username: "Number is already registered"
+                }
+            })
         }
     })
 }
