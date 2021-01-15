@@ -19,7 +19,7 @@ import {
 	ProfilePicture,
 } from './profileStyle.js';
 
-import img from 'res/logo.svg';
+import img from 'res/test_club.png';
 
 const Profile = () => {
 	const history = useHistory();
@@ -29,7 +29,7 @@ const Profile = () => {
 		<>
 			<PageContainer>
 				<PersonalDetails>
-					<ProfilePicture src="#" alt="" />
+					<ProfilePicture src={img} alt="" />
 					<Heading>{'Your name here'}</Heading>
 					<P>Member since 14th January, 2021</P>
 

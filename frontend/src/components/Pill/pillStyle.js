@@ -4,7 +4,7 @@ export const PillWrapper = styled.a`
 	display: inline-flex;
 	border: 1px solid #666;
 	border-radius: 5px;
-	padding: 4px 8px;
+	padding: 4px;
 	text-decoration: none;
 	color: inherit;
 	margin-right: 8px;
@@ -21,11 +21,13 @@ export const PillWrapper = styled.a`
 export const Label = styled.span`
 	font-size: 14px;
 	font-weight: 600;
+	margin: 0 6px;
 `;
 
 export const Image = styled.img`
 	height: 24px;
 	width: 24px;
 	border-radius: 3px;
-	margin-right: 6px;
+	margin-right: 2px;
+	object-fit: cover;
 `;
