@@ -19,10 +19,27 @@ import { PageContainer, FormWrapper, LogoWrapper } from '../Login/loginStyle';
 import logo from 'res/logo.svg';
 
 const validationSchema = Yup.object({
-	username: Yup.string().ensure().required('Student/staff number is required'),
-	email: Yup.string().ensure().required('Email is required'),
-	password: Yup.string().ensure().required('You need a password'),
-	passwordAgain: Yup.string().ensure().required('You need to enter your password twice'),
+	username: Yup
+		.string()
+		.ensure()
+		.required('Student/staff number is required')
+		.matches(/[s|S|e|E][0-9]./, 'Student/staff number must be a letter followed by numbers'),
+	email: Yup
+		.string()
+		.ensure()
+		.required('Email is required')
+		.email('Email must be valid'),
+	password: Yup
+		.string()
+		.ensure()
+		.required('You need a password')
+		.min(8, 'Password must be at least 8 characters long')
+		.matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/, 'Password must contain at least one uppercase letter, one lowercase letter, one symbol, and one number'),
+	passwordAgain: Yup
+		.string()
+		.ensure()
+		.required('You need to enter your password again')
+		.oneOf([Yup.ref('password'), null], 'Passwords must match'),
 });
 
 const initialValues = {
@@ -62,6 +79,7 @@ const Signup = () => {
 			}
 		} catch (error) {
 			console.error(error);
+			setError('An error occured, please try again');
 		} finally {
 			setSubmitting(false);
 		}

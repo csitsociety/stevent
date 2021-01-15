@@ -1,13 +1,32 @@
-import React from 'react'
-import event from 'res/test_event.png';
-import {ListingContainerStyle} from './eventListingStyle'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const EventListing = () => {
-    return (
-        <ListingContainerStyle>
-            <img src={event}/>
-        </ListingContainerStyle>
-    )
-}
+import {
+	Listing,
+	Image,
+	Name,
+	Date,
+	Description,
+} from './eventListingStyle';
 
-export default EventListing
+const EventListing = ({
+	name,
+	image,
+	date,
+	description,
+	linkTo,
+	...rest
+}) => {
+	return (
+		<Listing {...rest}>
+			<Link to={linkTo}>
+				<Image src={image} alt="" />
+				<Name className="name">{name}</Name>
+				<Date>{date}</Date>
+				<Description>{description}</Description>
+			</Link>
+		</Listing>
+	)
+};
+
+export default EventListing;

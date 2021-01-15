@@ -1,12 +1,22 @@
-import React from 'react'
-import { StyledEventFilter } from './eventFilterStyle.js';
+import React from 'react';
 
-export const EventFilter = () => {
-    return (
-        <StyledEventFilter>
-            adsad
-        </StyledEventFilter>
-    )
-}
+import { Wrapper, QueryInput } from './eventFilterStyle.js';
 
-export default EventFilter
+export const EventFilter = ({
+	query,
+	onChange,
+}) => {
+	return (
+		<Wrapper>
+			<QueryInput
+				type="search"
+				name="query"
+				placeholder="🔍 Search events or clubs..."
+				value={query}
+				onChange={onChange}
+			/>
+		</Wrapper>
+	);
+};
+
+export default EventFilter;

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {EventColumnStyle} from './eventsStyle'
+import { EventColumnStyle } from './eventsStyle';
 
 import {
 	EventListing,
@@ -9,26 +9,27 @@ import {
 
 import { useAuthStore } from 'stores';
 
+import event_img from 'res/test_event.png';
+
 const Events = () => {
 	const auth = useAuthStore();
-	const varToString = varObj => Object.keys(varObj)[0]
-	const onFilter = async (filters) => {
-		setError(null);
-		try {
-			const events = await filterEvents({
-				filters
-			});
+	const [query, setQuery] = useState('');
 
 	return (
-		<div>
-		<EventFilter/>
-		<EventColumnStyle>
-			<EventListing eventSrc="res/test_event.png"/>
-			<EventListing eventSrc="res/test_event.png"/>
-			<EventListing eventSrc="res/test_event.png"/>
-			<EventListing eventSrc="res/test_event.png"/>
-		</EventColumnStyle>
-		</div>
+		<>
+			<EventFilter value={query} onChange={e => setQuery(e.target.value)} />
+			{query !== '' && (
+				<h4>Search results for: {query}</h4>
+			)}
+			<EventColumnStyle>
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+			</EventColumnStyle>
+		</>
 	)
 }
 
