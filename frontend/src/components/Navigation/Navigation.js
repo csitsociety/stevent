@@ -14,6 +14,7 @@ import logo_textless from 'res/logo_textless.svg';
 import logout from 'res/log-out.svg';
 import events from 'res/calendar.svg';
 import profile from 'res/user.svg';
+import clubs from 'res/compass.svg';
 
 const NavigationItem = ({ to, label, icon, hideLabel, ...rest }) => {
 	const location = useLocation();
@@ -44,6 +45,7 @@ const Navigation = () => {
 			<Spacer />
 
 			<NavigationItem to="/events" label="Events" icon={events} />
+			<NavigationItem to="/clubs" label="Clubs" icon={clubs} />
 			<NavigationItem to="/profile" label="My Profile" icon={profile} />
 			<NavigationItem to="/logout" label="Logout" icon={logout} hideLabel />
 		</Container>

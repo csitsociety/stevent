@@ -10,6 +10,7 @@ import {
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
 import Events from './Events/Events';
+import EventDetails from './EventDetails/EventDetails';
 import Profile from './Profile/Profile';
 
 import { Navigation } from 'components';
@@ -51,6 +52,7 @@ const Pages = () => {
 				<Redirect from="/" to="/login" exact />
 
 				<PrivateRoute path="/events" component={Events} exact />
+				<PrivateRoute path="/events/:id" component={EventDetails} exact />
 				<PrivateRoute path="/profile" component={Profile} exact />
 				<PrivateRoute path="/profile/:id" component={Profile} exact />
 
