@@ -5,15 +5,24 @@ export const Container = styled.nav`
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 10;
-	display: flex;
-	align-items: center;
-	background-color: #FFF;
+	float: right;
+	background-color: #FFFFFF;
 `;
 
-export const StyledLink = styled.div`
+export const StyledIcon = styled.div`
+	float: right;
 	> a {
-		padding: 10px;
-		font-weight: ${props => props.isActive ? 'bold' : 'normal'};
+		float: right;
+		padding: 12px;
 	}
+	> a i {
+		color: #4000d0;
+		font-size: 20px;
+	}
+`;
+
+export const StyledLogo = styled.img`
+	text-align: center;
+	size: 20px;
+	padding: 12px;
 `;
