@@ -6,6 +6,8 @@ const path = require('path');
 const session = require('express-session');
 const Router = require('./Router');
 const cors = require('cors');
+const bodyParser = require('body-parser')
+const multer = require('multer')
 
 const { Datastore } = require('@google-cloud/datastore');
 const { DatastoreStore } = require('@google-cloud/connect-datastore');
@@ -14,12 +16,23 @@ const decodeIDToken = require('./authenticateToken')
 
 const datastore = new Datastore({ projectId: config.projectId });
 
+const multerMid = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024,
+    },
+  })
+
 app.use(express.static(path.join(__dirname, 'index.html')));
 app.use(express.json());
 app.options("*", cors({ origin: [config.client] }));
 app.use(cors({ origin: [config.client] }));
 app.enable('trust proxy');
 app.use(decodeIDToken);
+app.disable('x-powered-by')
+app.use(multerMid.single('file'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(session({
     store: new DatastoreStore({

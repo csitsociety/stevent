@@ -1,6 +1,8 @@
 module.exports = function(app, datastore) {
   app.get('/retrieveDSUser', async (req, res) => {
+  console.log("test")
   const auth = req.currentUser;
+  console.log(auth, "auth")
     if (auth) {
       const uid = req.currentUser.uid
       const query = datastore.createQuery("User").filter("__key__", "=", datastore.key(["User", uid]))
