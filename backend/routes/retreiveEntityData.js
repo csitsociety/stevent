@@ -1,5 +1,5 @@
 module.exports = function(app, datastore) {
-    app.post('/retrieveEntityData', async (req, res) => {
+    app.get('/retrieveEntityData', async (req, res) => {
         const entityID = req.body.entityID
         const entityType = req.body.entityType
         const query = datastore.createQuery(entityType).filter("__key__", "=", datastore.key([entityType, entityID]))

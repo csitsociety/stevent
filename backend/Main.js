@@ -10,6 +10,8 @@ const cors = require('cors');
 const { Datastore } = require('@google-cloud/datastore');
 const { DatastoreStore } = require('@google-cloud/connect-datastore');
 
+const decodeIDToken = require('./authenticateToken')
+
 const datastore = new Datastore({ projectId: config.projectId });
 
 app.use(express.static(path.join(__dirname, 'index.html')));
@@ -17,6 +19,7 @@ app.use(express.json());
 app.options("*", cors({ origin: [config.client] }));
 app.use(cors({ origin: [config.client] }));
 app.enable('trust proxy');
+app.use(decodeIDToken);
 
 app.use(session({
     store: new DatastoreStore({

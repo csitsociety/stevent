@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import createToken from '../createToken';
 import config from 'config';
 
 export const instance = axios.create({
@@ -17,8 +17,9 @@ const handleError = error => {
 
 const api = {
 	get: async endpoint => {
+		const header = await createToken()
 		try {
-			const response = await instance.get(endpoint);
+			const response = await instance.get(endpoint, header);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);

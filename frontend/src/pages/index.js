@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Switch,
   Route,
@@ -8,23 +8,27 @@ import {
 } from 'react-router-dom';
 
 import Login from './Login/Login';
+import Logout from './Logout/Logout';
 import Signup from './Signup/Signup';
 import Events from './Events/Events';
 import EventDetails from './EventDetails/EventDetails';
 import Profile from './Profile/Profile';
-
+import fire from '../fire';
 import { Navigation } from 'components';
-import { useAuthStore } from 'stores';
 
 export const PrivateRoute = props => {
 	const { Component, ...rest } = props;
-	const auth = useAuthStore();
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	fire.auth().onAuthStateChanged((user) => {
+		return user ? setIsLoggedIn(true) : setIsLoggedIn(false);
+	});
 
 	return (
 		<Route
 			{...rest}
 			render={() =>
-				auth.isAuthenticated ? (
+				isLoggedIn ? (
 					<Component {...props} />
 				) : (
 					<Redirect to={{
@@ -58,6 +62,7 @@ const Pages = () => {
 
 				<Route path="/login" component={Login} exact />
 				<Route path="/signup" component={Signup} exact />
+				<Route path="/logout" component={Logout} exact />
 			</Switch>
 		</>
 	);

@@ -23,3 +23,15 @@ export const signup = async payload => {
 		throw err;
 	}
 };
+
+export const retrieveDSUser = async payload => {
+	try {
+		const request = await api.get(`/retrieveDSUser`, payload);
+		console.log(request)
+		if (request.status === 200) {
+			return request.data;
+		}
+	} catch (err) {
+		throw err;
+	}
+};

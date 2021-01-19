@@ -23,11 +23,20 @@ import {
 
 import img from 'res/test_club.png';
 import event_img from 'res/test_event.png';
+import { retrieveDSUser } from 'services/user.js';
+import fire from 'fire'	
 
 const Profile = () => {
 	const { id } = useParams();
-	const history = useHistory();
-	const auth = useAuthStore();
+	const [user, setUser] = useState();
+
+	useEffect(() => {
+		const fetchUserDetails = async () => {
+			const response = await retrieveDSUser({uid: fire.auth().currentUser['uid']});
+			setUser(response.user)
+		}
+		fetchUserDetails();
+	}, [])
 
 	return (
 		<>

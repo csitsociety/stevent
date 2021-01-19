@@ -17,6 +17,7 @@ import { signup } from 'services';
 import { PageContainer, FormWrapper, LogoWrapper } from '../Login/loginStyle';
 
 import logo from 'res/logo.svg';
+import fire from 'fire';
 
 const validationSchema = Yup.object({
 	username: Yup
@@ -51,32 +52,26 @@ const initialValues = {
 
 const Signup = () => {
 	const history = useHistory();
-	const auth = useAuthStore();
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		if (auth.isAuthenticated) {
+		if (fire.auth().currentUser) {
 			history.push('/events');
 		}
-	}, [auth, history]);
+	}, fire.auth().currentUser);
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
 		setError(null);
 		try {
+			const fireUserRecord = await fire.auth().createUserWithEmailAndPassword(values.email, values.password)
 			const response = await signup({
+				uid: fireUserRecord.user.uid,
 				username: values.username,
 				email: values.email,
 				password: values.password,
 			});
-			if (response.success) {
-				auth.login(response.username);
-			} else {
-				if (response.errors.main) {
-					setError(response.errors.main);
-				}
-				setErrors(response.errors);
-			}
+			await fire.auth().signInWithEmailAndPassword(values.email, values.password)
 		} catch (error) {
 			console.error(error);
 			setError('An error occured, please try again');
