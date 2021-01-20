@@ -2,6 +2,8 @@ steps:
 - name: backend
   entrypoint: node
   args: ['Main.js']
+  dir: backend
 - name: frontend
   entrypoint: yarn
   args: ['run', 'start']
+  dir: frontend
