@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { EventColumnStyle } from './eventsStyle';
 
@@ -10,6 +10,7 @@ import {
 import { useAuthStore } from 'stores';
 
 import event_img from 'res/test_event.png';
+import fire from 'fire'
 
 const Events = () => {
 	const auth = useAuthStore();
