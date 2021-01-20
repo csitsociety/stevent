@@ -7,7 +7,7 @@ steps:
     dir: "backend"
   - name: node
     entrypoint: npm
-    args: ["run, "build"]
+    args: ["run", "build"]
   - name: 'bash'
     entrypoint: 'bash'
     args: ['rm -r frontend']
