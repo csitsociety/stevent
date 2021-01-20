@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('./config/config');
 
 const express = require('express');
 const app = express();
@@ -55,4 +55,6 @@ app.get('/', function(req, res) {
     res.send('<pre>Stevent API')
 });
 
-app.listen(config.port);
+app.listen(config.port, () => {
+    console.log(`Example app listening at http://localhost:${config.port}`)
+  })

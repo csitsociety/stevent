@@ -15,7 +15,6 @@ export const login = async payload => {
 export const signup = async payload => {
 	try {
 		const request = await api.post(`/signup`, payload);
-
 		if (request.status === 200) {
 			return request.data;
 		}
@@ -27,7 +26,6 @@ export const signup = async payload => {
 export const retrieveDSUser = async payload => {
 	try {
 		const request = await api.get(`/retrieveDSUser`, payload);
-		
 		if (request.status === 200) {
 			return request.data;
 		}
