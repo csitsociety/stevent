@@ -6,7 +6,7 @@ steps:
     args: ['install']
     dir: "backend"
   - name: node
-    entrypoint: node
+    entrypoint: npm
     args: ["Main.js"]
     dir: "backend"
   - name: node
