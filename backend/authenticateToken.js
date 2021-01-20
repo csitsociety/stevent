@@ -5,7 +5,6 @@ admin.initializeApp({
 });
 async function decodeIDToken(req, res, next) {
 
-  console.log("over here")
   const header = req.headers.authorization;
   if (header !== 'Bearer null' && req.headers?.authorization?.startsWith('Bearer ')) {
 const idToken = req.headers.authorization.split('Bearer ')[1];

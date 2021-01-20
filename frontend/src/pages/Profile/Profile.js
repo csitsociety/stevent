@@ -32,9 +32,7 @@ const Profile = () => {
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
-			console.log(fire.auth().currentUser['uid'])
 			const response = await retrieveDSUser({uid: fire.auth().currentUser['uid']});
-			console.log(response.user)
 			setUser(response.user)
 		}
 		fetchUserDetails();
