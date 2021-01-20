@@ -1,9 +1,14 @@
 steps:
-- name: backend
-  entrypoint: node
-  args: ['Main.js']
-  dir: backend
-- name: frontend
-  entrypoint: yarn
-  args: ['run', 'start']
-  dir: frontend
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['install']
+    dir: "frontend"
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['install']
+    dir: "backend"
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['run', 'start']
+    dir: "frontend"
+  - name: "gcr.io/cloud-builders/node"
+    args: ["Main.js"]
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy"]
