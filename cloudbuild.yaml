@@ -5,11 +5,11 @@ steps:
   - name: 'gcr.io/cloud-builders/yarn'
     args: ['install']
     dir: "backend"
-  - name: "node"
-    entrypoint: 'node'
+  - name: node
+    entrypoint: node
     args: ["Main.js"]
     dir: "backend"
-  - name: "yarn"
+  - name: node
     entrypoint: 'yarn'
     args: ['run', 'start']
     dir: "frontend"
