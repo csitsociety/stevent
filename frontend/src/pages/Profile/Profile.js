@@ -25,35 +25,54 @@ import img from 'res/test_club.png';
 import event_img from 'res/test_event.png';
 import { retrieveDSUser } from 'services/user.js';
 import fire from 'auth'
+import { retrieveClubDetails } from 'services/clubs.js';
 
 const Profile = () => {
 	const { id } = useParams();
-	const [user, setUser] = useState();
+	const [userID, setUserID] = useState();
+	const [userName, setUserName] = useState();
+	const [userDescription, setDescription] = useState();
+	const [userClubs, setUserClubs] = useState();
+	const [userIcon, setUserIcon] = useState();
+	//const [userRecentEvents, setUserRecentEvents] = useState();
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
 			if (fire.auth().currentUser) {
-				const response = await retrieveDSUser({uid: fire.auth().currentUser['uid']});
-				setUser(response.user)
+				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+				setUserID(user.id)
+				setUserName(user.username)
+				setUserIcon(user.icon)
+				setDescription(user.description)
+				setUserClubs(user.memberClubs)
+				// userRecentEvents(user.recentEvents)
 			}
 		}
 		fetchUserDetails();
 	}, [])
 
+	const getClubImg = async (clubID) => {
+		const href = await retrieveClubDetails(clubID)
+		return href
+	}
 
 	return (
 		<>
 			<PageContainer>
 				<PersonalDetails>
 					<ProfilePicture src={"https://storage.googleapis.com/stevent-storage/default-user-icon.png"} alt="" />
-					<Heading>{id ? id : user}</Heading>
-					<P>Member since 14th January, 2021</P>
+					<Heading>{fire.auth().currentUser['uid'] ==  userID ? userName + " (You)" : userName}</Heading>
+					<P>{userDescription}</P>
 
 					<Heading size="h2">{'Clubs'}</Heading>
-					<Pill icon={img} label="CSIT Society" href="#" />
-					<Pill icon={img} label="The Programming Club" href="#" />
-					<Pill icon={img} label="SWITCH" href="#" />
-					<Pill icon={img} label="RISC" href="#" />
+					{(() => {
+						const clubDisplay = [];
+						for (let i = 0; i < userClubs.length(); i++) {
+							clubDisplay.push(<Pill icon={getClubImg(userClubs[i].logoURL)} label={userClubs[i].clubID} href="#" />)
+						}
+						return clubDisplay
+					})
+					}
 				</PersonalDetails>
 
 				<ProfileContainer>
