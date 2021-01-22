@@ -31,10 +31,9 @@ export const PersonalDetails = styled.div`
 
 export const ProfileContainer = styled.main`
 	flex: 2;
-	border: 1px solid #666;
+	border-left: 1px solid #CCC;
 	box-sizing: border-box;
 	padding: 20px;
-	border-radius: 5px;
 	margin-bottom: 20px;
 
 	> h2 {

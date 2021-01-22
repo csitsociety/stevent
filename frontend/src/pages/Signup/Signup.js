@@ -17,7 +17,7 @@ import { signup } from 'services';
 import { PageContainer, FormWrapper, LogoWrapper } from '../Login/loginStyle';
 
 import logo from 'res/logo.svg';
-import fire from 'fire';
+import fire from 'auth';
 
 const validationSchema = Yup.object({
 	username: Yup
@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
 		.ensure()
 		.required('You need a password')
 		.min(8, 'Password must be at least 8 characters long')
-		.matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/, 'Password must contain at least one uppercase letter, one lowercase letter, one symbol, and one number'),
+		.matches(/^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/, 'Password must contain at least one letter and one number'),
 	passwordAgain: Yup
 		.string()
 		.ensure()

@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Switch,
   Route,
   Redirect,
   useLocation,
-  useHistory,
 } from 'react-router-dom';
 
 import Login from './Login/Login';
@@ -13,31 +12,21 @@ import Signup from './Signup/Signup';
 import Events from './Events/Events';
 import EventDetails from './EventDetails/EventDetails';
 import Profile from './Profile/Profile';
-import fire from '../fire';
+import fire from 'auth';
 import { Navigation } from 'components';
 
 export const PrivateRoute = props => {
-	const { Component, ...rest } = props;
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(!!fire.auth().currentUser);
 
-	fire.auth().onAuthStateChanged((user) => {
-		return user ? setIsLoggedIn(true) : setIsLoggedIn(false);
-	});
+	fire.auth().onAuthStateChanged(user => setIsLoggedIn(!!user));
 
-	return (
-		<Route
-			{...rest}
-			render={() =>
-				isLoggedIn ? (
-					<Component {...props} />
-				) : (
-					<Redirect to={{
-						pathname: '/login',
-						state: { from: props.location },
-					}} />
-				)
-			}
-		/>
+	return isLoggedIn ? (
+		<Route {...props} />
+	) : (
+		<Redirect to={{
+			pathname: '/login',
+			state: { from: props.location },
+		}} />
 	);
 };
 
@@ -45,10 +34,15 @@ const parseRouteName = (path: string) => path.split('/').filter((item: any) => i
 
 const Pages = () => {
 	const location = useLocation();
+	const pagesWithoutNav = [
+		'login',
+		'signup',
+		'logout',
+	];
 
 	return (
 		<>
-			{parseRouteName(location.pathname) !== 'login' && (
+			{!pagesWithoutNav.includes(parseRouteName(location.pathname)) && (
 				<Navigation />
 			)}
 

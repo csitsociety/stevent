@@ -10,7 +10,6 @@ import {
 import { useAuthStore } from 'stores';
 
 import event_img from 'res/test_event.png';
-import fire from 'fire'
 
 const Events = () => {
 	const auth = useAuthStore();

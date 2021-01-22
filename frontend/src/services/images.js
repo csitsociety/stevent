@@ -1,3 +1,5 @@
+import api from 'services';
+
 export const uploadImage = async payload => {
 	try {
 		const request = await api.post(`/uploadImage`, payload);

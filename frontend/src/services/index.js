@@ -1,5 +1,5 @@
 import axios from 'axios';
-import createToken from '../createToken';
+import { createToken } from 'auth';
 import config from 'config';
 
 export const instance = axios.create({
@@ -55,5 +55,6 @@ const api = {
 };
 
 export * from './user';
+export * from './images';
 
 export default api;

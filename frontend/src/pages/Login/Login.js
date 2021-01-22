@@ -14,15 +14,14 @@ import {
 
 import { PageContainer, FormWrapper, LogoWrapper } from './loginStyle';
 
-import fire from '../../fire.js';
-import App from '../../App';
+import fire from 'auth';
 import logo from 'res/logo.svg';
 
 const validationSchema = Yup.object({
 	email: Yup
 		.string()
 		.ensure()
-		.required('Student/staff email is required'),
+		.required('Email is required'),
 	password: Yup
 		.string()
 		.ensure()
@@ -33,8 +32,6 @@ const initialValues = {
 	email: '',
 	password: '',
 };
-
-
 
 const Login = () => {
 	const history = useHistory();
@@ -47,7 +44,8 @@ const Login = () => {
 			await fire.auth().signInWithEmailAndPassword(values.email, values.password)
 			history.push('/events');
 		} catch (err) {
-			console.error('Incorrect email or password');
+			setError('Incorrect email or password');
+			console.error(err);
 		} finally {
 			setSubmitting(false);
 		}
@@ -74,7 +72,7 @@ const Login = () => {
 						<Form>
 							<TextField
 								name="email"
-								label="Student/staff email"
+								label="Email address"
 								placeholder="s1234567@student.rmit.edu.au"
 								required
 							/>

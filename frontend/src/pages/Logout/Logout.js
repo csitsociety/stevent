@@ -1,5 +1,5 @@
 import { logout } from 'services';
-import fire from '../../fire';
+import fire from 'auth';
 import { Redirect } from 'react-router-dom'
 
 const Logout = () => {
