@@ -11,7 +11,7 @@ import {
 	Pill,
 	EventListing,
 } from 'components';
-import { useAuthStore } from 'stores';
+import { useProfileStore } from 'stores';
 
 import {
 	PageContainer,
@@ -23,37 +23,44 @@ import {
 
 import img from 'res/test_club.png';
 import event_img from 'res/test_event.png';
-import { retrieveDSUser } from 'services/user.js';
-import fire from 'auth'
+import { retrieveDSUser, retrieveClubDetails } from 'services';
+import fire from 'auth';
 
 const Profile = () => {
 	const { id } = useParams();
-	const [user, setUser] = useState();
+	const [currentProfile, setCurrentProfile] = useState(undefined);
+	const profileStore = useProfileStore();
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
-			if (fire.auth().currentUser) {
-				const response = await retrieveDSUser({uid: fire.auth().currentUser['uid']});
-				setUser(response.user)
+			if (id) {
+				const user = (await retrieveDSUser({uid: id})).user;
+				setCurrentProfile(user);
+			} else if (fire.auth().currentUser && !profileStore.profile) {
+				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+				setCurrentProfile(user);
+				profileStore.setProfile(user);
+			} else {
+				setCurrentProfile(profileStore.profile);
 			}
 		}
 		fetchUserDetails();
-	}, [])
+	}, []);
 
+	const getClubImg = async clubID => await retrieveClubDetails(clubID);
 
 	return (
 		<>
 			<PageContainer>
 				<PersonalDetails>
 					<ProfilePicture src={"https://storage.googleapis.com/stevent-storage/default-user-icon.png"} alt="" />
-					<Heading>{id ? id : user}</Heading>
-					<P>Member since 14th January, 2021</P>
+					<Heading>{currentProfile.username}{fire.auth().currentUser['uid'] == currentProfile.id && " (You)"}</Heading>
+					<P>{currentProfile.description}</P>
 
 					<Heading size="h2">{'Clubs'}</Heading>
-					<Pill icon={img} label="CSIT Society" href="#" />
-					<Pill icon={img} label="The Programming Club" href="#" />
-					<Pill icon={img} label="SWITCH" href="#" />
-					<Pill icon={img} label="RISC" href="#" />
+					{currentProfile.memberClubs.map(club =>
+						<Pill icon={getClubImg(club.logoURL)} label={club.clubID} href="#" />
+					)}
 				</PersonalDetails>
 
 				<ProfileContainer>

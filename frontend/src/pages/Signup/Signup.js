@@ -11,7 +11,6 @@ import {
 	Center,
 	StatusMessage,
 } from 'components';
-import { useAuthStore } from 'stores';
 import { signup } from 'services';
 
 import { PageContainer, FormWrapper, LogoWrapper } from '../Login/loginStyle';
@@ -20,7 +19,7 @@ import logo from 'res/logo.svg';
 import fire from 'auth';
 
 const validationSchema = Yup.object({
-	username: Yup
+	rmitID: Yup
 		.string()
 		.ensure()
 		.required('Student/staff number is required')
@@ -65,11 +64,17 @@ const Signup = () => {
 		setError(null);
 		try {
 			const fireUserRecord = await fire.auth().createUserWithEmailAndPassword(values.email, values.password)
+			let username;
+			if (values.username) {
+				username = values.username
+			} else {
+				username = "Anon"
+			}
 			const response = await signup({
 				uid: fireUserRecord.user.uid,
-				username: values.username,
+				rmitID: values.rmitID,
+				username: username,
 				email: values.email,
-				password: values.password,
 			});
 			if (response.success) {
 				await fire.auth().signInWithEmailAndPassword(values.email, values.password)
@@ -102,10 +107,15 @@ const Signup = () => {
 					{props => (
 						<Form>
 							<TextField
-								name="username"
+								name="rmitID"
 								label="What is your student/staff number? (with the letter)"
 								placeholder="s1234567"
 								required
+							/>
+							<TextField
+								name="username"
+								label="What is your preferred display name?"
+								placeholder="Anonymous"
 							/>
 							<TextField
 								name="email"
