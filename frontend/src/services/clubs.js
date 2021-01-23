@@ -1,3 +1,5 @@
+import api from 'services';
+
 export const retrieveClubDetails = async payload => {
 	try {
 		const request = await api.get(`/retrieveClubDetails`, payload);
