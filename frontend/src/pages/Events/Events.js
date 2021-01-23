@@ -13,10 +13,12 @@ const Events = () => {
 	const [filter, setFilter] = useState('');
 	const [events, setEvents] = useState([]);
 
-	const generateEventsFeed = async () =>
-		setEvents((await retrieveEventsFeed({filter: filter})).matchingEvents);
-
-	useEffect(generateEventsFeed, [filter])
+	useEffect(() => {
+		const generateEventsFeed = async () =>
+			setEvents((await retrieveEventsFeed({filter: filter})).matchingEvents);
+		
+		generateEventsFeed();
+	}, [filter]);
 
 	return (
 		<>
