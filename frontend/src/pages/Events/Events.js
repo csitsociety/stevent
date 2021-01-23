@@ -16,7 +16,7 @@ const Events = () => {
 	useEffect(() => {
 		const generateEventsFeed = async () =>
 			setEvents((await retrieveEventsFeed({filter: filter})).matchingEvents);
-		
+
 		generateEventsFeed();
 	}, [filter]);
 
@@ -27,16 +27,19 @@ const Events = () => {
 				<h4>Search results for: {filter}</h4>
 			)}
 			<EventColumnStyle>
-				{events.map((event, i) =>
+				{events.map((event, i) => {
+					console.log(JSON.stringify(event));
+					return(
 					<EventListing
 						key={i}
+						linkTo={`events/${event.id}`}
 						name={event.name}
 						image={event_img}
 						date="4th Jan, 2021"
 						description={event.description}
 						hostingClubs={event.hostingClubs.join(", ")}
-					/>
-				)}
+					/>)
+				})}
 			</EventColumnStyle>
 		</>
 	)
