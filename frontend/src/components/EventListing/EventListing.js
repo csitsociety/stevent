@@ -14,6 +14,7 @@ const EventListing = ({
 	image,
 	date,
 	description,
+	hostingClubs,
 	linkTo,
 	...rest
 }) => {
@@ -24,6 +25,7 @@ const EventListing = ({
 				<Name className="name">{name}</Name>
 				<Date>{date}</Date>
 				<Description>{description}</Description>
+				<Description>{hostingClubs}</Description>
 			</Link>
 		</Listing>
 	)

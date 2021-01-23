@@ -57,5 +57,6 @@ const api = {
 export * from './user';
 export * from './images';
 export * from './clubs';
+export * from './events';
 
 export default api;
