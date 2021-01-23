@@ -12,7 +12,7 @@ steps:
   - name: 'bash'
     entrypoint: 'bash'
     args: ['rm *']
-    dir: "backend/public"
+    dir: "backend/public/"
   - name: 'bash'
     entrypoint: 'bash'
     args: ['mv build/* ../backend/public']
