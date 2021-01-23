@@ -11,9 +11,10 @@ steps:
     dir: "frontend"
   - name: 'bash'
     args: ['ls']
+    dir: "backend/public"
   - name: 'bash'
     args: ['rm *']
-    dir: "backend/public/"
+    dir: "backend/public"
   - name: 'bash'
     args: ['mv build/* ../backend/public']
     dir: "frontend"
