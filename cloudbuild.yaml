@@ -10,6 +10,8 @@ steps:
     args: ["run", "build"]
     dir: "frontend"
   - name: 'bash'
+    args: ['ls']
+  - name: 'bash'
     args: ['rm *']
     dir: "backend/public/"
   - name: 'bash'
