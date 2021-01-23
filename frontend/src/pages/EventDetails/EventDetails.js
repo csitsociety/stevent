@@ -8,12 +8,9 @@ import {
 	EventFilter
 } from 'components';
 
-import { useAuthStore } from 'stores';
-
 import event_img from 'res/test_event.png';
 
 const EventDetails = () => {
-	const auth = useAuthStore();
 	const { id } = useParams();
 
 	return (

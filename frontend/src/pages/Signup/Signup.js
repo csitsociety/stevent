@@ -11,7 +11,6 @@ import {
 	Center,
 	StatusMessage,
 } from 'components';
-import { useAuthStore } from 'stores';
 import { signup } from 'services';
 
 import { PageContainer, FormWrapper, LogoWrapper } from '../Login/loginStyle';
