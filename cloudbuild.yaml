@@ -13,10 +13,10 @@ steps:
     args: ['ls']
     dir: "backend/public"
   - name: 'bash'
-    args: ['docker exec 765511b2869e sh -c \'rm -r *\'']
+    args: ["docker exec 765511b2869e sh -c \"rm -r *\""]
     dir: "backend/public"
   - name: 'bash'
-    args: ['docker exec 765511b2869e sh -c \'mv build/* ../backend/public\'']
+    args: ["docker exec 765511b2869e sh -c \"mv build/* ../backend/public\""]
     dir: "frontend"
   - name: 'bash'
     args: ['ls']
