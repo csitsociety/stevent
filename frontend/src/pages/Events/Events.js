@@ -7,12 +7,12 @@ import {
 	EventFilter
 } from 'components';
 
-import { useAuthStore } from 'stores';
 
 import event_img from 'res/test_event.png';
 import { retrieveEventsFeed } from 'services/events';
 
 const Events = () => {
+
 	const [filter, setFilter] = useState('');
 	const [events, setEvents] = useState();
 

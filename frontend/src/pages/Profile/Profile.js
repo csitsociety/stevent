@@ -11,7 +11,7 @@ import {
 	Pill,
 	EventListing,
 } from 'components';
-import { useAuthStore } from 'stores';
+import { useProfileStore } from 'stores';
 
 import {
 	PageContainer,
@@ -23,56 +23,44 @@ import {
 
 import img from 'res/test_club.png';
 import event_img from 'res/test_event.png';
-import { retrieveDSUser } from 'services/user.js';
-import fire from 'auth'
-import { retrieveClubDetails } from 'services/clubs.js';
+import { retrieveDSUser, retrieveClubDetails } from 'services';
+import fire from 'auth';
 
 const Profile = () => {
 	const { id } = useParams();
-	const [userID, setUserID] = useState();
-	const [userName, setUserName] = useState();
-	const [userDescription, setDescription] = useState();
-	const [userClubs, setUserClubs] = useState();
-	const [userIcon, setUserIcon] = useState();
-	//const [userRecentEvents, setUserRecentEvents] = useState();
+	const [currentProfile, setCurrentProfile] = useState(undefined);
+	const profileStore = useProfileStore();
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
-			if (fire.auth().currentUser) {
+			if (id) {
+				const user = (await retrieveDSUser({uid: id})).user;
+				setCurrentProfile(user);
+			} else if (fire.auth().currentUser && !profileStore.profile) {
 				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
-				setUserID(user.id)
-				setUserName(user.username)
-				setUserIcon(user.icon)
-				setDescription(user.description)
-				setUserClubs(user.memberClubs)
-				// userRecentEvents(user.recentEvents)
+				setCurrentProfile(user);
+				profileStore.setProfile(user);
+			} else {
+				setCurrentProfile(profileStore.profile);
 			}
 		}
 		fetchUserDetails();
-	}, [])
+	}, []);
 
-	const getClubImg = async (clubID) => {
-		const href = await retrieveClubDetails(clubID)
-		return href
-	}
+	const getClubImg = async clubID => await retrieveClubDetails(clubID);
 
 	return (
 		<>
 			<PageContainer>
 				<PersonalDetails>
 					<ProfilePicture src={"https://storage.googleapis.com/stevent-storage/default-user-icon.png"} alt="" />
-					<Heading>{fire.auth().currentUser['uid'] ==  userID ? userName + " (You)" : userName}</Heading>
-					<P>{userDescription}</P>
+					<Heading>{currentProfile.username}{fire.auth().currentUser['uid'] == currentProfile.id && " (You)"}</Heading>
+					<P>{currentProfile.description}</P>
 
 					<Heading size="h2">{'Clubs'}</Heading>
-					{(() => {
-						const clubDisplay = [];
-						for (let i = 0; i < userClubs.length(); i++) {
-							clubDisplay.push(<Pill icon={getClubImg(userClubs[i].logoURL)} label={userClubs[i].clubID} href="#" />)
-						}
-						return clubDisplay
-					})
-					}
+					{currentProfile.memberClubs.map(club =>
+						<Pill icon={getClubImg(club.logoURL)} label={club.clubID} href="#" />
+					)}
 				</PersonalDetails>
 
 				<ProfileContainer>

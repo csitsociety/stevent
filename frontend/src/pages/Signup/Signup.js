@@ -11,7 +11,6 @@ import {
 	Center,
 	StatusMessage,
 } from 'components';
-import { useAuthStore } from 'stores';
 import { signup } from 'services';
 
 import { PageContainer, FormWrapper, LogoWrapper } from '../Login/loginStyle';
@@ -77,7 +76,9 @@ const Signup = () => {
 				username: username,
 				email: values.email,
 			});
-			await fire.auth().signInWithEmailAndPassword(values.email, values.password)
+			if (response.success) {
+				await fire.auth().signInWithEmailAndPassword(values.email, values.password)
+			}
 		} catch (error) {
 			console.error(error);
 			setError('An error occured, please try again');
