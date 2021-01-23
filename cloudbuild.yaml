@@ -10,11 +10,9 @@ steps:
     args: ["run", "build"]
     dir: "frontend"
   - name: 'bash'
-    entrypoint: 'bash'
     args: ['rm *']
     dir: "backend/public/"
   - name: 'bash'
-    entrypoint: 'bash'
     args: ['mv build/* ../backend/public']
     dir: "frontend"
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
