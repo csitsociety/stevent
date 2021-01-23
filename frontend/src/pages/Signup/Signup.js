@@ -71,7 +71,9 @@ const Signup = () => {
 				email: values.email,
 				password: values.password,
 			});
-			await fire.auth().signInWithEmailAndPassword(values.email, values.password)
+			if (response.success) {
+				await fire.auth().signInWithEmailAndPassword(values.email, values.password)
+			}
 		} catch (error) {
 			console.error(error);
 			setError('An error occured, please try again');
