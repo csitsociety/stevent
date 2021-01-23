@@ -16,6 +16,9 @@ steps:
     args: ['rm *']
     dir: "backend/public"
   - name: 'bash'
+    args: ['ls']
+    dir: "frontend/build"
+  - name: 'bash'
     args: ['mv build/* ../backend/public']
     dir: "frontend"
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
