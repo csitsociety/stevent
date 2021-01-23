@@ -23,18 +23,30 @@ import {
 
 import img from 'res/test_club.png';
 import event_img from 'res/test_event.png';
+import { retrieveDSUser } from 'services/user.js';
+import fire from 'auth'
 
 const Profile = () => {
 	const { id } = useParams();
-	const history = useHistory();
-	const auth = useAuthStore();
+	const [user, setUser] = useState();
+
+	useEffect(() => {
+		const fetchUserDetails = async () => {
+			if (fire.auth().currentUser) {
+				const response = await retrieveDSUser({uid: fire.auth().currentUser['uid']});
+				setUser(response.user)
+			}
+		}
+		fetchUserDetails();
+	}, [])
+
 
 	return (
 		<>
 			<PageContainer>
 				<PersonalDetails>
-					<ProfilePicture src={img} alt="" />
-					<Heading>{id ? id : 'You'}</Heading>
+					<ProfilePicture src={"https://storage.googleapis.com/stevent-storage/default-user-icon.png"} alt="" />
+					<Heading>{id ? id : user}</Heading>
 					<P>Member since 14th January, 2021</P>
 
 					<Heading size="h2">{'Clubs'}</Heading>

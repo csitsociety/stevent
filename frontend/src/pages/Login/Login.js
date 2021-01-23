@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -11,19 +11,17 @@ import {
 	Center,
 	StatusMessage,
 } from 'components';
-import { useAuthStore } from 'stores';
-import { login } from 'services';
 
 import { PageContainer, FormWrapper, LogoWrapper } from './loginStyle';
 
+import fire from 'auth';
 import logo from 'res/logo.svg';
 
 const validationSchema = Yup.object({
-	username: Yup
+	email: Yup
 		.string()
 		.ensure()
-		.required('Student/staff number is required')
-		.matches(/[s|S|e|E][0-9]./, 'Student/staff number must be a letter followed by numbers'),
+		.required('Email is required'),
 	password: Yup
 		.string()
 		.ensure()
@@ -31,40 +29,23 @@ const validationSchema = Yup.object({
 });
 
 const initialValues = {
-	username: '',
+	email: '',
 	password: '',
 };
 
 const Login = () => {
 	const history = useHistory();
-	const auth = useAuthStore();
 	const [error, setError] = useState(null);
-
-	useEffect(() => {
-		if (auth.isAuthenticated) {
-			history.push('/events');
-		}
-	}, [auth, history]);
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
 		setError(null);
 		try {
-			const response = await login({
-				username: values.username,
-				password: values.password,
-			});
-			if (response.success) {
-				auth.login(response.username);
-			} else {
-				if (response.errors.main) {
-					setError(response.errors.main);
-				}
-				setErrors(response.errors);
-			}
-		} catch (error) {
-			console.error(error);
-			setError('An error occured, please try again');
+			await fire.auth().signInWithEmailAndPassword(values.email, values.password)
+			history.push('/events');
+		} catch (err) {
+			setError('Incorrect email or password');
+			console.error(err);
 		} finally {
 			setSubmitting(false);
 		}
@@ -90,9 +71,9 @@ const Login = () => {
 					{props => (
 						<Form>
 							<TextField
-								name="username"
-								label="Student/staff number (with the letter)"
-								placeholder="s1234567"
+								name="email"
+								label="Email address"
+								placeholder="s1234567@student.rmit.edu.au"
 								required
 							/>
 							<TextField

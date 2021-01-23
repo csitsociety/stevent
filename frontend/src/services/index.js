@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { createToken } from 'auth';
 import config from 'config';
 
 export const instance = axios.create({
@@ -16,33 +16,37 @@ const handleError = error => {
 };
 
 const api = {
-	get: async endpoint => {
+	get: async (endpoint, data) => {
+		const header = await createToken()
 		try {
-			const response = await instance.get(endpoint);
+			const response = await instance.get(endpoint, {params: data, headers: header});
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);
 		}
 	},
 	post: async (endpoint, data) => {
+		const header = await createToken()
 		try {
-			const response = await instance.post(endpoint, data);
+			const response = await instance.post(endpoint, data, header);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);
 		}
 	},
 	put: async (endpoint, data) => {
+		const header = await createToken()
 		try {
-			const response = await instance.put(endpoint, data);
+			const response = await instance.put(endpoint, data, header);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);
 		}
 	},
 	patch: async (endpoint, data) => {
+		const header = await createToken()
 		try {
-			const response = await instance.patch(endpoint, data);
+			const response = await instance.patch(endpoint, data, header);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);
@@ -51,5 +55,6 @@ const api = {
 };
 
 export * from './user';
+export * from './images';
 
 export default api;
