@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { EventColumnStyle } from './eventsStyle';
 
 import {
@@ -7,25 +6,37 @@ import {
 	EventFilter
 } from 'components';
 
-
 import event_img from 'res/test_event.png';
+import { retrieveEventsFeed } from 'services';
 
 const Events = () => {
-	const [query, setQuery] = useState('');
+	const [filter, setFilter] = useState('');
+	const [events, setEvents] = useState([]);
+
+	useEffect(() => {
+		const generateEventsFeed = async () =>
+			setEvents((await retrieveEventsFeed({filter: filter})).matchingEvents);
+		
+		generateEventsFeed();
+	}, [filter]);
 
 	return (
 		<>
-			<EventFilter value={query} onChange={e => setQuery(e.target.value)} />
-			{query !== '' && (
-				<h4>Search results for: {query}</h4>
+			<EventFilter value={filter} onChange={e => setFilter(e.target.value)} />
+			{filter !== '' && (
+				<h4>Search results for: {filter}</h4>
 			)}
 			<EventColumnStyle>
-				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-				<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+				{events.map((event, i) =>
+					<EventListing
+						key={i}
+						name={event.name}
+						image={event_img}
+						date="4th Jan, 2021"
+						description={event.description}
+						hostingClubs={event.hostingClubs.join(", ")}
+					/>
+				)}
 			</EventColumnStyle>
 		</>
 	)
