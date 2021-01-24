@@ -13,3 +13,10 @@ export const QueryInput = styled.input`
 	flex: 1;
 	font-size: 18px;
 `;
+
+export const Results = styled.span`
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 6px 24px;
+`;

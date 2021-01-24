@@ -37,11 +37,13 @@ const Login = () => {
 	const history = useHistory();
 	const [error, setError] = useState(null);
 
+	fire.auth().onAuthStateChanged(user => user && history.push('/events'));
+
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
 		setError(null);
 		try {
-			await fire.auth().signInWithEmailAndPassword(values.email, values.password)
+			await fire.auth().signInWithEmailAndPassword(values.email, values.password);
 			history.push('/events');
 		} catch (err) {
 			setError('Incorrect email or password');
