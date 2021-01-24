@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
-import { EventColumnStyle } from './eventsStyle';
+import { EventColumnStyle, LoaderWrapper } from './eventsStyle';
 import {
 	EventListing,
-	EventFilter
+	EventFilter,
+	Spinner,
 } from 'components';
 
 import event_img from 'res/test_event.png';
@@ -12,7 +13,7 @@ import { retrieveEventsFeed } from 'services';
 
 const Events = () => {
 	const [filter, setFilter] = useState('');
-	const [events, setEvents] = useState([]);
+	const [events, setEvents] = useState(undefined);
 
 	useEffect(() => {
 		const generateEventsFeed = async () =>
@@ -25,7 +26,7 @@ const Events = () => {
 		<>
 			<EventFilter value={filter} onChange={e => setFilter(e.target.value)} />
 			<EventColumnStyle>
-				{events.map((event, i) =>
+				{events ? events.map((event, i) =>
 					<EventListing
 						key={i}
 						linkTo={`events/${event.id}`}
@@ -35,6 +36,10 @@ const Events = () => {
 						description={event.description}
 						hostingClubs={event.hostingClubs.join(", ")}
 					/>
+				) : (
+					<LoaderWrapper>
+						<Spinner size={36} />
+					</LoaderWrapper>
 				)}
 			</EventColumnStyle>
 		</>
