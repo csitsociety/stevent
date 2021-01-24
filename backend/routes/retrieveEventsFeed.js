@@ -3,6 +3,7 @@ module.exports = function(app, datastore) {
         const filter = req.query.filter
         const query = datastore.createQuery('Event')
         let events = (await datastore.runQuery(query))[0]
+        events = events.map(event => ({ ...event, id: event[datastore.KEY].id }));
         let matchingEvents = []
         if (filter != "") {
             for (i = 0; i < events.length; i++) {

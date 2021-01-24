@@ -1,21 +1,26 @@
 import React from 'react';
 
-import { Wrapper, QueryInput } from './eventFilterStyle.js';
+import { Wrapper, QueryInput, Results } from './eventFilterStyle.js';
 
 export const EventFilter = ({
-	query,
+	value,
 	onChange,
 }) => {
 	return (
-		<Wrapper>
-			<QueryInput
-				type="search"
-				name="query"
-				placeholder="🔍 Search events or clubs..."
-				value={query}
-				onChange={onChange}
-			/>
-		</Wrapper>
+		<>
+			<Wrapper>
+				<QueryInput
+					type="search"
+					name="query"
+					placeholder="🔍 Search events or clubs..."
+					value={value}
+					onChange={onChange}
+				/>
+			</Wrapper>
+			{value !== '' && (
+				<Results>Search results for: "{value}"</Results>
+			)}
+		</>
 	);
 };
 

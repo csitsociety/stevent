@@ -2,8 +2,8 @@ module.exports = function(app, datastore) {
     app.get('/retrieveEventDetails', async (req, res) => {
     const auth = req.currentUser;
       if (auth) {
-        const eventID = req.body.eventID
-        const query = datastore.createQuery("Event").filter("__key__", "=", datastore.key(["Event", eventID]))
+        const { eventID } = req.query;
+        const query = datastore.createQuery("Event").filter("__key__", "=", datastore.key(["Event", parseInt(eventID)]))
         const event = (await datastore.runQuery(query))[0][0]
         res.json({
           event
