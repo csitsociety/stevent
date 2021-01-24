@@ -36,8 +36,12 @@ const initialValues = {
 const Login = ({ location }) => {
 	const history = useHistory();
 	const [error, setError] = useState(null);
-	
-	fire.auth().onAuthStateChanged(user => user && history.push(location.state.from.pathname || '/events'));
+
+	let from = undefined;
+	if (location.state && location.state.from) {
+		from = location.state.from.pathname;
+	}
+	fire.auth().onAuthStateChanged(user => user && history.push(from || '/events'));
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
