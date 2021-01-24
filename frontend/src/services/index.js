@@ -29,6 +29,7 @@ const api = {
 		const header = await createToken()
 		try {
 			const response = await instance.post(endpoint, data, header);
+			console.log(response)
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);

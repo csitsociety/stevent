@@ -1,5 +1,5 @@
 require('dotenv').config();
-const env = process.env.REACT_APP_ENV || 'development';
+const env = 'production';
 
 const config = {
 	development: {
@@ -13,9 +13,9 @@ const config = {
 		projectId: '',
 	},
 	production: {
-		client: '',
+		client: 'https://stevent-302609.ts.r.appspot.com',
 		port: 80,
-		projectId: '',
+		projectId: 'stevent-backend',
 	},
 };
 

@@ -6,7 +6,7 @@ const createToken = async () => {
   const payloadHeader = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
   };
   return payloadHeader;
