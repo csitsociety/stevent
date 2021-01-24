@@ -5,7 +5,17 @@ import config from 'config';
 export const instance = axios.create({
 	baseURL: config.API,
 	timeout: 1000 * 300,
-	headers: {},
+	headers: {
+		'Content-Type': 'application/json',
+	},
+});
+
+instance.interceptors.request.use(async config => {
+	const token = await createToken();
+	if (token) {
+		config.headers.Authorization = token;
+	}
+	return config;
 });
 
 const handleError = error => {
@@ -17,36 +27,32 @@ const handleError = error => {
 
 const api = {
 	get: async (endpoint, data) => {
-		const header = await createToken()
 		try {
-			const response = await instance.get(endpoint, {params: data, headers: header});
+			const response = await instance.get(endpoint, { params: data });
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);
 		}
 	},
 	post: async (endpoint, data) => {
-		const header = await createToken()
 		try {
-			const response = await instance.post(endpoint, data, header);
+			const response = await instance.post(endpoint, data);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);
 		}
 	},
 	put: async (endpoint, data) => {
-		const header = await createToken()
 		try {
-			const response = await instance.put(endpoint, data, header);
+			const response = await instance.put(endpoint, data);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);
 		}
 	},
 	patch: async (endpoint, data) => {
-		const header = await createToken()
 		try {
-			const response = await instance.patch(endpoint, data, header);
+			const response = await instance.patch(endpoint, data);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);

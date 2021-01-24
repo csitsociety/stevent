@@ -1,12 +1,7 @@
 module.exports = function(app, datastore) {
-    app.post('/createClubPage', async (req, res) => {
-        const title = req.body.title.trim()
-        const date = req.body.date
-        const hostingClubs = req.body.hostingClubs
-        const description = req.body.description.trim()
-        const status = req.body.description.trim()
-        //const location
-        if (title.length == 0 || date.length == 0 || size(hostingClubs) == 0 || description.length == 0) {
+    app.post('/createClubEvent', async (req, res) => {
+				const { title, date, hostingClubs, description, status } = req.body;
+        if (title.length == 0 || date.length == 0 || hostingClubs.length == 0 || description.length == 0) {
             res.json({
                 success: false,
                 errors: {
@@ -18,9 +13,9 @@ module.exports = function(app, datastore) {
 
         try {
             const entity = {
-                key: datastore.key(['Event', title]),
+                key: datastore.key('Event'),
                 data: {
-                    title,
+                    name: title,
                     date,
                     hostingClubs,
                     description,

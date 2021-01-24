@@ -10,24 +10,29 @@ export const Listing = styled.div`
 		display: block;
 		background-color: #FFF;
 		box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);
+		transition: transform .15s;
 
-		&:hover .name {
-			text-decoration: underline;
+		&:hover {
+			transform: translateY(-2px);
+
+			& .name {
+				text-decoration: underline;
+			}
 		}
 	}
-;`
+`;
 
 export const Image = styled.img`
 	width: 100%;
 	object-fit: cover;
-;`
+`;
 
 export const Name = styled.span`
 	display: block;
 	font-weight: 500;
 	font-size: 18px;
 	margin: 8px 12px 0;
-;`
+`;
 
 export const Date = styled.span`
 	display: inline-block;
@@ -36,9 +41,9 @@ export const Date = styled.span`
 	border-radius: 100px;
 	padding: 4px 10px;
 	color: #FFF;
-;`
+`;
 
 export const Description = styled.span`
 	display: block;
 	margin: 0 12px 12px;
-;`
+`;

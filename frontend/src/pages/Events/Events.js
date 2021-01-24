@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon';
 
 import { EventColumnStyle } from './eventsStyle';
 import {
@@ -29,7 +29,7 @@ const Events = () => {
 					<EventListing
 						key={i}
 						linkTo={`events/${event.id}`}
-						name={event.title}
+						name={event.name}
 						image={event_img}
 						date={DateTime.fromMillis(event.date).toFormat('t, DD')}
 						description={event.description}
