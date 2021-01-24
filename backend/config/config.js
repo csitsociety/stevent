@@ -10,11 +10,11 @@ const config = {
 	staging: {
 		client: '',
 		port: 80,
-		projectId: '',
+		projectId: '', 
 	},
 	production: {
 		client: 'https://stevent-302609.ts.r.appspot.com',
-		port: 80,
+		port: 8080,
 		projectId: 'stevent-backend',
 	},
 };

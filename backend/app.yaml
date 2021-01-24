@@ -1,6 +1,2 @@
 runtime: nodejs10
-handlers:
-- url: /.*
-  static_dir: routes
-  http_headers:
-    Access-Control-Allow-Origin: https://stevent-302609.ts.r.appspot.com
+entrypoint: node Main.js
