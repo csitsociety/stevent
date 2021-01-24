@@ -33,11 +33,11 @@ const initialValues = {
 	password: '',
 };
 
-const Login = () => {
+const Login = ({ location }) => {
 	const history = useHistory();
 	const [error, setError] = useState(null);
-
-	fire.auth().onAuthStateChanged(user => user && history.push('/events'));
+	
+	fire.auth().onAuthStateChanged(user => user && history.push(location.state.from.pathname || '/events'));
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
