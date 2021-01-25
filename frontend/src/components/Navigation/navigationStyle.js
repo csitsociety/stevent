@@ -11,6 +11,7 @@ export const Container = styled.nav`
 	width: 100%;
 	background-color: #FFF;
 	border-bottom: 2px solid ${theme.primary};
+	z-index: 200;
 
 	& a {
 		text-decoration: none;

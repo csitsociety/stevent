@@ -10,6 +10,7 @@ import {
 	StatusMessage,
 	Pill,
 	EventListing,
+	Spinner,
 } from 'components';
 import { useProfileStore } from 'stores';
 
@@ -19,6 +20,7 @@ import {
 	ProfileContainer,
 	ProfilePicture,
 	Events,
+	LoaderWrapper,
 } from './profileStyle.js';
 
 import img from 'res/test_club.png';
@@ -53,30 +55,44 @@ const Profile = () => {
 		<>
 			<PageContainer>
 				<PersonalDetails>
-					<ProfilePicture src={"https://storage.googleapis.com/stevent-storage/default-user-icon.png"} alt="" />
-					<Heading>{currentProfile.username}{fire.auth().currentUser['uid'] == currentProfile.id && " (You)"}</Heading>
-					<P>{currentProfile.description}</P>
+					{currentProfile && (
+						<>
+							<ProfilePicture src={"https://storage.googleapis.com/stevent-storage/default-user-icon.png"} alt="" />
+							<Heading>{currentProfile.username}</Heading>
+							<P>{currentProfile.description}</P>
 
-					<Heading size="h2">{'Clubs'}</Heading>
-					{currentProfile.memberClubs.map(club =>
-						<Pill icon={getClubImg(club.logoURL)} label={club.clubID} href="#" />
+							<Heading size="h2">{'Clubs'}</Heading>
+							{currentProfile.memberClubs.length > 0 ? currentProfile.memberClubs.map(club =>
+								<Pill icon={getClubImg(club.logoURL)} label={club.clubID} href="#" />
+							) : (
+								<P>Not a member of any clubs</P>
+							)}
+						</>
 					)}
 				</PersonalDetails>
 
 				<ProfileContainer>
-					<Heading size="h2">Recent event attendance</Heading>
-					{true ? (
-						<Events>
-							<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." linkTo="/events/1" />
-							<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-							<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-						</Events>
-					) : (
-						<P>No events attended, yet</P>
-					)}
+					{currentProfile ? (
+						<>
+							<Heading size="h2">Recent event attendance</Heading>
+							{true ? (
+								<Events>
+									<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." linkTo="/events/1" />
+									<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+									<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+								</Events>
+							) : (
+								<P>No events attended, yet</P>
+							)}
 
-					<Heading size="h2">Badges recieved</Heading>
-					<P>No badges</P>
+							<Heading size="h2">Badges recieved</Heading>
+							<P>No badges</P>
+						</>
+					) : (
+						<LoaderWrapper>
+							<Spinner size={36} />
+						</LoaderWrapper>
+					)}
 				</ProfileContainer>
 			</PageContainer>
 		</>

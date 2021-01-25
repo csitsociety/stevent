@@ -1,15 +1,12 @@
-import fire from './fire'
+import fire from './fire';
 
 const createToken = async () => {
   const user = fire.auth().currentUser;
-  const token = user && (await user.getIdToken());
-  const payloadHeader = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    },
-  };
-  return payloadHeader;
-}
+	if (user) {
+	  const token = await user.getIdToken();
+	  return `Bearer ${token}`;
+	}
+	return null;
+};
 
-export default createToken
+export default createToken;

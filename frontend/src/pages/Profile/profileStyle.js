@@ -56,3 +56,10 @@ export const Events = styled.div`
 	grid-gap: 0 20px;
 	margin: 10px 0;
 `;
+
+export const LoaderWrapper = styled.div`
+	padding: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
