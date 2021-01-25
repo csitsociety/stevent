@@ -1,41 +1,24 @@
 import styled from '@emotion/styled';
 import theme from 'styles';
 
-export const Container = styled.div`
-	background-color: #EEE;
+export const LoaderWrapper = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	justify-content: center;
+`;
+
+export const ClubColumnStyle = styled.div`
+	background-color: #EEE;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
+	grid-gap: 20px;
 	flex: 1;
 	box-sizing: border-box;
-	padding: 20px 0;
-`;
-
-export const ClubWrapper = styled.div`
-	background-color: #FFF;
-	box-sizing: border-box;
-	overflow: hidden;
-	width: 600px;
-	max-width: calc(100% - 20px);
-	border-radius: 20px;
-`;
-
-export const Image = styled.img`
-	width: 100%;
-	display: block;
-`;
-
-export const ClubInfo = styled.div`
 	padding: 30px;
-
-	& h1 {
-		margin: 0 0 10px;
-	}
-`;
-
-export const LoaderWrapper = styled.div`
-	padding: 50px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	position: relative;
 `;

@@ -14,10 +14,11 @@ const Clubs = () => {
 
 	useEffect(() => {
         const generateClubsList = async () =>
-            setClubs((await retrieveClubs()));
+            setClubs((await retrieveClubs()).clubs);
             generateClubsList();
 	}, []);
-
+	console.log(clubs)
+	console.log("test")
 	return (
 		<>
 			<ClubColumnStyle>
