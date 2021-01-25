@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import config from 'config';
 
 import {
 	Paragraph as P,
@@ -58,7 +57,6 @@ const Login = ({ location }) => {
 		}
 	};
 
-	console.log(config.API)
 	return (
 		<PageContainer>
 			<FormWrapper>
