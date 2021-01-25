@@ -4,6 +4,8 @@ import { DateTime } from 'luxon';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
+import { createClubEvent } from 'services';
+
 import {
 	Container,
 	FormWrapper,
@@ -62,6 +64,33 @@ const CreateEvent = () => {
 		}
 	}, [profile]);
 
+	const onSubmit = async (values, setSubmitting, setErrors) => {
+		setSubmitting(true);
+		setError(null);
+		try {
+			const response = await createClubEvent({
+				title: values.name,
+				date: DateTime.fromISO(values.date).toMillis(),
+				hostingClubs: values.hostingClubs,
+				description: values.description,
+				status: false,
+			});
+			if (response.success) {
+				history.push(`/events/${response.key && response.key.id}`);
+			} else {
+				setErrors(response.errors);
+				if (response.errors.main) {
+					setError(response.errors.main);
+				}
+			}
+		} catch (error) {
+			console.error(error);
+			setError('An error occured, please try again');
+		} finally {
+			setSubmitting(false);
+		}
+	};
+
 	return (
 		<Container>
 			<FormWrapper>
@@ -72,7 +101,7 @@ const CreateEvent = () => {
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={(values, { setSubmitting, setErrors }) => {
-						console.log(values, setSubmitting, setErrors);
+						onSubmit(values, setSubmitting, setErrors);
 					}}
 				>
 					{props => (

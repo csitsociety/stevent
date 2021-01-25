@@ -53,7 +53,7 @@ const EventDetails = () => {
 							<Date>{DateTime.fromMillis(event.date).toFormat('t, DD')}</Date>
 							<Clubs>
 								{event.hostingClubs.map(club =>
-									<Pill icon={club_img} label={club} href="#" />
+									<Pill icon={club_img} label={club} href={`/clubs/${club}`} key={club} />
 								)}
 							</Clubs>
 
