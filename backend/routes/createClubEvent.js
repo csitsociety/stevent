@@ -13,7 +13,6 @@ module.exports = function(app, datastore) {
 
         try {
             const key = (await datastore.allocateIds(datastore.key('Event'), 1))[0][0];
-						console.log(key);
             const entity = {
                 key,
                 data: {
