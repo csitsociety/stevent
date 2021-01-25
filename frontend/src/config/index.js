@@ -1,4 +1,4 @@
-const env = process.env.REACT_APP_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
 
 const config = {
 	development: {
@@ -14,32 +14,20 @@ const config = {
 	    appId: "***REMOVED***",
 	  },
 	},
-	staging: {
-		baseUrl: '',
-		API: '',
-		documentTitle: '[UAT] Stevent',
-		firebaseConfig: {
-	    apiKey: "***REMOVED***",
-	    authDomain: "stevent-development-rmit.firebaseapp.com",
-	    projectId: "stevent-development-rmit",
-	    storageBucket: "stevent-development-rmit.appspot.com",
-	    messagingSenderId: "***REMOVED***",
-	    appId: "***REMOVED***",
-	  },
-	},
 	production: {
-		baseUrl: '',
-		API: '',
+		baseUrl: 'https://stevent-302609.ts.r.appspot.com',
+		API: 'https://stevent-backend.ts.r.appspot.com',
 		documentTitle: 'Stevent',
 		firebaseConfig: {
-	    apiKey: "",
-	    authDomain: "",
-	    projectId: "",
-	    storageBucket: "",
-	    messagingSenderId: "",
-	    appId: "",
-	  },
-	},
-};
+			apiKey: "***REMOVED***",
+			authDomain: "stevent-302609.firebaseapp.com",
+			databaseURL: "https://stevent-302609-default-rtdb.firebaseio.com",
+			projectId: "stevent-302609",
+			storageBucket: "stevent-302609.appspot.com",
+			messagingSenderId: "***REMOVED***",
+			appId: "***REMOVED***"
+		}
+	}
+}
 
 export default config[env];

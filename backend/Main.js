@@ -25,6 +25,7 @@ const multerMid = multer({
 
 app.use(express.static(path.join(__dirname, 'index.html')));
 app.use(express.json());
+console.log(config.client)
 app.options("*", cors({ origin: [config.client] }));
 app.use(cors({ origin: [config.client] }));
 app.enable('trust proxy');
