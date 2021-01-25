@@ -15,14 +15,19 @@ export const StyledLabel = styled.label`
 	}
 `;
 
-export const StyledInput = styled.input`
+export const CheckboxWrapper = styled.div`
+	padding: 4px 0;
+`;
+
+export const CheckboxLabel = styled.label`
 	font: inherit;
-	border: 1px solid ${props => props.error ? theme.error : '#CCC'};
-	border-radius: 3px;
-	padding: 6px 8px;
-	width: 100%;
-	box-sizing: border-box;
-	${props => props.as == 'textarea' && 'resize: vertical;'}
+	display: inline-block;
+	padding-left: 4px;
+	user-select: none;
+`;
+
+export const Checkbox = styled.input`
+	font: inherit;
 `;
 
 export const InputError = styled.div`

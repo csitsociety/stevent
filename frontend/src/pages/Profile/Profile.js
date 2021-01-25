@@ -26,30 +26,25 @@ import {
 import img from 'res/test_club.png';
 import event_img from 'res/test_event.png';
 import { retrieveDSUser, retrieveClubDetails } from 'services';
-import fire from 'auth';
 
 const Profile = () => {
 	const { id } = useParams();
 	const [currentProfile, setCurrentProfile] = useState(undefined);
-	const profileStore = useProfileStore();
+	const profileStore = useProfileStore(state => state.profile);
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
 			if (id) {
 				const user = (await retrieveDSUser({uid: id})).user;
 				setCurrentProfile(user);
-			} else if (fire.auth().currentUser && !profileStore.profile) {
-				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
-				setCurrentProfile(user);
-				profileStore.setProfile(user);
 			} else {
-				setCurrentProfile(profileStore.profile);
+				setCurrentProfile(profileStore);
 			}
 		}
 		fetchUserDetails();
 	}, []);
 
-	const getClubImg = async clubID => await retrieveClubDetails(clubID);
+	const getClub = async clubID => await retrieveClubDetails(clubID);
 
 	return (
 		<>
@@ -63,7 +58,7 @@ const Profile = () => {
 
 							<Heading size="h2">{'Clubs'}</Heading>
 							{currentProfile.memberClubs.length > 0 ? currentProfile.memberClubs.map(club =>
-								<Pill icon={getClubImg(club.logoURL)} label={club.clubID} href="#" />
+								<Pill icon={img} label={club} href={`clubs/${club}`} />
 							) : (
 								<P>Not a member of any clubs</P>
 							)}
