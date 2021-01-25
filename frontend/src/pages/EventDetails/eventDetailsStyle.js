@@ -31,6 +31,10 @@ export const EventInfo = styled.div`
 	& h1 {
 		margin: 0 0 10px;
 	}
+	& h2 {
+		margin: 10px 0 4px;
+		font-size: 18px;
+	}
 `;
 
 export const Clubs = styled.div`

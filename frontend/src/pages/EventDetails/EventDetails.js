@@ -17,14 +17,17 @@ import {
 	Paragraph as P,
 	Pill,
 	Spinner,
+	Toggle,
 } from 'components';
 import { getEventDetails } from 'services';
 
 import event_img from 'res/test_event.png';
+import club_img from 'res/test_club.png';
 
 const EventDetails = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState(undefined);
+	const [going, setGoing] = useState(0);
 
 	useEffect(() => {
 		const fetch = async () => {
@@ -50,9 +53,19 @@ const EventDetails = () => {
 							<Date>{DateTime.fromMillis(event.date).toFormat('t, DD')}</Date>
 							<Clubs>
 								{event.hostingClubs.map(club =>
-									<Pill label={club} href="#" />
+									<Pill icon={club_img} label={club} href={`/clubs/${club}`} key={club} />
 								)}
 							</Clubs>
+
+							<Heading size="h2">Are you going?</Heading>
+							<Toggle
+								options={{
+									0: 'Not attending',
+									1: 'I\'m going!'
+								}}
+								value={going}
+								onChange={value => setGoing(value)}
+							/>
 
 							<P>{event.description}</P>
 						</EventInfo>

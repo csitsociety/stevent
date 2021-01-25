@@ -12,8 +12,9 @@ module.exports = function(app, datastore) {
         }
 
         try {
+            const key = (await datastore.allocateIds(datastore.key('Event'), 1))[0][0];
             const entity = {
-                key: datastore.key('Event'),
+                key,
                 data: {
                     name: title,
                     date,
@@ -25,7 +26,8 @@ module.exports = function(app, datastore) {
             }
             datastore.upsert(entity)
             res.json({
-                success: true
+                success: true,
+                key,
             })
         } catch (e) {
             res.json({
