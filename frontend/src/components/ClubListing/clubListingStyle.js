@@ -24,6 +24,7 @@ export const Listing = styled.div`
 
 export const Image = styled.img`
 	width: 100%;
+	height: 200px;
 	object-fit: cover;
 `;
 
@@ -31,5 +32,5 @@ export const Name = styled.span`
 	display: block;
 	font-weight: 500;
 	font-size: 18px;
-	margin: 8px 12px 0;
+	margin: 8px 12px;
 `;

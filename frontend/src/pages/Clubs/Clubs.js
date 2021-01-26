@@ -6,15 +6,17 @@ import {
 	Spinner,
 } from 'components';
 
+import config from 'config';
 import { retrieveClubs } from 'services';
 
 const Clubs = () => {
 	const [clubs, setClubs] = useState(undefined);
 
 	useEffect(() => {
-        const generateClubsList = async () =>
-            setClubs((await retrieveClubs()).clubs);
-            generateClubsList();
+		const generateClubsList = async () =>
+			setClubs((await retrieveClubs()).clubs);
+
+		generateClubsList();
 	}, []);
 
 	return (
@@ -25,7 +27,7 @@ const Clubs = () => {
 						key={i}
 						linkTo={`clubs/${club.id}`}
 						name={club.name}
-						image={"https://storage.googleapis.com/stevent-backend.appspot.com/" + club.icon}
+						image={`${config.bucket}/${club.icon}`}
 					/>
 				) : (
 					<LoaderWrapper>
