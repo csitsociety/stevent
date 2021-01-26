@@ -43,3 +43,14 @@ export const retrieveAttendees = async payload => {
 		throw err
 	}
 };
+
+export const updateAttendingEvent = async payload => {
+	try {
+		const request = await api.post(`/updateAttendingEvent`, payload);
+		if (request.status === 200) {
+			return request.data;
+		}
+	} catch (err) {
+		throw err
+	}
+};

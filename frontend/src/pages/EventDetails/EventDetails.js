@@ -25,7 +25,7 @@ import {
 	Spinner,
 	Toggle,
 } from 'components';
-import { getEventDetails, retrieveClubs, retrieveAttendees } from 'services';
+import { getEventDetails, retrieveClubs, retrieveAttendees, updateAttendingEvent } from 'services';
 
 import event_img from 'res/test_event.png';
 
@@ -45,7 +45,9 @@ const EventDetails = () => {
 					lang: profileStore.lang
 				});
 				setEvent(details.event);
-
+				if (details.event.attending.includes(profileStore.rmitID)) {
+					setGoing(1)
+				}
 				setClubs((await retrieveClubs()).clubs);
 				const eventAttendees = await retrieveAttendees({
 					eventID: id
@@ -59,6 +61,14 @@ const EventDetails = () => {
 		}
 	}, [profileStore]);
 
+	const updateAttending = async (value) => {
+		setGoing(value)
+		await updateAttendingEvent({
+			eventID: id,
+			rmitID: profileStore.rmitID,
+			state: value
+		})
+	}
 	return (
 		<Container>
 			<EventWrapper>
@@ -92,7 +102,7 @@ const EventDetails = () => {
 									1: 'I\'m going!'
 								}}
 								value={going}
-								onChange={value => setGoing(value)}
+								onChange={updateAttending}
 							/>
 
 							<Heading size="h2">Attendees</Heading>
