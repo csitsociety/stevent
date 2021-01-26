@@ -1,0 +1,20 @@
+steps:
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['install']
+    dir: "frontend"
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+    dir: "frontend"
+    timeout: "5m"
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args: 
+    - '-c'
+    - |
+      ls
+      gcloud config set app/cloud_build_timeout 1700
+      cp app.yaml build
+      cd build
+      gcloud app deploy
+    dir: 'frontend'
+timeout: '1600s'
