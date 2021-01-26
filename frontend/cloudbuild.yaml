@@ -2,8 +2,8 @@ steps:
   - name: 'gcr.io/cloud-builders/yarn'
     args: ['install']
     dir: "frontend"
-  - name: 'bash'
-    entrypoint: 'npm'
+  - name: 'node'
+    entrypoint: npm
     args: ['run build']
     dir: "frontend"
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
