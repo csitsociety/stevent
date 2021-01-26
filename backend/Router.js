@@ -10,9 +10,8 @@ const retrieveDSUser = require('./routes/retrieveDSUser')
 const uploadImage = require('./routes/uploadImage.js')
 const retrieveEventsFeed = require('./routes/retrieveEventsFeed.js')
 const retrieveEventDetails = require('./routes/retrieveEventDetails.js')
+const retrieveClubs = require('./routes/retrieveClubs.js')
 const retrieveClubDetails = require('./routes/retrieveClubDetails.js')
-//https://cloud.google.com/datastore/docs/concepts/queries
-//https://cloud.google.com/datastore/docs/concepts/entities#datastore-datastore-basic-entity-nodejs
 class Router {
 
     constructor(app, datastore, translate) {
@@ -27,6 +26,7 @@ class Router {
         deleteClubEvent(app, datastore)
         retrieveDSUser(app, datastore)
         uploadImage(app, datastore)
+        retrieveClubs(app, datastore)
         retrieveEventsFeed(app, datastore, translate)
         retrieveEventDetails(app, datastore, translate)
     }

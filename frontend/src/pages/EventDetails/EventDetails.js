@@ -41,8 +41,11 @@ const EventDetails = () => {
 				setEvent(details.event);
 			}
 		};
-		fetch();
-	}, []);
+
+		if (profileStore) {
+			fetch();
+		}
+	}, [profileStore]);
 
 	return (
 		<Container>

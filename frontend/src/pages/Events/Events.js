@@ -12,6 +12,8 @@ import {
 import event_img from 'res/test_event.png';
 import { retrieveEventsFeed } from 'services';
 
+const truncate = input => input.length > 150 ? `${input.substring(0, 5)}...` : input;
+
 const Events = () => {
 	const [filter, setFilter] = useState('');
 	const [events, setEvents] = useState(undefined);
@@ -21,8 +23,10 @@ const Events = () => {
 		const generateEventsFeed = async () =>
 			setEvents((await retrieveEventsFeed({filter: filter, lang: profileStore.lang})).matchingEvents);
 
-		generateEventsFeed();
-	}, [filter]);
+		if (profileStore) {
+			generateEventsFeed();
+		}
+	}, [filter, profileStore]);
 
 	return (
 		<>
@@ -35,7 +39,7 @@ const Events = () => {
 						name={event.name}
 						image={event_img}
 						date={DateTime.fromMillis(event.date).toFormat('t, DD')}
-						description={event.description}
+						description={truncate(event.description)}
 						hostingClubs={event.hostingClubs.join(", ")}
 					/>
 				) : (
