@@ -8,9 +8,15 @@ const Router = require('./Router');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const multer = require('multer')
-
+const {Translate} = require('@google-cloud/translate').v2;
 const { Datastore } = require('@google-cloud/datastore');
 const { DatastoreStore } = require('@google-cloud/connect-datastore');
+
+const translate = new Translate({
+  projectId: config.projectId,
+  keyFilename: config.serviceAccountPath
+  }
+);
 
 const decodeIDToken = require('./authenticateToken')
 
@@ -50,10 +56,10 @@ app.use(session({
     }
 }));
 
-new Router(app, datastore);
+new Router(app, datastore, translate);
 
 app.get('/', function(req, res) {
-    res.send('<pre>Stevent API')
+    res.send('<pre>Stevent API - 2021')
 });
 
 app.listen(config.port, () => {
