@@ -54,7 +54,7 @@ app.use(session({
 new Router(app, datastore);
 
 app.get('/', function(req, res) {
-    res.send('<pre>Stevent API')
+    res.send('<pre>Stevent API - 2021')
 });
 
 app.listen(config.port, () => {
