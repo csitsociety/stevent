@@ -1,0 +1,2 @@
+runtime: nodejs10
+entrypoint: node Main.js
