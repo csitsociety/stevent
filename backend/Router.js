@@ -15,7 +15,7 @@ const retrieveClubDetails = require('./routes/retrieveClubDetails.js')
 //https://cloud.google.com/datastore/docs/concepts/entities#datastore-datastore-basic-entity-nodejs
 class Router {
 
-    constructor(app, datastore) {
+    constructor(app, datastore, translate) {
         deleteClubEvent(app, datastore)
         signUp(app, datastore)
         logIn(app, datastore)
@@ -27,8 +27,8 @@ class Router {
         deleteClubEvent(app, datastore)
         retrieveDSUser(app, datastore)
         uploadImage(app, datastore)
-        retrieveEventsFeed(app, datastore)
-        retrieveEventDetails(app, datastore)
+        retrieveEventsFeed(app, datastore, translate)
+        retrieveEventDetails(app, datastore, translate)
     }
 
 }

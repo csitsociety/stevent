@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import { useProfileStore } from 'stores';
 
 import {
 	Container,
@@ -28,12 +29,14 @@ const EventDetails = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState(undefined);
 	const [going, setGoing] = useState(0);
+	const profileStore = useProfileStore(state => state.profile);
 
 	useEffect(() => {
 		const fetch = async () => {
 			if (id) {
 				const details = await getEventDetails({
-					eventID: id
+					eventID: id,
+					lang: profileStore.lang
 				});
 				setEvent(details.event);
 			}

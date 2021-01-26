@@ -8,9 +8,15 @@ const Router = require('./Router');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const multer = require('multer')
-
+const {Translate} = require('@google-cloud/translate').v2;
 const { Datastore } = require('@google-cloud/datastore');
 const { DatastoreStore } = require('@google-cloud/connect-datastore');
+
+const translate = new Translate({
+  projectId: config.projectId,
+  keyFilename: config.serviceAccountPath
+  }
+);
 
 const decodeIDToken = require('./authenticateToken')
 
@@ -25,7 +31,6 @@ const multerMid = multer({
 
 app.use(express.static(path.join(__dirname, 'index.html')));
 app.use(express.json());
-console.log(config.client)
 app.options("*", cors({ origin: [config.client] }));
 app.use(cors({ origin: [config.client] }));
 app.enable('trust proxy');
@@ -51,7 +56,7 @@ app.use(session({
     }
 }));
 
-new Router(app, datastore);
+new Router(app, datastore, translate);
 
 app.get('/', function(req, res) {
     res.send('<pre>Stevent API')
