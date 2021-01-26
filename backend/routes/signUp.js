@@ -15,7 +15,8 @@ module.exports = function(app, datastore) {
                     icon: "default-user-icon.png",
                     adminClubs: [],
                     memberClubs: [],
-                    recentEvents: []
+                    attendedEvents: [],
+                    attendingEvents: []
                 }
             }
             datastore.upsert(entity)

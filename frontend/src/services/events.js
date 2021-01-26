@@ -32,3 +32,14 @@ export const createClubEvent = async payload => {
 		throw err
 	}
 };
+
+export const retrieveAttendees = async payload => {
+	try {
+		const request = await api.get(`/retrieveAttendees`, payload);
+		if (request.status === 200) {
+			return request.data;
+		}
+	} catch (err) {
+		throw err
+	}
+};
