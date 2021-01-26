@@ -6,7 +6,6 @@ import {
 	Spinner,
 } from 'components';
 
-import event_img from 'res/test_event.png';
 import { retrieveClubs } from 'services';
 
 const Clubs = () => {
@@ -17,8 +16,7 @@ const Clubs = () => {
             setClubs((await retrieveClubs()).clubs);
             generateClubsList();
 	}, []);
-	console.log(clubs)
-	console.log("test")
+
 	return (
 		<>
 			<ClubColumnStyle>
@@ -27,7 +25,7 @@ const Clubs = () => {
 						key={i}
 						linkTo={`clubs/${club.id}`}
 						name={club.name}
-						image={event_img}
+						image={"https://storage.googleapis.com/stevent-backend.appspot.com/" + club.icon}
 					/>
 				) : (
 					<LoaderWrapper>
