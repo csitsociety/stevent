@@ -1,10 +1,14 @@
 module.exports = function(app, datastore) {
     app.post('/createClubPage', async (req, res) => {
-        const clubName = req.body.clubName.trim()
-        const clubID = req.body.clubID.trim()
-        const clubDescription = req.body.clubDescription.trim()
-        const clubSignupLink = req.body.clubSignupLink.trim()
-        if (clubName.length == 0 || clubDescription.length == 0 || clubSignupLink.length == 0 || clubID.length == 0) {
+        const { name, clubID, description, discord, icon, joinLink } = req.body;
+        if (name.length == 0
+					|| description.length == 0
+					|| joinLink.length == 0
+					|| clubID.length == 0
+					|| name.length == 0
+					|| discord.length == 0
+					|| icon.length == 0
+				) {
             res.json({
                 success: false,
                 errors: {
@@ -19,7 +23,7 @@ module.exports = function(app, datastore) {
                 res.json({
                     success: false,
                     errors: {
-											clubId: "Club ID already exists"
+											clubID: "Club ID already exists"
 										}
                 })
             } else {
@@ -27,9 +31,11 @@ module.exports = function(app, datastore) {
                     const entity = {
                         key: datastore.key(['Club', clubID]),
                         data: {
-                            clubName,
-                            clubDescription,
-                            clubSignupLink
+                            name,
+														description,
+														discord,
+														icon,
+														joinLink,
                         }
                     }
                     datastore.upsert(entity)

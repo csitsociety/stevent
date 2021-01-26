@@ -25,14 +25,14 @@ import {
 	Spinner,
 	Toggle,
 } from 'components';
-import { getEventDetails, retrieveAttendees } from 'services';
+import { getEventDetails, retrieveClubs, retrieveAttendees } from 'services';
 
 import event_img from 'res/test_event.png';
-import club_img from 'res/test_club.png';
 
 const EventDetails = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState(undefined);
+	const [clubs, setClubs] = useState(undefined);
 	const [attendees, setAttendees] = useState(undefined);
 	const [going, setGoing] = useState(0);
 	const profileStore = useProfileStore(state => state.profile);
@@ -46,6 +46,7 @@ const EventDetails = () => {
 				});
 				setEvent(details.event);
 
+				setClubs((await retrieveClubs()).clubs);
 				const eventAttendees = await retrieveAttendees({
 					eventID: id
 				});
@@ -69,8 +70,18 @@ const EventDetails = () => {
 							<Heading>{event.name}</Heading>
 							<Date>{DateTime.fromMillis(event.date).toFormat('t, DD')}</Date>
 							<Clubs>
-								{event.hostingClubs.map(club =>
-									<Pill icon={club_img} label={club} href={`/clubs/${club}`} key={club} />
+								{clubs ? event.hostingClubs.map(clubID => {
+									const club = clubs.find(c => c.id == clubID);
+									return club && (
+										<Pill
+											key={clubID}
+											icon={`${config.bucket}/${club.icon}`}
+											label={clubID} href={`/clubs/${clubID}`}
+											title={club.name}
+										/>
+									);
+								}) : (
+									<P><Spinner size={16} /></P>
 								)}
 							</Clubs>
 

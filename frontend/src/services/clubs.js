@@ -21,3 +21,14 @@ export const retrieveClubDetails = async payload => {
 		throw err;
 	}
 };
+
+export const createClubPage = async payload => {
+	try {
+		const request = await api.post(`/createClubPage`, payload);
+		if (request.status === 200) {
+			return request.data;
+		}
+	} catch (err) {
+		throw err;
+	}
+};

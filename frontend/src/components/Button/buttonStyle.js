@@ -11,11 +11,24 @@ export const StyledButton = styled.button`
 	cursor: pointer;
 	position: relative;
 	user-select: none;
+	text-decoration: none;
+	text-align: center;
+	font-weight: 500;
 
 	${props => props.disabled && `
 		opacity: .5;
 		cursor: default;
 	`};
+
+	&[data-secondary=true] {
+		box-shadow: inset 0 0 0 2px ${theme.primary};
+		background: transparent;
+		color: ${theme.primary};
+	}
+
+	&[data-full-width=true] {
+		width: 100%;
+	}
 
 	&.loading {
 		cursor: default;

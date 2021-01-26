@@ -37,6 +37,7 @@ const NavigationItem = ({ to, label, icon, hideLabel, ...rest }) => {
 
 const Navigation = () => {
 	const profileStore = useProfileStore();
+	const location = useLocation();
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
@@ -47,7 +48,7 @@ const Navigation = () => {
 		if (fire.auth().currentUser && !profileStore.profile) {
 			fetchUserDetails();
 		}
-	}, []);
+	}, [location.pathname]);
 
 	return (
 		<Container>
@@ -60,6 +61,9 @@ const Navigation = () => {
 
 			<Spacer />
 
+			{profileStore.profile && profileStore.profile.superadmin && (
+				<NavigationItem to="/clubs/new" label="Create Club" />
+			)}
 			{profileStore.profile && profileStore.profile.adminClubs && profileStore.profile.adminClubs.length > 0 && (
 				<NavigationItem to="/events/new" label="Create Event" />
 			)}

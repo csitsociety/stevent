@@ -1,9 +1,6 @@
 module.exports = function(app, datastore) {
     app.post('/signup', async (req, res) => {
-        const uid = req.body.uid
-        const username = req.body.username
-        const email = req.body.email
-        const rmitID = req.body.rmitID
+        const { uid, username, email, rmitID } = req.body;
         try {
             const entity = {
                 key: datastore.key(['User', uid]),
@@ -15,8 +12,9 @@ module.exports = function(app, datastore) {
                     icon: "default-user-icon.png",
                     adminClubs: [],
                     memberClubs: [],
-                    attendedEvents: [],
-                    attendingEvents: []
+                    attendingEvents: [],
+										superadmin: false,
+										lang: 'en',
                 }
             }
             datastore.upsert(entity)

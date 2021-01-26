@@ -29,6 +29,7 @@ class Router {
         retrieveDSUser(app, datastore)
         uploadImage(app, datastore)
         retrieveClubs(app, datastore)
+				retrieveClubDetails(app, datastore)
         retrieveEventsFeed(app, datastore, translate)
         retrieveEventDetails(app, datastore, translate)
         retrieveAttendees(app, datastore)
