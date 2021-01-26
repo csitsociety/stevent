@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { useProfileStore } from 'stores';
+import config from 'config';
 
 import {
 	Container,
@@ -11,6 +12,10 @@ import {
 	Date,
 	Clubs,
 	LoaderWrapper,
+	AttendeeList,
+	User,
+	UserName,
+	UserImage,
 } from './eventDetailsStyle';
 
 import {
@@ -20,7 +25,7 @@ import {
 	Spinner,
 	Toggle,
 } from 'components';
-import { getEventDetails } from 'services';
+import { getEventDetails, retrieveAttendees } from 'services';
 
 import event_img from 'res/test_event.png';
 import club_img from 'res/test_club.png';
@@ -28,6 +33,7 @@ import club_img from 'res/test_club.png';
 const EventDetails = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState(undefined);
+	const [attendees, setAttendees] = useState(undefined);
 	const [going, setGoing] = useState(0);
 	const profileStore = useProfileStore(state => state.profile);
 
@@ -39,6 +45,11 @@ const EventDetails = () => {
 					lang: profileStore.lang
 				});
 				setEvent(details.event);
+
+				const eventAttendees = await retrieveAttendees({
+					eventID: id
+				});
+				setAttendees(eventAttendees.attendingUsers);
 			}
 		};
 
@@ -73,6 +84,25 @@ const EventDetails = () => {
 								onChange={value => setGoing(value)}
 							/>
 
+							<Heading size="h2">Attendees</Heading>
+							<AttendeeList>
+								{attendees ? (
+									attendees.length > 0 ? attendees.map((user, i) =>
+										<User as={Link} to={`/profile/${user.id}`}>
+											<UserImage src={`${config.bucket}/${user.icon}`} alt="" />
+											<UserName>{user.username}</UserName>
+										</User>
+									) : (
+										<span>No one is going to this event yet</span>
+									)
+								) : (
+									<LoaderWrapper>
+										<Spinner size={36} />
+									</LoaderWrapper>
+								)}
+							</AttendeeList>
+
+							<Heading size="h2">Description</Heading>
 							<P>{event.description}</P>
 						</EventInfo>
 					</>

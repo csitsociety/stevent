@@ -12,7 +12,7 @@ import {
 import event_img from 'res/test_event.png';
 import { retrieveEventsFeed } from 'services';
 
-const truncate = input => input.length > 150 ? `${input.substring(0, 5)}...` : input;
+const truncate = input => input.length > 50 ? `${input.substring(0, 50)}...` : input;
 
 const Events = () => {
 	const [filter, setFilter] = useState('');
