@@ -11,7 +11,7 @@ module.exports = function(app, datastore) {
                     description: "",
                     icon: "default-user-icon.png",
                     adminClubs: [],
-                    memberClubs: [],
+                    subscribed: [],
                     attendingEvents: [],
 										superadmin: false,
 										lang: 'en',

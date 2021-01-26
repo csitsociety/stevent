@@ -58,8 +58,8 @@ const Profile = () => {
 							<P>{currentProfile.description}</P>
 
 							<Heading size="h2">{'Clubs'}</Heading>
-							{currentProfile.memberClubs.length > 0 ? (
-								clubs ? currentProfile.memberClubs.map(clubID => {
+							{currentProfile.subscribed.length > 0 ? (
+								clubs ? currentProfile.subscribed.map(clubID => {
 									const club = clubs.find(c => c.id == clubID);
 									return club && (
 										<Pill
