@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
+import { useProfileStore } from 'stores';
 
 import { EventColumnStyle, LoaderWrapper } from './eventsStyle';
 import {
@@ -14,10 +15,11 @@ import { retrieveEventsFeed } from 'services';
 const Events = () => {
 	const [filter, setFilter] = useState('');
 	const [events, setEvents] = useState(undefined);
+	const profileStore = useProfileStore(state => state.profile);
 
 	useEffect(() => {
 		const generateEventsFeed = async () =>
-			setEvents((await retrieveEventsFeed({filter: filter})).matchingEvents);
+			setEvents((await retrieveEventsFeed({filter: filter, lang: profileStore.lang})).matchingEvents);
 
 		generateEventsFeed();
 	}, [filter]);
