@@ -13,6 +13,7 @@ import {
 	Spinner,
 } from 'components';
 import { useProfileStore } from 'stores';
+import config from 'config';
 
 import {
 	PageContainer,
@@ -23,13 +24,13 @@ import {
 	LoaderWrapper,
 } from './profileStyle.js';
 
-import img from 'res/test_club.png';
 import event_img from 'res/test_event.png';
-import { retrieveDSUser, retrieveClubDetails } from 'services';
+import { retrieveDSUser, retrieveClubs } from 'services';
 
 const Profile = () => {
 	const { id } = useParams();
 	const [currentProfile, setCurrentProfile] = useState(undefined);
+	const [clubs, setClubs] = useState(undefined);
 	const profileStore = useProfileStore(state => state.profile);
 
 	useEffect(() => {
@@ -40,11 +41,11 @@ const Profile = () => {
 			} else {
 				setCurrentProfile(profileStore);
 			}
+
+			setClubs((await retrieveClubs()).clubs);
 		}
 		fetchUserDetails();
 	}, []);
-
-	const getClub = async clubID => await retrieveClubDetails(clubID);
 
 	return (
 		<>
@@ -57,8 +58,20 @@ const Profile = () => {
 							<P>{currentProfile.description}</P>
 
 							<Heading size="h2">{'Clubs'}</Heading>
-							{currentProfile.memberClubs.length > 0 ? currentProfile.memberClubs.map(club =>
-								<Pill icon={img} label={club} href={`clubs/${club}`} />
+							{currentProfile.memberClubs.length > 0 ? (
+								clubs ? currentProfile.memberClubs.map(clubID => {
+									const club = clubs.find(c => c.id == clubID);
+									return club && (
+										<Pill
+											key={clubID}
+											icon={`${config.bucket}/${club.icon}`}
+											label={clubID} href={`clubs/${clubID}`}
+											title={club.name}
+										/>
+									);
+								}) : (
+									<P><Spinner size={16} /></P>
+								)
 							) : (
 								<P>Not a member of any clubs</P>
 							)}

@@ -60,6 +60,9 @@ const Navigation = () => {
 
 			<Spacer />
 
+			{profileStore.profile && profileStore.profile.superadmin && (
+				<NavigationItem to="/clubs/new" label="Create Club" />
+			)}
 			{profileStore.profile && profileStore.profile.adminClubs && profileStore.profile.adminClubs.length > 0 && (
 				<NavigationItem to="/events/new" label="Create Event" />
 			)}
