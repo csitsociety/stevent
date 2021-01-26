@@ -37,6 +37,7 @@ const NavigationItem = ({ to, label, icon, hideLabel, ...rest }) => {
 
 const Navigation = () => {
 	const profileStore = useProfileStore();
+	const location = useLocation();
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
@@ -47,7 +48,7 @@ const Navigation = () => {
 		if (fire.auth().currentUser && !profileStore.profile) {
 			fetchUserDetails();
 		}
-	}, []);
+	}, [location.pathname]);
 
 	return (
 		<Container>

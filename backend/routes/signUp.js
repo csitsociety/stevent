@@ -14,6 +14,7 @@ module.exports = function(app, datastore) {
                     memberClubs: [],
                     attendingEvents: [],
 										superadmin: false,
+										lang: 'en',
                 }
             }
             datastore.upsert(entity)

@@ -1,13 +1,20 @@
+import React, { useEffect } from 'react';
 import { logout } from 'services';
 import fire from 'auth';
 import { Redirect } from 'react-router-dom'
+import { useProfileStore } from 'stores';
 
 const Logout = () => {
-    fire.auth().signOut()
+	const profileStore = useProfileStore();
 
-    return (
-        <Redirect to={'/login'} />
-    )
-}
+	useEffect(() => {
+		fire.auth().signOut();
+		profileStore.clearProfile();
+	}, []);
 
-export default Logout
+	return (
+		<Redirect to={'/login'} />
+	)
+};
+
+export default Logout;

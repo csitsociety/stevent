@@ -45,7 +45,7 @@ const Profile = () => {
 			setClubs((await retrieveClubs()).clubs);
 		}
 		fetchUserDetails();
-	}, []);
+	}, [id]);
 
 	return (
 		<>
