@@ -3,7 +3,7 @@ steps:
     args: ['install']
     dir: "frontend"
   - name: 'gcr.io/cloud-builders/npm'
-    args: ['run', build']
+    args: ['run', 'build']
     dir: "frontend"
     timeout: "5m"
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
