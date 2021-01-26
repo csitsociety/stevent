@@ -8,16 +8,12 @@ steps:
   - name: 'bash'
     args: ['ls']
     dir: "backend/public"
-  - name: 'bash'
-    args: ["docker exec 765511b2869e sh -c \"rm -r *\""]
-    dir: "backend/public"
-  - name: 'bash'
-    args: ["docker exec 765511b2869e sh -c \"mv build/* ../backend/public\""]
-    dir: "frontend"
-  - name: 'bash'
-    args: ['ls']
-    dir: "backend/public"
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
-    args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
+    args: ['-c', 'gcloud config set project stevent-302609 && gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
+    dir: 'frontend'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args: ['-c', 'gcloud config set project stevent-backend && gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
+    dir: 'frontend'
 timeout: '1600s'
