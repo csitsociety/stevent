@@ -31,7 +31,12 @@ import {
 	ButtonArea,
 } from './profileStyle.js';
 
-import { retrieveDSUser, retrieveClubs, retrieveEventsFeed } from 'services';
+import {
+	retrieveDSUser,
+	retrieveClubs,
+	retrieveEventsFeed,
+	updateUserInfo,
+} from 'services';
 
 const truncate = input => input.length > 50 ? `${input.substring(0, 50)}...` : input;
 
@@ -83,6 +88,32 @@ const Profile = () => {
 		fetchUserDetails();
 	}, [id]);
 
+	const onSubmitUserInfo = async (values, setSubmitting) => {
+		setSubmitting(true);
+		try {
+			const response = await updateUserInfo({
+				userID: profileStore.profile.id,
+				username: values.username,
+				description: values.description,
+				lang: values.lang,
+			});
+
+			if (response.success) {
+				// Update user
+				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+				profileStore.setProfile(user);
+				setCurrentProfile(user);
+				setEditProfile(false);
+			} else {
+				console.error('Error while updating user info');
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setSubmitting(false);
+		}
+	};
+
 	return (
 		<>
 			<PageContainer>
@@ -107,8 +138,8 @@ const Profile = () => {
 											.ensure(),
 										lang: Yup.string(),
 									})}
-									onSubmit={(values, { setSubmitting, setErrors }) => {
-										console.log(values, setSubmitting, setErrors);
+									onSubmit={(values, { setSubmitting }) => {
+										onSubmitUserInfo(values, setSubmitting);
 									}}
 								>
 									{props => (
