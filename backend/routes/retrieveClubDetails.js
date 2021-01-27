@@ -5,7 +5,6 @@ module.exports = function(app, datastore) {
         const { clubID } = req.query;
         const query = datastore.createQuery("Club").filter("__key__", "=", datastore.key(["Club", clubID]))
         const club = (await datastore.runQuery(query))[0][0]
-        console.log(club)
         res.json({
             club
         })

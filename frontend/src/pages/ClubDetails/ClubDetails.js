@@ -17,44 +17,50 @@ import {
 	Button,
 	Spinner,
 } from 'components';
-import { retrieveClubDetails, updateClubSubscription } from 'services';
+import { retrieveClubDetails, updateClubSubscription, retrieveDSUser } from 'services';
 import config from 'config';
 
 const ClubDetails = () => {
 	const { id } = useParams();
 	const [club, setClub] = useState(undefined);
 	const [subscribed, setSubscribed] = useState(false);
+	const [subscribedLoading, setSubscribedLoading] = useState(true);
 	const profileStore = useProfileStore(state => state.profile);
-	console.log("profile")
-	console.log(profileStore)
+
 	useEffect(() => {
 		const fetch = async () => {
 			if (id) {
-				console.log(id)
 				setClub((await retrieveClubDetails({clubID: id})).club);
-				console.log(club)
-				console.log("test")
-				if (club.subscribed.includes(profileStore.rmitID)) {
-					setSubscribed(true)
+
+				const user = (await retrieveDSUser({ uid: profileStore.id })).user;
+				if (user.subscribed && user.subscribed.includes(id)) {
+					setSubscribed(true);
+				} else {
+					setSubscribed(false);
 				}
+				setSubscribedLoading(false);
 			}
 		};
+
 		if (profileStore) {
-			fetch()
+			fetch();
 		}
 	}, [profileStore]);
 
-	const updateSubscription = async (value) => {
-		setSubscribed(value)
-		console.log(club.clubID)
-		console.log(profileStore.rmitID)
-		console.log(value)
-		await updateClubSubscription({
-			clubID: club.clubID,
-			rmitID: profileStore.rmitID,
-			state: value
-		})
-	}
+	const updateSubscription = async value => {
+		setSubscribedLoading(true);
+
+		const response = await updateClubSubscription({
+			clubID: id,
+			userID: profileStore.id,
+			subscribe: value,
+		});
+
+		if (response.success) {
+			setSubscribed(response.subscribed);
+		}
+		setSubscribedLoading(false);
+	};
 
 	return (
 		<Container>
@@ -70,7 +76,7 @@ const ClubDetails = () => {
 							<a href={club.discord} target="_blank">Discord</a>
 							<a href={club.joinLink} target="_blank">Join club</a>
 						</Links>
-						<Button fullWidth secondary={!subscribed} onClick={updateSubscription(!subscribed)}>{subscribed ? 'Unsubscribe' : 'Subscribe'}</Button>
+						<Button fullWidth secondary={!subscribed} loading={subscribedLoading} onClick={() => !subscribedLoading && updateSubscription(!subscribed)}>{subscribed ? 'Unsubscribe' : 'Subscribe'}</Button>
 
 						<Heading size="h2">About</Heading>
 						<P>{club.description}</P>
