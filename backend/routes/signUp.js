@@ -12,9 +12,9 @@ module.exports = function(app, datastore) {
                     icon: "default-user-icon.png",
                     adminClubs: [],
                     subscribed: [],
-                    attendingEvents: [],
-										superadmin: false,
-										lang: 'en',
+                    events: [],
+                    superadmin: false,
+                    lang: 'en',
                 }
             }
             datastore.upsert(entity)

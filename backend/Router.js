@@ -14,6 +14,7 @@ const retrieveClubs = require('./routes/retrieveClubs.js')
 const retrieveClubDetails = require('./routes/retrieveClubDetails.js')
 const retrieveAttendees = require('./routes/retrieveAttendees.js')
 const updateSubscriptionToClub = require('./routes/updateSubscriptionToClub.js')
+const updateAttendingEvent = require('./routes/updateAttendingEvent.js')
 
 class Router {
 
@@ -35,6 +36,7 @@ class Router {
         retrieveEventDetails(app, datastore, translate)
         retrieveAttendees(app, datastore)
         updateSubscriptionToClub(app, datastore)
+        updateAttendingEvent(app, datastore)
     }
 
 }

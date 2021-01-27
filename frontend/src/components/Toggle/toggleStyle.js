@@ -18,9 +18,14 @@ export const ToggleItem = styled.button`
 	border-radius: 3px;
 	margin: 4px;
 	background: #E1E1E1;
+	color: inherit;
 
 	&.selected {
 		background: ${theme.primary};
 		color: #FFF;
+	}
+
+	&[disabled] {
+		opacity: .6;
 	}
 `;
