@@ -13,7 +13,6 @@ const config = {
 	    messagingSenderId: "***REMOVED***",
 	    appId: "***REMOVED***",
 	  },
-		bucket: 'https://storage.googleapis.com/stevent-backend.appspot.com',
 	},
 	production: {
 		baseUrl: 'https://stevent-302609.ts.r.appspot.com',
@@ -28,7 +27,6 @@ const config = {
 			messagingSenderId: "***REMOVED***",
 			appId: "***REMOVED***"
 		},
-		bucket: 'https://storage.googleapis.com/stevent-backend.appspot.com',
 	}
 }
 

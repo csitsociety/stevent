@@ -1,9 +1,9 @@
 const admin = require('firebase-admin');
-const config = require('./config/config');
-var serviceAccount = require(config.serviceAccountPath);
+const config = require('./config');
 
+const serviceAccount = require(config.firebaseServiceAccount);
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+	credential: admin.credential.cert(serviceAccount)
 });
 
 async function decodeIDToken(req, res, next) {

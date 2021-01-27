@@ -13,7 +13,6 @@ import {
 	Spinner,
 } from 'components';
 import { useProfileStore } from 'stores';
-import config from 'config';
 import fire from 'auth';
 
 import {
@@ -23,6 +22,7 @@ import {
 	ProfilePicture,
 	Events,
 	LoaderWrapper,
+	FormWrapper,
 } from './profileStyle.js';
 
 import event_img from 'res/test_event.png';
@@ -32,6 +32,7 @@ const Profile = () => {
 	const { id } = useParams();
 	const [currentProfile, setCurrentProfile] = useState(undefined);
 	const [clubs, setClubs] = useState(undefined);
+	const [editProfile, setEditProfile] = useState(false);
 	const profileStore = useProfileStore();
 
 	useEffect(() => {
@@ -57,58 +58,75 @@ const Profile = () => {
 	return (
 		<>
 			<PageContainer>
-				<PersonalDetails>
-					{currentProfile && (
-						<>
-							<ProfilePicture src={"https://storage.googleapis.com/stevent-storage/default-user-icon.png"} alt="" />
-							<Heading>{currentProfile.username}</Heading>
-							<P>{currentProfile.description}</P>
+				{editProfile ? (
+					<FormWrapper>Edit profile</FormWrapper>
+				) : (
+					<>
+						<PersonalDetails>
+							{currentProfile && (
+								<>
+									<ProfilePicture src={currentProfile.icon} alt="" />
+									<Heading>{currentProfile.username} {!id && '(you)'}</Heading>
+									<P>{currentProfile.description}</P>
+									{!id && (
+										<Button onClick={() => setEditProfile(true)}>Edit profile</Button>
+									)}
 
-							<Heading size="h2">{'Clubs'}</Heading>
-							{currentProfile.subscribed.length > 0 ? (
-								clubs ? currentProfile.subscribed.map(clubID => {
-									const club = clubs.find(c => c.id == clubID);
-									return club && (
-										<Pill
-											key={clubID}
-											icon={`${config.bucket}/${club.icon}`}
-											label={clubID} href={`clubs/${clubID}`}
-											title={club.name}
-										/>
-									);
-								}) : (
-									<P><Spinner size={16} /></P>
-								)
-							) : (
-								<P>Not a member of any clubs</P>
+									<Heading size="h2">{'Clubs'}</Heading>
+									{currentProfile.subscribed.length > 0 ? (
+										clubs ? currentProfile.subscribed.map(clubID => {
+											const club = clubs.find(c => c.id == clubID);
+											return club && (
+												<Pill
+													key={clubID}
+													icon={club.icon}
+													label={clubID} href={`clubs/${clubID}`}
+													title={club.name}
+												/>
+											);
+										}) : (
+											<div><Spinner size={16} /></div>
+										)
+									) : (
+										<P>Not a member of any clubs</P>
+									)}
+								</>
 							)}
-						</>
-					)}
-				</PersonalDetails>
+						</PersonalDetails>
 
-				<ProfileContainer>
-					{currentProfile ? (
-						<>
-							<Heading size="h2">Recent event attendance</Heading>
-							{true ? (
-								<Events>
-									<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." linkTo="/events/1" />
-									<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-									<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-								</Events>
+						<ProfileContainer>
+							{currentProfile ? (
+								<>
+									<Heading size="h2">Recent event attendance</Heading>
+									{false ? (
+										<Events>
+											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." linkTo="/events/1" />
+											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+										</Events>
+									) : (
+										<P>No events attended, yet</P>
+									)}
+
+									<Heading size="h2">Upcoming events registered</Heading>
+									{false ? (
+										<Events>
+											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." linkTo="/events/1" />
+											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
+										</Events>
+									) : (
+										<P>Not going to any upcoming events</P>
+									)}
+								</>
 							) : (
-								<P>No events attended, yet</P>
+								<LoaderWrapper>
+									<Spinner size={36} />
+								</LoaderWrapper>
 							)}
-
-							<Heading size="h2">Badges recieved</Heading>
-							<P>No badges</P>
-						</>
-					) : (
-						<LoaderWrapper>
-							<Spinner size={36} />
-						</LoaderWrapper>
-					)}
-				</ProfileContainer>
+						</ProfileContainer>
+					</>
+				)}
 			</PageContainer>
 		</>
 	);

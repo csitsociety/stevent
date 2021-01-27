@@ -1,7 +1,6 @@
 module.exports = function(app, datastore) {
 	app.post('/updateSubscriptionToClub', async (req, res) => {
 		const { clubID, userID, subscribe } = req.body;
-		console.log(req.body);
 		try {
 			const userQuery = datastore.createQuery("User").filter("__key__", "=", datastore.key(["User", userID]));
 			const user = (await datastore.runQuery(userQuery))[0][0];

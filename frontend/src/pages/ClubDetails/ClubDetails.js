@@ -18,7 +18,6 @@ import {
 	Spinner,
 } from 'components';
 import { retrieveClubDetails, updateClubSubscription, retrieveDSUser } from 'services';
-import config from 'config';
 
 const ClubDetails = () => {
 	const { id } = useParams();
@@ -68,7 +67,7 @@ const ClubDetails = () => {
 				{club ? (
 					<>
 						<ClubHeader>
-							<Image src={`${config.bucket}/${club.icon}`} alt={`Logo of ${club.name}`} title={id} />
+							<Image src={club.icon} alt={`Logo of ${club.name}`} title={id} />
 							<Heading>{club.name}</Heading>
 						</ClubHeader>
 

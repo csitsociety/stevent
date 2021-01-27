@@ -63,3 +63,10 @@ export const LoaderWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 `;
+
+export const FormWrapper = styled.div`
+	box-sizing: border-box;
+	width: 600px;
+	max-width: calc(100% - 20px);
+	margin: 0 auto;
+`;

@@ -1,3 +1,5 @@
+const config = require('../config');
+
 module.exports = function(app, datastore) {
     app.post('/signup', async (req, res) => {
         const { uid, username, email, rmitID } = req.body;
@@ -9,7 +11,7 @@ module.exports = function(app, datastore) {
                     rmitID,
                     email,
                     description: "",
-                    icon: "default-user-icon.png",
+                    icon: `https://storage.googleapis.com/${config.bucketName}/avatar.png`,
                     adminClubs: [],
                     subscribed: [],
                     events: [],
