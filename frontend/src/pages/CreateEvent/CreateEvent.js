@@ -57,6 +57,7 @@ const CreateEvent = () => {
 	const profile = useProfileStore(state => state.profile);
 	const history = useHistory();
 	const [error, setError] = useState(null);
+	const [image, setImage] = useState(undefined);
 
 	useEffect(() => {
 		if (!profile || !profile.adminClubs || profile.adminClubs.length == 0) {
@@ -68,13 +69,15 @@ const CreateEvent = () => {
 		setSubmitting(true);
 		setError(null);
 		try {
-			const response = await createClubEvent({
-				title: values.name,
-				date: DateTime.fromISO(values.date).toMillis(),
-				hostingClubs: values.hostingClubs,
-				description: values.description,
-				status: false,
-			});
+			const formData = new FormData();
+			formData.append('name', values.name);
+			formData.append('date', DateTime.fromISO(values.date).toMillis());
+			formData.append('hostingClubs', JSON.stringify(values.hostingClubs));
+			formData.append('description', values.description);
+			formData.append('image', image);
+
+			const response = await createClubEvent(formData);
+
 			if (response.success) {
 				history.push(`/events/${response.key && response.key.id}`);
 			} else {
@@ -116,6 +119,10 @@ const CreateEvent = () => {
 								name="image"
 								label="Event banner"
 								type="file"
+								onChange={e => {
+									setImage(e.currentTarget.files[0]);
+									props.handleChange(e);
+								}}
 								required
 							/>
 							<TextField

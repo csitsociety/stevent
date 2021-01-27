@@ -26,8 +26,6 @@ import {
 } from 'components';
 import { getEventDetails, retrieveClubs, retrieveAttendees, updateAttendingEvent } from 'services';
 
-import event_img from 'res/test_event.png';
-
 const EventDetails = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState(undefined);
@@ -85,7 +83,7 @@ const EventDetails = () => {
 			<EventWrapper>
 				{event ? (
 					<>
-						<Image src={event_img} alt="" />
+						<Image src={event.image} alt="" />
 
 						<EventInfo>
 							<Heading>{event.name}</Heading>
