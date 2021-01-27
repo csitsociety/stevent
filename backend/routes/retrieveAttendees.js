@@ -7,7 +7,7 @@ module.exports = function(app, datastore, translate) {
         const users = (await datastore.runQuery(query))[0]
         let attendingUsers = []
         for (i = 0; i < users.length; i++) {
-            if (users[i].attendingEvents && users[i].attendingEvents.includes(eventID)) {
+            if (users[i].events && users[i].events.includes(eventID)) {
                 attendingUsers.push({...users[i], id: users[i][datastore.KEY].name})
             }
         }

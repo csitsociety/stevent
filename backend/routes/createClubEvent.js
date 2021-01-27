@@ -20,7 +20,6 @@ module.exports = function(app, datastore) {
                     date,
                     hostingClubs,
                     description,
-                    attendees: [],
                     status
                 }
             }
