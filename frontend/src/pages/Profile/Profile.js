@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
+import { DateTime } from 'luxon';
 
 import {
 	Paragraph as P,
@@ -23,34 +24,57 @@ import {
 	Events,
 	LoaderWrapper,
 	FormWrapper,
+	SmallLoaderWrapper,
 } from './profileStyle.js';
 
-import event_img from 'res/test_event.png';
-import { retrieveDSUser, retrieveClubs } from 'services';
+import { retrieveDSUser, retrieveClubs, retrieveEventsFeed } from 'services';
+
+const truncate = input => input.length > 50 ? `${input.substring(0, 50)}...` : input;
 
 const Profile = () => {
 	const { id } = useParams();
 	const [currentProfile, setCurrentProfile] = useState(undefined);
 	const [clubs, setClubs] = useState(undefined);
+	const [events, setEvents] = useState({
+		upcoming: undefined,
+		attended: undefined,
+	});
 	const [editProfile, setEditProfile] = useState(false);
 	const profileStore = useProfileStore();
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
+			let user;
 			if (id) {
-				const user = (await retrieveDSUser({uid: id})).user;
+				user = (await retrieveDSUser({uid: id})).user;
 				setCurrentProfile(user);
 			} else {
 				if (profileStore.profile) {
 					setCurrentProfile(profileStore.profile);
 				}
 				// Update anyway
-				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+				user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
 				profileStore.setProfile(user);
 				setCurrentProfile(user);
 			}
 
 			setClubs((await retrieveClubs()).clubs);
+
+			if (user.events && user.events.length > 0) {
+				const lang = profileStore.profile && profileStore.profile.lang;
+				const allEvents = (await retrieveEventsFeed({ filter: '', lang: lang || 'en' })).matchingEvents;
+				let attended = [];
+				let upcoming = [];
+				user.events.forEach(eventID => {
+					const event = allEvents.find(e => e.id === eventID);
+					if (event && event.finished) {
+						attended.push(event);
+					} else if (event) {
+						upcoming.push(event);
+					}
+				});
+				setEvents({ attended, upcoming });
+			}
 		}
 		fetchUserDetails();
 	}, [id]);
@@ -85,7 +109,7 @@ const Profile = () => {
 												/>
 											);
 										}) : (
-											<div><Spinner size={16} /></div>
+											<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
 										)
 									) : (
 										<P>Not a member of any clubs</P>
@@ -98,25 +122,49 @@ const Profile = () => {
 							{currentProfile ? (
 								<>
 									<Heading size="h2">Recent event attendance</Heading>
-									{false ? (
-										<Events>
-											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." linkTo="/events/1" />
-											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-										</Events>
+									{events.attended ? (
+										events.attended.length > 0 ? (
+											<Events>
+												{events.attended.map((event, i) =>
+													<EventListing
+														key={i}
+														linkTo={`events/${event.id}`}
+														name={event.name}
+														image={event.image}
+														date={DateTime.fromMillis(event.date).toFormat('t, DD')}
+														description={truncate(event.description)}
+														hostingClubs={event.hostingClubs.join(", ")}
+													/>
+												)}
+											</Events>
+										) : (
+											<P>No events attended, yet</P>
+										)
 									) : (
-										<P>No events attended, yet</P>
+										<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
 									)}
 
 									<Heading size="h2">Upcoming events registered</Heading>
-									{false ? (
-										<Events>
-											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." linkTo="/events/1" />
-											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-											<EventListing name="Test event" image={event_img} date="4th Jan, 2021" description="This is an example event used to demonstrate what an event listing looks like." />
-										</Events>
+									{events.upcoming ? (
+										events.upcoming.length > 0 ? (
+											<Events>
+												{events.upcoming.map((event, i) =>
+													<EventListing
+														key={i}
+														linkTo={`events/${event.id}`}
+														name={event.name}
+														image={event.image}
+														date={DateTime.fromMillis(event.date).toFormat('t, DD')}
+														description={truncate(event.description)}
+														hostingClubs={event.hostingClubs.join(", ")}
+													/>
+												)}
+											</Events>
+										) : (
+											<P>Not going to any upcoming events</P>
+										)
 									) : (
-										<P>Not going to any upcoming events</P>
+										<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
 									)}
 								</>
 							) : (

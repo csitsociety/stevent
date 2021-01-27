@@ -53,7 +53,7 @@ export const ProfilePicture = styled.img`
 export const Events = styled.div`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 0 20px;
+	grid-gap: 20px;
 	margin: 10px 0;
 `;
 
@@ -61,6 +61,13 @@ export const LoaderWrapper = styled.div`
 	padding: 50px;
 	display: flex;
 	justify-content: center;
+	align-items: center;
+`;
+
+export const SmallLoaderWrapper = styled.div`
+	padding: 10px;
+	display: flex;
+	justify-content: flex-start;
 	align-items: center;
 `;
 
