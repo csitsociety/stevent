@@ -5,7 +5,10 @@ module.exports = function(app, datastore) {
       const query = datastore.createQuery("User").filter("__key__", "=", datastore.key(["User", uid]))
       const user = (await datastore.runQuery(query))[0][0]
       res.json({
-        user
+        user: {
+					...user,
+					id: uid,
+				}
       })
     } else {
       return res.status(403).send('Not authorized');

@@ -13,8 +13,8 @@ module.exports = function(app, datastore) {
                     adminClubs: [],
                     memberClubs: [],
                     events: [],
-					superadmin: false,
-					lang: 'en',
+                    superadmin: false,
+                    lang: 'en',
                 }
             }
             datastore.upsert(entity)
