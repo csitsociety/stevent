@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "stevent-backend",
+  "private_key_id": "78dcf382d970a68e413f3f671e47dae167ffed40",
+  "private_key": "***REMOVED***",
+  "client_email": "stevent-backend@appspot.gserviceaccount.com",
+  "client_id": "103314821797266820173",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/stevent-backend%40appspot.gserviceaccount.com"
+}
