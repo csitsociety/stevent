@@ -1,3 +1,4 @@
+//https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/functions/imagemagick
 const gm = require('gm').subClass({imageMagick: true});
 const fs = require('fs');
 const {promisify} = require('util');
