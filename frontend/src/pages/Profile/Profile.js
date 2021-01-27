@@ -14,6 +14,7 @@ import {
 } from 'components';
 import { useProfileStore } from 'stores';
 import config from 'config';
+import fire from 'auth';
 
 import {
 	PageContainer,
@@ -31,7 +32,7 @@ const Profile = () => {
 	const { id } = useParams();
 	const [currentProfile, setCurrentProfile] = useState(undefined);
 	const [clubs, setClubs] = useState(undefined);
-	const profileStore = useProfileStore(state => state.profile);
+	const profileStore = useProfileStore();
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
@@ -39,7 +40,13 @@ const Profile = () => {
 				const user = (await retrieveDSUser({uid: id})).user;
 				setCurrentProfile(user);
 			} else {
-				setCurrentProfile(profileStore);
+				if (profileStore.profile) {
+					setCurrentProfile(profileStore.profile);
+				}
+				// Update anyway
+				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+				profileStore.setProfile(user);
+				setCurrentProfile(user);
 			}
 
 			setClubs((await retrieveClubs()).clubs);
@@ -58,8 +65,8 @@ const Profile = () => {
 							<P>{currentProfile.description}</P>
 
 							<Heading size="h2">{'Clubs'}</Heading>
-							{currentProfile.memberClubs.length > 0 ? (
-								clubs ? currentProfile.memberClubs.map(clubID => {
+							{currentProfile.subscribed.length > 0 ? (
+								clubs ? currentProfile.subscribed.map(clubID => {
 									const club = clubs.find(c => c.id == clubID);
 									return club && (
 										<Pill

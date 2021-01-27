@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useProfileStore } from 'stores';
 
 import {
 	Container,
@@ -16,26 +17,50 @@ import {
 	Button,
 	Spinner,
 } from 'components';
-import { retrieveClubDetails } from 'services';
+import { retrieveClubDetails, updateClubSubscription, retrieveDSUser } from 'services';
 import config from 'config';
 
 const ClubDetails = () => {
 	const { id } = useParams();
 	const [club, setClub] = useState(undefined);
 	const [subscribed, setSubscribed] = useState(false);
+	const [subscribedLoading, setSubscribedLoading] = useState(true);
+	const profileStore = useProfileStore(state => state.profile);
 
 	useEffect(() => {
 		const fetch = async () => {
 			if (id) {
-				const details = await retrieveClubDetails({
-					clubID: id
-				});
-				setClub(details.club);
+				setClub((await retrieveClubDetails({clubID: id})).club);
+
+				const user = (await retrieveDSUser({ uid: profileStore.id })).user;
+				if (user.subscribed && user.subscribed.includes(id)) {
+					setSubscribed(true);
+				} else {
+					setSubscribed(false);
+				}
+				setSubscribedLoading(false);
 			}
 		};
 
-		fetch();
-	}, []);
+		if (profileStore) {
+			fetch();
+		}
+	}, [profileStore]);
+
+	const updateSubscription = async value => {
+		setSubscribedLoading(true);
+
+		const response = await updateClubSubscription({
+			clubID: id,
+			userID: profileStore.id,
+			subscribe: value,
+		});
+
+		if (response.success) {
+			setSubscribed(response.subscribed);
+		}
+		setSubscribedLoading(false);
+	};
 
 	return (
 		<Container>
@@ -51,7 +76,7 @@ const ClubDetails = () => {
 							<a href={club.discord} target="_blank">Discord</a>
 							<a href={club.joinLink} target="_blank">Join club</a>
 						</Links>
-						<Button fullWidth secondary={!subscribed} onClick={() => setSubscribed(!subscribed)}>{subscribed ? 'Unsubscribe' : 'Subscribe'}</Button>
+						<Button fullWidth secondary={!subscribed} loading={subscribedLoading} onClick={() => !subscribedLoading && updateSubscription(!subscribed)}>{subscribed ? 'Unsubscribe' : 'Subscribe'}</Button>
 
 						<Heading size="h2">About</Heading>
 						<P>{club.description}</P>

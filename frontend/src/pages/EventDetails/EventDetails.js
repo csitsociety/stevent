@@ -37,7 +37,7 @@ const EventDetails = () => {
 	const [going, setGoing] = useState(undefined);
 	const [goingLoading, setGoingLoading] = useState(true);
 	const profileStore = useProfileStore(state => state.profile);
-
+	
 	useEffect(() => {
 		const fetch = async () => {
 			if (id) {
