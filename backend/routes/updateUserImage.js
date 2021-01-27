@@ -1,21 +1,17 @@
+const uploadImage = require('../uploadImage');
+
 module.exports = function(app, datastore) {
-	app.post('/updateSubscriptionToClub', async (req, res) => {
-		const { clubID, userID, subscribe } = req.body;
+	app.post('/updateUserImage', async (req, res) => {
+		const { userID } = req.body;
+		const icon = req.files[0];
 		try {
 			const userQuery = datastore.createQuery("User").filter("__key__", "=", datastore.key(["User", userID]));
 			const user = (await datastore.runQuery(userQuery))[0][0];
-			if (!subscribe) {
-				const clubIndex = user.subscribed.indexOf(clubID);
-				if (clubIndex !== -1) {
-					user.subscribed.splice(clubIndex, 1);
-				}
-			} else {
-				user.subscribed.push(clubID);
-			}
+			user.icon = await uploadImage(icon);
 			datastore.upsert(user);
 			res.json({
 				success: true,
-				subscribed: subscribe,
+				icon: user.icon,
 			});
 		} catch (e) {
 			console.error(e);

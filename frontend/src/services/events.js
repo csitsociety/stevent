@@ -24,7 +24,11 @@ export const getEventDetails = async payload => {
 
 export const createClubEvent = async payload => {
 	try {
-		const request = await api.post(`/createClubEvent`, payload);
+		const request = await api.post(`/createClubEvent`, payload, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		});
 		if (request.status === 200) {
 			return request.data;
 		}

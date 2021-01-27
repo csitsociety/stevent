@@ -7,7 +7,6 @@ const createClubEvent = require('./routes/createClubEvent.js')
 const deleteClubPage = require('./routes/deleteClubPage.js')
 const deleteClubEvent = require('./routes/deleteClubEvent.js')
 const retrieveDSUser = require('./routes/retrieveDSUser')
-const uploadImage = require('./routes/uploadImage.js')
 const retrieveEventsFeed = require('./routes/retrieveEventsFeed.js')
 const retrieveEventDetails = require('./routes/retrieveEventDetails.js')
 const retrieveClubs = require('./routes/retrieveClubs.js')
@@ -15,6 +14,8 @@ const retrieveClubDetails = require('./routes/retrieveClubDetails.js')
 const retrieveAttendees = require('./routes/retrieveAttendees.js')
 const updateSubscriptionToClub = require('./routes/updateSubscriptionToClub.js')
 const updateAttendingEvent = require('./routes/updateAttendingEvent.js')
+const updateUserInfo = require('./routes/updateUserInfo.js')
+const updateUserImage = require('./routes/updateUserImage.js')
 
 class Router {
 
@@ -29,7 +30,6 @@ class Router {
         deleteClubPage(app, datastore)
         deleteClubEvent(app, datastore)
         retrieveDSUser(app, datastore)
-        uploadImage(app, datastore)
         retrieveClubs(app, datastore)
 				retrieveClubDetails(app, datastore)
         retrieveEventsFeed(app, datastore, translate)
@@ -37,6 +37,8 @@ class Router {
         retrieveAttendees(app, datastore)
         updateSubscriptionToClub(app, datastore)
         updateAttendingEvent(app, datastore)
+        updateUserInfo(app, datastore)
+        updateUserImage(app, datastore)
     }
 
 }

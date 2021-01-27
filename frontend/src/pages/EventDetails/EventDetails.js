@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { useProfileStore } from 'stores';
-import config from 'config';
 
 import {
 	Container,
@@ -27,8 +26,6 @@ import {
 } from 'components';
 import { getEventDetails, retrieveClubs, retrieveAttendees, updateAttendingEvent } from 'services';
 
-import event_img from 'res/test_event.png';
-
 const EventDetails = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState(undefined);
@@ -37,7 +34,7 @@ const EventDetails = () => {
 	const [going, setGoing] = useState(undefined);
 	const [goingLoading, setGoingLoading] = useState(true);
 	const profileStore = useProfileStore(state => state.profile);
-	
+
 	useEffect(() => {
 		const fetch = async () => {
 			if (id) {
@@ -86,7 +83,7 @@ const EventDetails = () => {
 			<EventWrapper>
 				{event ? (
 					<>
-						<Image src={event_img} alt="" />
+						<Image src={event.image} alt="" />
 
 						<EventInfo>
 							<Heading>{event.name}</Heading>
@@ -97,7 +94,7 @@ const EventDetails = () => {
 									return club && (
 										<Pill
 											key={clubID}
-											icon={`${config.bucket}/${club.icon}`}
+											icon={club.icon}
 											label={clubID} href={`/clubs/${clubID}`}
 											title={club.name}
 										/>
@@ -123,7 +120,7 @@ const EventDetails = () => {
 								{attendees ? (
 									attendees.length > 0 ? attendees.map((user, i) =>
 										<User as={Link} to={`/profile/${user.id}`} key={i}>
-											<UserImage src={`${config.bucket}/${user.icon}`} alt="" />
+											<UserImage src={user.icon} alt="" />
 											<UserName>{user.username}</UserName>
 										</User>
 									) : (

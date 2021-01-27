@@ -9,7 +9,6 @@ import {
 	Spinner,
 } from 'components';
 
-import event_img from 'res/test_event.png';
 import { retrieveEventsFeed } from 'services';
 
 const truncate = input => input.length > 50 ? `${input.substring(0, 50)}...` : input;
@@ -37,7 +36,7 @@ const Events = () => {
 						key={i}
 						linkTo={`events/${event.id}`}
 						name={event.name}
-						image={event_img}
+						image={event.image}
 						date={DateTime.fromMillis(event.date).toFormat('t, DD')}
 						description={truncate(event.description)}
 						hostingClubs={event.hostingClubs.join(", ")}
