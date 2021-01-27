@@ -44,3 +44,18 @@ export const updateUserInfo = async payload => {
 		throw err;
 	}
 };
+
+export const updateUserImage = async payload => {
+	try {
+		const request = await api.post(`/updateUserImage`, payload, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		});
+		if (request.status === 200) {
+			return request.data;
+		}
+	} catch (err) {
+		throw err;
+	}
+};

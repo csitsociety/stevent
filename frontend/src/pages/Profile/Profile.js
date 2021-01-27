@@ -29,13 +29,17 @@ import {
 	LoaderWrapper,
 	SmallLoaderWrapper,
 	ButtonArea,
+	IconInput,
+	ProfilePictureEdit,
 } from './profileStyle.js';
+import upload_icon from 'res/upload.svg';
 
 import {
 	retrieveDSUser,
 	retrieveClubs,
 	retrieveEventsFeed,
 	updateUserInfo,
+	updateUserImage,
 } from 'services';
 
 const truncate = input => input.length > 50 ? `${input.substring(0, 50)}...` : input;
@@ -114,13 +118,42 @@ const Profile = () => {
 		}
 	};
 
+	const onSubmitUserIcon = async file => {
+		if (file) {
+			try {
+				const formData = new FormData();
+				formData.append('userID', profileStore.profile.id);
+				formData.append('icon', file);
+
+				const response = await updateUserImage(formData);
+
+				if (response.success) {
+					setCurrentProfile({...currentProfile, icon: response.icon});
+				} else {
+					console.error('Failed to change profile image');
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	};
+
 	return (
 		<>
 			<PageContainer>
 				<PersonalDetails>
 					{currentProfile && (
 						<>
-							<ProfilePicture src={currentProfile.icon} alt="" />
+							{!id ? (
+								<ProfilePictureEdit title="Upload a new profile picture">
+									<ProfilePicture src={currentProfile.icon} alt="" />
+									<img src={upload_icon} alt="" className="uploadIcon" />
+									<IconInput type="file" onInput={e => onSubmitUserIcon(e.currentTarget.files[0])} />
+								</ProfilePictureEdit>
+							) : (
+								<ProfilePicture src={currentProfile.icon} alt="" />
+							)}
+
 							{editProfile ? (
 								<Formik
 									initialValues={{

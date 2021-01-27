@@ -18,6 +18,7 @@ import logout from 'res/log-out.svg';
 import events from 'res/calendar.svg';
 import profile from 'res/user.svg';
 import clubs from 'res/compass.svg';
+import plus from 'res/plus.svg';
 
 const NavigationItem = ({ to, label, icon, hideLabel, ...rest }) => {
 	const location = useLocation();
@@ -62,10 +63,10 @@ const Navigation = () => {
 			<Spacer />
 
 			{profileStore.profile && profileStore.profile.superadmin && (
-				<NavigationItem to="/clubs/new" label="Create Club" />
+				<NavigationItem to="/clubs/new" label="Create Club" icon={plus} />
 			)}
 			{profileStore.profile && profileStore.profile.adminClubs && profileStore.profile.adminClubs.length > 0 && (
-				<NavigationItem to="/events/new" label="Create Event" />
+				<NavigationItem to="/events/new" label="Create Event" icon={plus} />
 			)}
 
 			<NavigationItem to="/events" label="Events" icon={events} />

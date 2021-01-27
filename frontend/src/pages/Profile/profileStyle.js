@@ -79,3 +79,48 @@ export const ButtonArea = styled.div`
 		margin-right: 10px;
 	}
 `;
+
+export const ProfilePictureEdit = styled.label`
+	display: block;
+	cursor: pointer;
+	border-radius: 1000px;
+	overflow: hidden;
+	height: 200px;
+	width: 200px;
+	position: relative;
+
+	> .uploadIcon {
+		position: absolute;
+		top: calc(50% - 18px);
+		left: calc(50% - 18px);
+		height: 36px;
+		width: 36px;
+		opacity: 0;
+		z-index: 10;
+		transition: opacity .15s;
+	}
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		transition: opacity .15s;
+		background-color: rgba(0,0,0,.5);
+		opacity: 0;
+	}
+
+	&:hover {
+		&:after, & .uploadIcon {
+			opacity: 1;
+		}
+	}
+`;
+
+export const IconInput = styled.input`
+	height: 0;
+	width: 0;
+	position: absolute;
+	left: -1000px;
+`;
