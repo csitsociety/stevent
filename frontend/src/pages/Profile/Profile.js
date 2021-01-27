@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { LANGUAGES } from 'config';
 
 import {
 	Paragraph as P,
@@ -12,6 +15,7 @@ import {
 	Pill,
 	EventListing,
 	Spinner,
+	SelectField,
 } from 'components';
 import { useProfileStore } from 'stores';
 import fire from 'auth';
@@ -23,8 +27,8 @@ import {
 	ProfilePicture,
 	Events,
 	LoaderWrapper,
-	FormWrapper,
 	SmallLoaderWrapper,
+	ButtonArea,
 } from './profileStyle.js';
 
 import { retrieveDSUser, retrieveClubs, retrieveEventsFeed } from 'services';
@@ -82,14 +86,60 @@ const Profile = () => {
 	return (
 		<>
 			<PageContainer>
-				{editProfile ? (
-					<FormWrapper>Edit profile</FormWrapper>
-				) : (
-					<>
-						<PersonalDetails>
-							{currentProfile && (
+				<PersonalDetails>
+					{currentProfile && (
+						<>
+							<ProfilePicture src={currentProfile.icon} alt="" />
+							{editProfile ? (
+								<Formik
+									initialValues={{
+										username: currentProfile.username,
+										description: currentProfile.description,
+										lang: currentProfile.lang,
+									}}
+									validationSchema={Yup.object({
+										username: Yup
+											.string()
+											.ensure()
+											.required('Name is required'),
+										description: Yup
+											.string()
+											.ensure(),
+										lang: Yup.string(),
+									})}
+									onSubmit={(values, { setSubmitting, setErrors }) => {
+										console.log(values, setSubmitting, setErrors);
+									}}
+								>
+									{props => (
+										<Form>
+											<TextField
+												name="username"
+												label="Name"
+												placeholder="Jenny Bit"
+												required
+											/>
+											<TextField
+												name="description"
+												label="About"
+												as="textarea"
+											/>
+											<SelectField
+												name="lang"
+												label="Language"
+												options={LANGUAGES}
+												required
+											/>
+
+											<ButtonArea>
+												<Button type="button" onClick={() => setEditProfile(false)} secondary>Cancel</Button>
+												<Button type="submit" disabled={!(props.isValid && props.dirty)} loading={props.isSubmitting}>Update</Button>
+											</ButtonArea>
+										</Form>
+									)}
+								</Formik>
+							) : (
 								<>
-									<ProfilePicture src={currentProfile.icon} alt="" />
 									<Heading>{currentProfile.username} {!id && '(you)'}</Heading>
 									<P>{currentProfile.description}</P>
 									{!id && (
@@ -116,65 +166,65 @@ const Profile = () => {
 									)}
 								</>
 							)}
-						</PersonalDetails>
+						</>
+					)}
+				</PersonalDetails>
 
-						<ProfileContainer>
-							{currentProfile ? (
-								<>
-									<Heading size="h2">Recent event attendance</Heading>
-									{events.attended ? (
-										events.attended.length > 0 ? (
-											<Events>
-												{events.attended.map((event, i) =>
-													<EventListing
-														key={i}
-														linkTo={`events/${event.id}`}
-														name={event.name}
-														image={event.image}
-														date={DateTime.fromMillis(event.date).toFormat('t, DD')}
-														description={truncate(event.description)}
-														hostingClubs={event.hostingClubs.join(", ")}
-													/>
-												)}
-											</Events>
-										) : (
-											<P>No events attended, yet</P>
-										)
-									) : (
-										<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
-									)}
-
-									<Heading size="h2">Upcoming events registered</Heading>
-									{events.upcoming ? (
-										events.upcoming.length > 0 ? (
-											<Events>
-												{events.upcoming.map((event, i) =>
-													<EventListing
-														key={i}
-														linkTo={`events/${event.id}`}
-														name={event.name}
-														image={event.image}
-														date={DateTime.fromMillis(event.date).toFormat('t, DD')}
-														description={truncate(event.description)}
-														hostingClubs={event.hostingClubs.join(", ")}
-													/>
-												)}
-											</Events>
-										) : (
-											<P>Not going to any upcoming events</P>
-										)
-									) : (
-										<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
-									)}
-								</>
+				<ProfileContainer>
+					{currentProfile ? (
+						<>
+							<Heading size="h2">Recent event attendance</Heading>
+							{events.attended ? (
+								events.attended.length > 0 ? (
+									<Events>
+										{events.attended.map((event, i) =>
+											<EventListing
+												key={i}
+												linkTo={`events/${event.id}`}
+												name={event.name}
+												image={event.image}
+												date={DateTime.fromMillis(event.date).toFormat('t, DD')}
+												description={truncate(event.description)}
+												hostingClubs={event.hostingClubs.join(", ")}
+											/>
+										)}
+									</Events>
+								) : (
+									<P>No events attended, yet</P>
+								)
 							) : (
-								<LoaderWrapper>
-									<Spinner size={36} />
-								</LoaderWrapper>
+								<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
 							)}
-						</ProfileContainer>
-					</>
-				)}
+
+							<Heading size="h2">Upcoming events registered</Heading>
+							{events.upcoming ? (
+								events.upcoming.length > 0 ? (
+									<Events>
+										{events.upcoming.map((event, i) =>
+											<EventListing
+												key={i}
+												linkTo={`events/${event.id}`}
+												name={event.name}
+												image={event.image}
+												date={DateTime.fromMillis(event.date).toFormat('t, DD')}
+												description={truncate(event.description)}
+												hostingClubs={event.hostingClubs.join(", ")}
+											/>
+										)}
+									</Events>
+								) : (
+									<P>Not going to any upcoming events</P>
+								)
+							) : (
+								<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
+							)}
+						</>
+					) : (
+						<LoaderWrapper>
+							<Spinner size={36} />
+						</LoaderWrapper>
+					)}
+				</ProfileContainer>
 			</PageContainer>
 		</>
 	);

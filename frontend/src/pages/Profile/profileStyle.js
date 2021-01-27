@@ -26,12 +26,15 @@ export const PersonalDetails = styled.div`
 
 	@media (max-width: ${BP}) {
 		text-align: center;
+
+		& form {
+			text-align: left;
+		}
 	}
 `;
 
 export const ProfileContainer = styled.main`
 	flex: 2;
-	border-left: 1px solid #CCC;
 	box-sizing: border-box;
 	padding: 20px;
 	margin-bottom: 20px;
@@ -71,9 +74,8 @@ export const SmallLoaderWrapper = styled.div`
 	align-items: center;
 `;
 
-export const FormWrapper = styled.div`
-	box-sizing: border-box;
-	width: 600px;
-	max-width: calc(100% - 20px);
-	margin: 0 auto;
+export const ButtonArea = styled.div`
+	> button {
+		margin-right: 10px;
+	}
 `;

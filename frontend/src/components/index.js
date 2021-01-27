@@ -12,3 +12,4 @@ export { default as Pill } from './Pill/Pill';
 export { default as ClubListing } from './ClubListing/ClubListing'
 export { default as Toggle } from './Toggle/Toggle';
 export { default as MultiSelect } from './MultiSelect/MultiSelect';
+export { default as SelectField } from './SelectField/SelectField';
