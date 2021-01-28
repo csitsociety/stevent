@@ -1,4 +1,4 @@
-const config = require('./config/config');
+const config = require('./config');
 
 const express = require('express');
 const app = express();
@@ -8,26 +8,24 @@ const Router = require('./Router');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const multer = require('multer')
-const {Translate} = require('@google-cloud/translate').v2;
+const { Translate } = require('@google-cloud/translate').v2;
 const { Datastore } = require('@google-cloud/datastore');
 const { DatastoreStore } = require('@google-cloud/connect-datastore');
 
 const translate = new Translate({
   projectId: config.projectId,
-  keyFilename: config.serviceAccountPath
-  }
-);
+});
 
 const decodeIDToken = require('./authenticateToken')
 
 const datastore = new Datastore({ projectId: config.projectId });
 
 const multerMid = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-      fileSize: 5 * 1024 * 1024,
-    },
-  })
+	storage: multer.memoryStorage(),
+	limits: {
+		fileSize: 5 * 1024 * 1024,
+	},
+});
 
 app.use(express.static(path.join(__dirname, 'index.html')));
 app.use(express.json());
@@ -36,7 +34,7 @@ app.use(cors({ origin: [config.client] }));
 app.enable('trust proxy');
 app.use(decodeIDToken);
 app.disable('x-powered-by')
-app.use(multerMid.single('file'))
+app.use(multerMid.any())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(__dirname + '/public'));

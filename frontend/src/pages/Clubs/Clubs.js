@@ -6,12 +6,10 @@ import {
 	Spinner,
 } from 'components';
 
-import config from 'config';
 import { retrieveClubs } from 'services';
 
 const Clubs = () => {
 	const [clubs, setClubs] = useState(undefined);
-
 	useEffect(() => {
 		const generateClubsList = async () =>
 			setClubs((await retrieveClubs()).clubs);
@@ -27,7 +25,7 @@ const Clubs = () => {
 						key={i}
 						linkTo={`clubs/${club.id}`}
 						name={club.name}
-						image={`${config.bucket}/${club.icon}`}
+						image={club.icon}
 					/>
 				) : (
 					<LoaderWrapper>

@@ -61,6 +61,7 @@ const CreateClub = () => {
 	const profile = useProfileStore(state => state.profile);
 	const history = useHistory();
 	const [error, setError] = useState(null);
+	const [icon, setIcon] = useState(undefined);
 
 	useEffect(() => {
 		if (!profile || !profile.superadmin) {
@@ -72,19 +73,21 @@ const CreateClub = () => {
 		setSubmitting(true);
 		setError(null);
 		try {
-			const response = await createClubPage({
-				clubID: values.clubID,
-				name: values.name,
-				description: values.description,
-				icon: 'csit_logo.png',
-				discord: values.discord,
-				joinLink: values.joinLink,
-			});
+			const formData = new FormData();
+			formData.append('clubID', values.clubID);
+			formData.append('name', values.name);
+			formData.append('description', values.description);
+			formData.append('icon', icon);
+			formData.append('discord', values.discord);
+			formData.append('joinLink', values.joinLink);
+
+			const response = await createClubPage(formData);
+
 			if (response.success) {
 				history.push(`/clubs/${values.clubID}`);
 			} else {
 				setErrors(response.errors);
-				if (response.errors.main) {
+				if (response.errors && response.errors.main) {
 					setError(response.errors.main);
 				}
 			}
@@ -127,6 +130,10 @@ const CreateClub = () => {
 								name="icon"
 								label="Club icon"
 								type="file"
+								onChange={e => {
+									setIcon(e.currentTarget.files[0]);
+									props.handleChange(e);
+								}}
 								required
 							/>
 							<TextField

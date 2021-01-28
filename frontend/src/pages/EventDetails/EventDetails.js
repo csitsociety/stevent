@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { useProfileStore } from 'stores';
-import config from 'config';
 
 import {
 	Container,
@@ -25,16 +24,15 @@ import {
 	Spinner,
 	Toggle,
 } from 'components';
-import { getEventDetails, retrieveClubs, retrieveAttendees } from 'services';
-
-import event_img from 'res/test_event.png';
+import { getEventDetails, retrieveClubs, retrieveAttendees, updateAttendingEvent } from 'services';
 
 const EventDetails = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState(undefined);
 	const [clubs, setClubs] = useState(undefined);
 	const [attendees, setAttendees] = useState(undefined);
-	const [going, setGoing] = useState(0);
+	const [going, setGoing] = useState(undefined);
+	const [goingLoading, setGoingLoading] = useState(true);
 	const profileStore = useProfileStore(state => state.profile);
 
 	useEffect(() => {
@@ -47,10 +45,15 @@ const EventDetails = () => {
 				setEvent(details.event);
 
 				setClubs((await retrieveClubs()).clubs);
-				const eventAttendees = await retrieveAttendees({
-					eventID: id
-				});
-				setAttendees(eventAttendees.attendingUsers);
+
+				const eventAttendees = (await retrieveAttendees({ eventID: id })).attendingUsers;
+				if (eventAttendees.find(u => u.id === profileStore.id)) {
+					setGoing(1);
+				} else {
+					setGoing(0);
+				}
+				setGoingLoading(false);
+				setAttendees(eventAttendees);
 			}
 		};
 
@@ -59,12 +62,28 @@ const EventDetails = () => {
 		}
 	}, [profileStore]);
 
+	const updateAttending = async value => {
+		setGoingLoading(true);
+		const response = await updateAttendingEvent({
+			eventID: id,
+			userID: profileStore.id,
+			state: value
+		});
+
+		if (response.success) {
+			setGoing(response.state);
+
+			setAttendees((await retrieveAttendees({ eventID: id })).attendingUsers);
+		}
+		setGoingLoading(false);
+	};
+
 	return (
 		<Container>
 			<EventWrapper>
 				{event ? (
 					<>
-						<Image src={event_img} alt="" />
+						<Image src={event.image} alt="" />
 
 						<EventInfo>
 							<Heading>{event.name}</Heading>
@@ -75,13 +94,13 @@ const EventDetails = () => {
 									return club && (
 										<Pill
 											key={clubID}
-											icon={`${config.bucket}/${club.icon}`}
+											icon={club.icon}
 											label={clubID} href={`/clubs/${clubID}`}
 											title={club.name}
 										/>
 									);
 								}) : (
-									<P><Spinner size={16} /></P>
+									<div><Spinner size={16} /></div>
 								)}
 							</Clubs>
 
@@ -92,15 +111,16 @@ const EventDetails = () => {
 									1: 'I\'m going!'
 								}}
 								value={going}
-								onChange={value => setGoing(value)}
+								disabled={goingLoading}
+								onChange={updateAttending}
 							/>
 
 							<Heading size="h2">Attendees</Heading>
 							<AttendeeList>
 								{attendees ? (
 									attendees.length > 0 ? attendees.map((user, i) =>
-										<User as={Link} to={`/profile/${user.id}`}>
-											<UserImage src={`${config.bucket}/${user.icon}`} alt="" />
+										<User as={Link} to={`/profile/${user.id}`} key={i}>
+											<UserImage src={user.icon} alt="" />
 											<UserName>{user.username}</UserName>
 										</User>
 									) : (

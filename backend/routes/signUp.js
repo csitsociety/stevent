@@ -1,3 +1,5 @@
+const config = require('../config');
+
 module.exports = function(app, datastore) {
     app.post('/signup', async (req, res) => {
         const { uid, username, email, rmitID } = req.body;
@@ -9,12 +11,12 @@ module.exports = function(app, datastore) {
                     rmitID,
                     email,
                     description: "",
-                    icon: "default-user-icon.png",
+                    icon: `avatar.png`,
                     adminClubs: [],
-                    memberClubs: [],
-                    attendingEvents: [],
-										superadmin: false,
-										lang: 'en',
+                    subscribed: [],
+                    events: [],
+                    superadmin: false,
+                    lang: 'en',
                 }
             }
             datastore.upsert(entity)

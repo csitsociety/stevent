@@ -24,7 +24,11 @@ export const getEventDetails = async payload => {
 
 export const createClubEvent = async payload => {
 	try {
-		const request = await api.post(`/createClubEvent`, payload);
+		const request = await api.post(`/createClubEvent`, payload, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		});
 		if (request.status === 200) {
 			return request.data;
 		}
@@ -36,6 +40,17 @@ export const createClubEvent = async payload => {
 export const retrieveAttendees = async payload => {
 	try {
 		const request = await api.get(`/retrieveAttendees`, payload);
+		if (request.status === 200) {
+			return request.data;
+		}
+	} catch (err) {
+		throw err
+	}
+};
+
+export const updateAttendingEvent = async payload => {
+	try {
+		const request = await api.post(`/updateAttendingEvent`, payload);
 		if (request.status === 200) {
 			return request.data;
 		}
