@@ -81,10 +81,14 @@ const Profile = () => {
 				let upcoming = [];
 				user.events.forEach(eventID => {
 					const event = allEvents.find(e => e.id === eventID);
-					if (event && event.finished) {
-						attended.push(event);
+					if (event && parseInt(event.date) < DateTime.local().toMillis()) {
+						if (attended.length < 3) {
+							attended.push(event);
+						}
 					} else if (event) {
-						upcoming.push(event);
+						if (upcoming.length < 3) {
+							upcoming.push(event);
+						}
 					}
 				});
 				setEvents({ attended, upcoming });

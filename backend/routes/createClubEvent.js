@@ -2,13 +2,14 @@ const uploadImage = require('../uploadImage');
 
 module.exports = function(app, datastore) {
 	app.post('/createClubEvent', async (req, res) => {
-		const { name, date, hostingClubs, description } = req.body;
+		const { name, date, hostingClubs, description, location } = req.body;
 		const image = req.files[0];
 
 		if (name.length == 0
 			|| date.length == 0
 			|| hostingClubs.length == 0
 			|| description.length == 0
+			|| location.length == 0
 			|| !image
 		) {
 			res.json({
@@ -31,7 +32,7 @@ module.exports = function(app, datastore) {
 					date: parseInt(date),
 					hostingClubs: JSON.parse(hostingClubs),
 					description,
-					finished: false,
+					location,
 				}
 			}
 			datastore.upsert(entity)
