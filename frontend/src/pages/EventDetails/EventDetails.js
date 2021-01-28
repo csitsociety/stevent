@@ -95,7 +95,7 @@ const EventDetails = () => {
 			});
 		};
 
-		if (event && event.location && !event.location.startsWith('http')) {
+		if (event && event.location && event.location !== '' && !event.location.startsWith('http')) {
 			fetchMap();
 		}
 	}, [event]);
@@ -142,7 +142,7 @@ const EventDetails = () => {
 								)}
 							</Clubs>
 
-							{event.location && (
+							{event.location && event.location !== '' && (
 								<>
 									<Heading size="h2">Location</Heading>
 									{event.location.startsWith('http') ? (

@@ -38,8 +38,7 @@ const validationSchema = Yup.object({
 		.required('Date is required'),
 	location: Yup
 		.string()
-		.ensure()
-		.required('Location is required'),
+		.ensure(),
 	description: Yup
 		.string()
 		.ensure()
@@ -141,7 +140,6 @@ const CreateEvent = () => {
 								name="location"
 								label="Location"
 								placeholder="Building 80, Level 2"
-								required
 							/>
 							<TextField
 								name="description"

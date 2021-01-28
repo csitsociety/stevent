@@ -9,7 +9,6 @@ module.exports = function(app, datastore) {
 			|| date.length == 0
 			|| hostingClubs.length == 0
 			|| description.length == 0
-			|| location.length == 0
 			|| !image
 		) {
 			res.json({
