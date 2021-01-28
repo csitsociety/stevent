@@ -11,7 +11,7 @@ module.exports = function(app, datastore) {
                     rmitID,
                     email,
                     description: "",
-                    icon: `avatar.png`,
+                    icon: `https://storage.cloud.google.com/stevent-backend-image-store/avatar.png`,
                     adminClubs: [],
                     subscribed: [],
                     events: [],

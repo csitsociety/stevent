@@ -16,7 +16,7 @@ const uploadImage = (file) => new Promise((resolve, reject) => {
 		resumable: false
 	});
 	blobStream
-		.on('finish', () => resolve(`https://storage.googleapis.com/${config.uploadBucketName}/${blob.name}`))
+		.on('finish', () => resolve(`https://storage.googleapis.com/${config.accessBucketName}/${blob.name}`))
 		.on('error', (e) => reject(e))
 		.end(buffer);
 });
