@@ -49,15 +49,15 @@ const initialValues = {
 	passwordAgain: '',
 };
 
-const Signup = () => {
+const Signup = ({ location }) => {
 	const history = useHistory();
 	const [error, setError] = useState(null);
 
-	useEffect(() => {
-		if (fire.auth().currentUser) {
-			history.push('/events');
-		}
-	}, fire.auth().currentUser);
+	let from = undefined;
+	if (location.state && location.state.from) {
+		from = location.state.from.pathname;
+	}
+	fire.auth().onAuthStateChanged(user => user && history.push(from || '/events'));
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);

@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { LANGUAGES } from 'config';
+import config from '../../config'
 
 import {
 	Paragraph as P,
@@ -146,7 +147,7 @@ const Profile = () => {
 						<>
 							{!id ? (
 								<ProfilePictureEdit title="Upload a new profile picture">
-									<ProfilePicture src={currentProfile.icon} alt="" />
+									<ProfilePicture src={config.imageStoreAccess + currentProfile.icon} alt="" />
 									<img src={upload_icon} alt="" className="uploadIcon" />
 									<IconInput type="file" onInput={e => onSubmitUserIcon(e.currentTarget.files[0])} />
 								</ProfilePictureEdit>
@@ -217,7 +218,7 @@ const Profile = () => {
 											return club && (
 												<Pill
 													key={clubID}
-													icon={club.icon}
+													icon={config.imageStoreAccess + club.icon}
 													label={clubID} href={`clubs/${clubID}`}
 													title={club.name}
 												/>

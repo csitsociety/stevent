@@ -11,7 +11,7 @@ module.exports = function(app, datastore) {
                     rmitID,
                     email,
                     description: "",
-                    icon: `https://storage.googleapis.com/${config.bucketName}/avatar.png`,
+                    icon: `avatar.png`,
                     adminClubs: [],
                     subscribed: [],
                     events: [],

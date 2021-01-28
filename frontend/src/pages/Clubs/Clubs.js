@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import config from '../../config'
 import { ClubColumnStyle, LoaderWrapper } from './clubsStyle';
 import {
 	ClubListing,
@@ -10,7 +10,6 @@ import { retrieveClubs } from 'services';
 
 const Clubs = () => {
 	const [clubs, setClubs] = useState(undefined);
-
 	useEffect(() => {
 		const generateClubsList = async () =>
 			setClubs((await retrieveClubs()).clubs);
@@ -26,7 +25,7 @@ const Clubs = () => {
 						key={i}
 						linkTo={`clubs/${club.id}`}
 						name={club.name}
-						image={club.icon}
+						image={config.imageStoreAccess + club.icon}
 					/>
 				) : (
 					<LoaderWrapper>
