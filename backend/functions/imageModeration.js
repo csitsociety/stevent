@@ -3,16 +3,14 @@
 // Production
 // gcloud functions deploy blurOffensiveImages \
 //                                                     --runtime nodejs12 \
-//                                                     --tempBucket stevent-backend-temp-image-store \
-//                                                     --finalBucket stevent-backend-image-store \
-//                                                     --projectId stevent-backend
+//                                                     --trigger-bucket stevent-backend-temp-image-store \
+//                                                     --set-env-vars finalBucket=stevent-backend-image-store
 
 // Development
 // gcloud functions deploy blurOffensiveImages \
 //                                                     --runtime nodejs12 \
 //                                                     --trigger-bucket stevent-backend-temp-image-store-development \
-//                                                     --set-env-vars = [finalBucket = stevent-backend-image-store-development, --projectId = stevent-development-rmit]
-//                                                     
+//                                                     --set-env-vars finalBucket=stevent-backend-image-store-development                 
 
 const gm = require('gm').subClass({imageMagick: true});
 const fs = require('fs');
