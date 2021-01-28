@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 import { useProfileStore } from 'stores';
-import config from '../../config'
 
 import { EventColumnStyle, LoaderWrapper } from './eventsStyle';
 import {
@@ -37,7 +36,7 @@ const Events = () => {
 						key={i}
 						linkTo={`events/${event.id}`}
 						name={event.name}
-						image={config.imageStoreAccess + event.image}
+						image={event.image}
 						date={DateTime.fromMillis(event.date).toFormat('t, DD')}
 						description={truncate(event.description)}
 						hostingClubs={event.hostingClubs.join(", ")}

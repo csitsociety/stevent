@@ -12,7 +12,6 @@ const uploadImage = (file) => new Promise((resolve, reject) => {
 	const { originalname, buffer } = file;
 	const filename = `${uuidv4()}_${originalname.replace(/ /g, "_")}`;
 	const blob = bucket.file(filename);
-	console.log(blob)
 	const blobStream = blob.createWriteStream({
 		resumable: false
 	});

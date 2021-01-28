@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { useProfileStore } from 'stores';
-import config from '../../config'
 
 import {
 	Container,
@@ -84,7 +83,7 @@ const EventDetails = () => {
 			<EventWrapper>
 				{event ? (
 					<>
-						<Image src={config.imageStore + "/" + event.image} alt="" />
+						<Image src={event.image} alt="" />
 
 						<EventInfo>
 							<Heading>{event.name}</Heading>
@@ -95,7 +94,7 @@ const EventDetails = () => {
 									return club && (
 										<Pill
 											key={clubID}
-											icon={config.imageStore + "/" + club.icon}
+											icon={club.icon}
 											label={clubID} href={`/clubs/${clubID}`}
 											title={club.name}
 										/>

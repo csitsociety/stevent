@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useProfileStore } from 'stores';
-import config from '../../config'
 
 import {
 	Container,
@@ -68,7 +67,7 @@ const ClubDetails = () => {
 				{club ? (
 					<>
 						<ClubHeader>
-							<Image src={config.imageStoreAccess + club.icon} alt={`Logo of ${club.name}`} title={id} />
+							<Image src={club.icon} alt={`Logo of ${club.name}`} title={id} />
 							<Heading>{club.name}</Heading>
 						</ClubHeader>
 

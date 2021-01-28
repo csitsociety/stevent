@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import config from '../../config'
+
 import { ClubColumnStyle, LoaderWrapper } from './clubsStyle';
 import {
 	ClubListing,
@@ -25,7 +25,7 @@ const Clubs = () => {
 						key={i}
 						linkTo={`clubs/${club.id}`}
 						name={club.name}
-						image={config.imageStoreAccess + club.icon}
+						image={club.icon}
 					/>
 				) : (
 					<LoaderWrapper>
