@@ -8,7 +8,7 @@ const config = {
 		projectId: process.env.PROJECT_ID,
 		uploadBucketName: process.env.UPLOAD_BUCKET_NAME,
 		accessBucketName: process.env.ACCESS_BUCKET_NAME,
-		firebaseServiceAccount: process.env.GOOGLE_APPLICATION_CREDENTIALS
+		firebaseServiceAccount: './config/stevent-development-rmit.json',
 	},
 	production: {
 		client: 'https://stevent-302609.ts.r.appspot.com',
@@ -16,7 +16,7 @@ const config = {
 		projectId: 'stevent-backend',
 		uploadBucketName: 'stevent-backend-temp-image-store',
 		accessBucketName: 'stevent-backend-image-store',
-		firebaseServiceAccount: './config/stevent-backend.json',
+		firebaseServiceAccount: process.env.GOOGLE_APPLICATION_CREDENTIALS || './config/stevent-backend.json',
 	},
 };
 
