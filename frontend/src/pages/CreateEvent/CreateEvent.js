@@ -36,6 +36,10 @@ const validationSchema = Yup.object({
 		.string()
 		.ensure()
 		.required('Date is required'),
+	location: Yup
+		.string()
+		.ensure()
+		.required('Location is required'),
 	description: Yup
 		.string()
 		.ensure()
@@ -48,6 +52,7 @@ const validationSchema = Yup.object({
 const initialValues = {
 	name: '',
 	date: '',
+	location: '',
 	image: '',
 	description: '',
 	hostingClubs: [],
@@ -72,6 +77,7 @@ const CreateEvent = () => {
 			const formData = new FormData();
 			formData.append('name', values.name);
 			formData.append('date', DateTime.fromISO(values.date).toMillis());
+			formData.append('location', values.location);
 			formData.append('hostingClubs', JSON.stringify(values.hostingClubs));
 			formData.append('description', values.description);
 			formData.append('image', image);
@@ -129,6 +135,12 @@ const CreateEvent = () => {
 								name="date"
 								label="Date and time"
 								type="datetime-local"
+								required
+							/>
+							<TextField
+								name="location"
+								label="Location"
+								placeholder="Building 80, Level 2"
 								required
 							/>
 							<TextField
