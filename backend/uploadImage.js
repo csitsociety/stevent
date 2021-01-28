@@ -6,7 +6,7 @@ const storage = new Storage({
 	projectId: config.projectId,
 });
 
-const bucket = storage.bucket(config.uploadBucketName);
+const bucket = storage.bucket(config.bucketName);
 
 const uploadImage = (file) => new Promise((resolve, reject) => {
 	const { originalname, buffer } = file;
@@ -16,7 +16,7 @@ const uploadImage = (file) => new Promise((resolve, reject) => {
 		resumable: false
 	});
 	blobStream
-		.on('finish', () => resolve(`https://storage.googleapis.com/${config.accessBucketName}/${blob.name}`))
+		.on('finish', () => resolve(`https://storage.googleapis.com/${config.bucketName}/${blob.name}`))
 		.on('error', (e) => reject(e))
 		.end(buffer);
 });

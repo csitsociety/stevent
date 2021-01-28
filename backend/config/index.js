@@ -6,16 +6,14 @@ const config = {
 		client: 'http://localhost:3000',
 		port: 3001,
 		projectId: process.env.PROJECT_ID,
-		uploadBucketName: process.env.UPLOAD_BUCKET_NAME,
-		accessBucketName: process.env.ACCESS_BUCKET_NAME,
+		bucketName: process.env.BUCKET_NAME,
 		firebaseServiceAccount: './config/stevent-development-rmit.json',
 	},
 	production: {
 		client: 'https://stevent-302609.ts.r.appspot.com',
 		port: 8080,
 		projectId: 'stevent-backend',
-		uploadBucketName: 'stevent-backend-temp-image-store',
-		accessBucketName: 'stevent-backend-image-store',
+		bucketName: 'stevent-backend-image-store',
 		firebaseServiceAccount: process.env.GOOGLE_APPLICATION_CREDENTIALS || './config/stevent-backend.json',
 	},
 };

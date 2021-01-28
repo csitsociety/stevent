@@ -3,14 +3,14 @@
 // Production
 // gcloud functions deploy blurOffensiveImages \
 //                                                     --runtime nodejs12 \
-//                                                     --trigger-bucket stevent-backend-temp-image-store \
+//                                                     --trigger-bucket stevent-backend-image-store \
 //                                                     --set-env-vars finalBucket=stevent-backend-image-store
 
 // Development
 // gcloud functions deploy blurOffensiveImages \
 //                                                     --runtime nodejs12 \
-//                                                     --trigger-bucket stevent-backend-temp-image-store-development \
-//                                                     --set-env-vars finalBucket=stevent-backend-image-store-development                 
+//                                                     --trigger-bucket stevent-backend-image-store-development \
+//                                                     --set-env-vars finalBucket=stevent-backend-image-store-development
 
 const gm = require('gm').subClass({imageMagick: true});
 const fs = require('fs');
@@ -31,6 +31,12 @@ exports.blurOffensiveImages = async event => {
 
   const file = storage.bucket(object.bucket).file(object.name);
   const filePath = `gs://${object.bucket}/${object.name}`;
+	const [metadata] = await file.getMetadata();
+
+	if (metadata.metadata.moderated) {
+		console.log(`Already processed ${file.name}, skipping`);
+		return;
+	}
 
   console.log(`Analyzing ${file.name}.`);
 
@@ -90,7 +96,14 @@ const blurAndUpload = async (file, finalBucket, blur) => {
   // Upload the Blurred image back into the bucket.
   const gcsPath = `gs://${finalBucket}/${file.name}`;
   try {
-    await storage.bucket(finalBucket).upload(tempLocalPath, {destination: file.name});
+    await storage.bucket(finalBucket).upload(tempLocalPath, {
+			destination: file.name,
+			metadata: {
+				metadata: {
+					moderated: true,
+				},
+			},
+		});
     console.log(`Uploaded image to: ${gcsPath}`);
   } catch (err) {
     throw new Error(`Unable to upload image to ${gcsPath}: ${err}`);
