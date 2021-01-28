@@ -14,6 +14,12 @@ export const QueryInput = styled.input`
 	font-size: 18px;
 `;
 
+export const ToggleContainer = styled.div`
+	display: flex;
+	align-items: center;
+	padding: 0 4px;
+`;
+
 export const Results = styled.span`
 	display: block;
 	font-size: 14px;

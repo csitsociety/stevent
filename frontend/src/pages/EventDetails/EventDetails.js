@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { useProfileStore } from 'stores';
+import { Loader } from '@googlemaps/js-api-loader';
+import config from 'config';
 
 import {
 	Container,
@@ -15,6 +17,7 @@ import {
 	User,
 	UserName,
 	UserImage,
+	MapContainer,
 } from './eventDetailsStyle';
 
 import {
@@ -34,6 +37,7 @@ const EventDetails = () => {
 	const [going, setGoing] = useState(undefined);
 	const [goingLoading, setGoingLoading] = useState(true);
 	const profileStore = useProfileStore(state => state.profile);
+	const mapRef = useRef();
 
 	useEffect(() => {
 		const fetch = async () => {
@@ -61,6 +65,40 @@ const EventDetails = () => {
 			fetch();
 		}
 	}, [profileStore]);
+
+	useEffect(() => {
+		const fetchMap = async () => {
+			const loader = new Loader({
+				apiKey: config.firebaseConfig.apiKey,
+				version: 'weekly',
+				libraries: ['places'],
+			});
+			await loader.load();
+			new window.google.maps.Geocoder().geocode({
+				address: event.location
+			}, (results, status) => {
+				if (status === window.google.maps.GeocoderStatus.OK) {
+					mapRef.current.className = 'show';
+					const position = {
+						lat: results[0].geometry.location.lat(),
+						lng: results[0].geometry.location.lng(),
+					};
+					const map = new window.google.maps.Map(mapRef.current, {
+						zoom: 16,
+						center: position,
+						disableDefaultUI: true,
+					});
+					new window.google.maps.Marker({ position, map });
+				} else {
+					console.error('Couldn\'t geocode', status);
+				}
+			});
+		};
+
+		if (event && event.location && event.location !== '' && !event.location.startsWith('http')) {
+			fetchMap();
+		}
+	}, [event]);
 
 	const updateAttending = async value => {
 		setGoingLoading(true);
@@ -103,6 +141,20 @@ const EventDetails = () => {
 									<div><Spinner size={16} /></div>
 								)}
 							</Clubs>
+
+							{event.location && event.location !== '' && (
+								<>
+									<Heading size="h2">Location</Heading>
+									{event.location.startsWith('http') ? (
+										<P><a href={event.location} target="_blank">{event.location}</a></P>
+									) : (
+										<>
+											<P>{event.location}</P>
+											<MapContainer id="map" ref={mapRef}></MapContainer>
+										</>
+									)}
+								</>
+							)}
 
 							<Heading size="h2">Are you going?</Heading>
 							<Toggle
