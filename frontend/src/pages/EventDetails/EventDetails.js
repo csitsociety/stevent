@@ -69,7 +69,7 @@ const EventDetails = () => {
 	useEffect(() => {
 		const fetchMap = async () => {
 			const loader = new Loader({
-				apiKey: config.firebaseConfig.apiKey,
+				apiKey: '***REMOVED***' || config.firebaseConfig.apiKey,
 				version: 'weekly',
 				libraries: ['places'],
 			});
@@ -78,7 +78,7 @@ const EventDetails = () => {
 				address: event.location
 			}, (results, status) => {
 				if (status === window.google.maps.GeocoderStatus.OK) {
-					mapRef.current.className = 'show';
+					mapRef.current.dataset.show = 'true';
 					const position = {
 						lat: results[0].geometry.location.lat(),
 						lng: results[0].geometry.location.lng(),

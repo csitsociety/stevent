@@ -89,7 +89,7 @@ export const MapContainer = styled.div`
 	width: 100%;
 	border-radius: 5px;
 
-	&.show {
+	&[data-show=true] {
 		height: 200px;
 	}
 `;
