@@ -1,29 +1,38 @@
 //https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/master/functions/imagemagick
+
+// Production
+// gcloud functions deploy blurOffensiveImages \
+//                                                     --runtime nodejs12 \
+//                                                     --tempBucket stevent-backend-temp-image-store \
+//                                                     --finalBucket stevent-backend-image-store \
+//                                                     --projectId stevent-backend
+
+// Development
+// gcloud functions deploy blurOffensiveImages \
+//                                                     --runtime nodejs12 \
+//                                                     --trigger-bucket stevent-backend-temp-image-store-development \
+//                                                     --set-env-vars = [finalBucket = stevent-backend-image-store-development, --projectId = stevent-development-rmit]
+//                                                     
+
 const gm = require('gm').subClass({imageMagick: true});
 const fs = require('fs');
 const {promisify} = require('util');
 const path = require('path');
 const vision = require('@google-cloud/vision');
-
 const {Storage} = require('@google-cloud/storage');
 
-const storage = new Storage({
-    projectId: 'stevent-backend',
-    keyFileName: '../config/stevent-storage-backend.json'
-}
+const {finalBucket} = process.env;
 
-);
+const storage = new Storage();
+
 const client = new vision.ImageAnnotatorClient();
-
-const tempBucket = "stevent-backend-temp-image-store";
-const finalBucket = "stevent-backend-image-store";
 
 exports.blurOffensiveImages = async event => {
   // This event represents the triggering Cloud Storage object.
   const object = event;
 
-  const file = storage.bucket(tempBucket).file(object.name);
-  const filePath = `gs://${tempBucket}/${object.name}`;
+  const file = storage.bucket(object.bucket).file(object.name);
+  const filePath = `gs://${object.bucket}/${object.name}`;
 
   console.log(`Analyzing ${file.name}.`);
 
