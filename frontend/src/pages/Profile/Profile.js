@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { LANGUAGES } from 'config';
+import config from '../../config'
 
 import {
 	Paragraph as P,

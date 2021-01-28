@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -53,11 +53,7 @@ const Signup = () => {
 	const history = useHistory();
 	const [error, setError] = useState(null);
 
-	useEffect(() => {
-		if (fire.auth().currentUser) {
-			history.push('/events');
-		}
-	}, fire.auth().currentUser);
+	fire.auth().onAuthStateChanged(user => user && history.push('/events'));
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);

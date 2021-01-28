@@ -10,7 +10,6 @@ import { retrieveClubs } from 'services';
 
 const Clubs = () => {
 	const [clubs, setClubs] = useState(undefined);
-
 	useEffect(() => {
 		const generateClubsList = async () =>
 			setClubs((await retrieveClubs()).clubs);
