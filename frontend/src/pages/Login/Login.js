@@ -10,6 +10,7 @@ import {
 	Button,
 	Center,
 	StatusMessage,
+	Spinner,
 } from 'components';
 
 import { PageContainer, FormWrapper, LogoWrapper } from './loginStyle';
@@ -36,12 +37,13 @@ const initialValues = {
 const Login = ({ location }) => {
 	const history = useHistory();
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(true);
 
 	let from = undefined;
 	if (location.state && location.state.from) {
 		from = location.state.from.pathname;
 	}
-	fire.auth().onAuthStateChanged(user => user && history.push(from || '/events'));
+	fire.auth().onAuthStateChanged(user => user ? history.push(from || '/events') : setLoading(false));
 
 	const onSubmit = async (values, setSubmitting, setErrors) => {
 		setSubmitting(true);
@@ -59,50 +61,54 @@ const Login = ({ location }) => {
 
 	return (
 		<PageContainer>
-			<FormWrapper>
-				<LogoWrapper>
-				 	<img src={logo} alt="Stevent Logo" />
-				</LogoWrapper>
-				<Heading>Login</Heading>
-				{error && (
-					<StatusMessage onClose={() => setError(null)}>{error}</StatusMessage>
-				)}
-				<Formik
-					initialValues={initialValues}
-					validationSchema={validationSchema}
-					onSubmit={(values, { setSubmitting, setErrors }) => {
-						onSubmit(values, setSubmitting, setErrors);
-					}}
-				>
-					{props => (
-						<Form>
-							<TextField
-								name="email"
-								label="Email address"
-								placeholder="s1234567@student.rmit.edu.au"
-								required
-							/>
-							<TextField
-								name="password"
-								label="Password"
-								type="password"
-								required
-							/>
-
-							<Center>
-								<Button
-									type="submit"
-									disabled={!(props.isValid && props.dirty)}
-									loading={props.isSubmitting}
-								>Login</Button>
-								<P>
-									Don't have an account? <Link to="/signup">Register here!</Link>
-								</P>
-							</Center>
-						</Form>
+			{loading ? (
+				<div><Spinner size={36} /></div>
+			) : (
+				<FormWrapper>
+					<LogoWrapper>
+					 	<img src={logo} alt="Stevent Logo" />
+					</LogoWrapper>
+					<Heading>Login</Heading>
+					{error && (
+						<StatusMessage onClose={() => setError(null)}>{error}</StatusMessage>
 					)}
-				</Formik>
-			</FormWrapper>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={(values, { setSubmitting, setErrors }) => {
+							onSubmit(values, setSubmitting, setErrors);
+						}}
+					>
+						{props => (
+							<Form>
+								<TextField
+									name="email"
+									label="Email address"
+									placeholder="s1234567@student.rmit.edu.au"
+									required
+								/>
+								<TextField
+									name="password"
+									label="Password"
+									type="password"
+									required
+								/>
+
+								<Center>
+									<Button
+										type="submit"
+										disabled={!(props.isValid && props.dirty)}
+										loading={props.isSubmitting}
+									>Login</Button>
+									<P>
+										Don't have an account? <Link to="/signup">Register here!</Link>
+									</P>
+								</Center>
+							</Form>
+						)}
+					</Formik>
+				</FormWrapper>
+			)}
 		</PageContainer>
 	);
 };

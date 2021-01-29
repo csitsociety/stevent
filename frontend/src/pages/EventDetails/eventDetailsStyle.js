@@ -53,3 +53,43 @@ export const LoaderWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 `;
+
+export const AttendeeList = styled.div`
+	max-height: 150px;
+	overflow-y: auto;
+	margin: 4px 0;
+`;
+
+export const User = styled.a`
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	font-weight: bold;
+	margin: 8px 0;
+
+	&:hover {
+		text-decoration: underline;
+	}
+`;
+
+export const UserName = styled.span`
+	flex: 1;
+	display: block;
+	margin-left: 8px;
+`;
+
+export const UserImage = styled.img`
+	height: 32px;
+	width: 32px;
+	object-fit: cover;
+	border-radius: 100px;
+`;
+
+export const MapContainer = styled.div`
+	width: 100%;
+	border-radius: 5px;
+
+	&[data-show=true] {
+		height: 200px;
+	}
+`;

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { DateTime } from 'luxon';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import { createClubEvent } from 'services';
+import { createClubPage } from 'services';
 
 import {
 	Container,
 	FormWrapper,
-} from './createEventStyle';
+} from './createClubStyle';
 
 import {
 	Heading,
@@ -19,53 +18,54 @@ import {
 	Button,
 	StatusMessage,
 	Center,
-	MultiSelect,
 } from 'components';
 import { useProfileStore } from 'stores';
 
 const validationSchema = Yup.object({
+	clubID: Yup
+		.string()
+		.ensure()
+		.required('Club ID is required'),
 	name: Yup
 		.string()
 		.ensure()
-		.required('Event name is required'),
-	image: Yup
+		.required('Club name is required'),
+	icon: Yup
 		.string()
 		.ensure()
-		.required('Image is required'),
-	date: Yup
-		.string()
-		.ensure()
-		.required('Date is required'),
-	location: Yup
-		.string()
-		.ensure(),
+		.required('Icon is required'),
 	description: Yup
 		.string()
 		.ensure()
 		.required('Description is required'),
-	hostingClubs: Yup
-		.mixed()
-		.test('oneSelected', 'At least one club must be hosting the event', value => value && value.length > 0),
+	discord: Yup
+		.string()
+		.ensure()
+		.required('Discord link is required'),
+	joinLink: Yup
+		.string()
+		.ensure()
+		.required('Join link is required'),
 });
 
 const initialValues = {
+	clubID: '',
 	name: '',
-	date: '',
-	location: '',
-	image: '',
+	icon: '',
 	description: '',
-	hostingClubs: [],
+	discord: '',
+	joinLink: '',
 };
 
-const CreateEvent = () => {
+const CreateClub = () => {
 	const profile = useProfileStore(state => state.profile);
 	const history = useHistory();
 	const [error, setError] = useState(null);
-	const [image, setImage] = useState(undefined);
+	const [icon, setIcon] = useState(undefined);
 
 	useEffect(() => {
-		if (!profile || !profile.adminClubs || profile.adminClubs.length == 0) {
-			history.push('/events');
+		if (!profile || !profile.superadmin) {
+			history.push('/clubs');
 		}
 	}, [profile]);
 
@@ -74,20 +74,20 @@ const CreateEvent = () => {
 		setError(null);
 		try {
 			const formData = new FormData();
+			formData.append('clubID', values.clubID);
 			formData.append('name', values.name);
-			formData.append('date', DateTime.fromISO(values.date).toMillis());
-			formData.append('location', values.location);
-			formData.append('hostingClubs', JSON.stringify(values.hostingClubs));
 			formData.append('description', values.description);
-			formData.append('image', image);
+			formData.append('icon', icon);
+			formData.append('discord', values.discord);
+			formData.append('joinLink', values.joinLink);
 
-			const response = await createClubEvent(formData);
+			const response = await createClubPage(formData);
 
 			if (response.success) {
-				history.push(`/events/${response.key && response.key.id}`);
+				history.push(`/clubs/${values.clubID}`);
 			} else {
 				setErrors(response.errors);
-				if (response.errors.main) {
+				if (response.errors && response.errors.main) {
 					setError(response.errors.main);
 				}
 			}
@@ -115,31 +115,26 @@ const CreateEvent = () => {
 					{props => (
 						<Form>
 							<TextField
-								name="name"
-								label="Event name"
-								placeholder="Notion Workshop"
+								name="clubID"
+								label="Club ID"
+								placeholder="CSIT"
 								required
 							/>
 							<TextField
-								name="image"
-								label="Event banner"
+								name="name"
+								label="Club name"
+								placeholder="Computer Science and Information Technology Society"
+								required
+							/>
+							<TextField
+								name="icon"
+								label="Club icon"
 								type="file"
 								onChange={e => {
-									setImage(e.currentTarget.files[0]);
+									setIcon(e.currentTarget.files[0]);
 									props.handleChange(e);
 								}}
 								required
-							/>
-							<TextField
-								name="date"
-								label="Date and time"
-								type="datetime-local"
-								required
-							/>
-							<TextField
-								name="location"
-								label="Location"
-								placeholder="Building 80, Level 2"
 							/>
 							<TextField
 								name="description"
@@ -148,10 +143,18 @@ const CreateEvent = () => {
 								rows="6"
 								required
 							/>
-							<MultiSelect
-								name="hostingClubs"
-								label="Event run by"
-								options={profile && profile.adminClubs}
+							<TextField
+								name="discord"
+								label="Discord link"
+								type="url"
+								placeholder="https://discord.gg/abc123"
+								required
+							/>
+							<TextField
+								name="joinLink"
+								label="Join link"
+								type="url"
+								placeholder="https://forms.google.com/join"
 								required
 							/>
 
@@ -160,7 +163,7 @@ const CreateEvent = () => {
 									type="submit"
 									disabled={!(props.isValid && props.dirty)}
 									loading={props.isSubmitting}
-								>Create event</Button>
+								>Create club</Button>
 							</Center>
 						</Form>
 					)}
@@ -170,4 +173,4 @@ const CreateEvent = () => {
 	)
 }
 
-export default CreateEvent;
+export default CreateClub;

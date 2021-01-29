@@ -34,9 +34,9 @@ const api = {
 			return handleError(error);
 		}
 	},
-	post: async (endpoint, data) => {
+	post: async (endpoint, data, options = {}) => {
 		try {
-			const response = await instance.post(endpoint, data);
+			const response = await instance.post(endpoint, data, options);
 			return Promise.resolve(response);
 		} catch (error) {
 			return handleError(error);

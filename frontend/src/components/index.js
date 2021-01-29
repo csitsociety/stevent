@@ -9,5 +9,7 @@ export { default as StatusMessage } from './StatusMessage/StatusMessage';
 export { default as EventListing} from './EventListing/EventListing'
 export { default as EventFilter} from './EventFilter/EventFilter'
 export { default as Pill } from './Pill/Pill';
+export { default as ClubListing } from './ClubListing/ClubListing'
 export { default as Toggle } from './Toggle/Toggle';
 export { default as MultiSelect } from './MultiSelect/MultiSelect';
+export { default as SelectField } from './SelectField/SelectField';

@@ -13,6 +13,10 @@ import Events from './Events/Events';
 import EventDetails from './EventDetails/EventDetails';
 import CreateEvent from './CreateEvent/CreateEvent';
 import Profile from './Profile/Profile';
+import Clubs from './Clubs/Clubs';
+import ClubDetails from './ClubDetails/ClubDetails';
+import CreateClub from './CreateClub/CreateClub';
+
 import fire from 'auth';
 import { Navigation } from 'components';
 
@@ -55,6 +59,9 @@ const Pages = () => {
 				<PrivateRoute path="/events/:id" component={EventDetails} exact />
 				<PrivateRoute path="/profile" component={Profile} exact />
 				<PrivateRoute path="/profile/:id" component={Profile} exact />
+				<PrivateRoute path="/clubs" component={Clubs} exact />
+				<PrivateRoute path="/clubs/new" component={CreateClub} exact />
+				<PrivateRoute path="/clubs/:id" component={ClubDetails} exact />
 
 				<Route path="/login" component={Login} exact />
 				<Route path="/signup" component={Signup} exact />

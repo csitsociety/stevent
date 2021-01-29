@@ -1,11 +1,21 @@
-const Cloud = require('@google-cloud/storage')
-const path = require('path')
-const serviceKey = path.join(__dirname, './keys.json')
+require('dotenv').config();
+const env = process.env.NODE_ENV || 'development';
 
-const { Storage } = Cloud
-const storage = new Storage({
-  keyFilename: serviceKey,
-  projectId: 'your project id',
-})
+const config = {
+	development: {
+		client: 'http://localhost:3000',
+		port: 3001,
+		projectId: process.env.PROJECT_ID,
+		bucketName: process.env.BUCKET_NAME,
+		firebaseServiceAccount: './config/stevent-development-rmit.json',
+	},
+	production: {
+		client: 'https://stevent-302609.ts.r.appspot.com',
+		port: 8080,
+		projectId: 'stevent-backend',
+		bucketName: 'stevent-backend-image-store',
+		firebaseServiceAccount: process.env.GOOGLE_APPLICATION_CREDENTIALS || './config/stevent-backend.json',
+	},
+};
 
-module.exports = storage
+module.exports = config[env];

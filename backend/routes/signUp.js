@@ -1,9 +1,8 @@
+const config = require('../config');
+
 module.exports = function(app, datastore) {
     app.post('/signup', async (req, res) => {
-        const uid = req.body.uid
-        const username = req.body.username
-        const email = req.body.email
-        const rmitID = req.body.rmitID
+        const { uid, username, email, rmitID } = req.body;
         try {
             const entity = {
                 key: datastore.key(['User', uid]),
@@ -12,10 +11,12 @@ module.exports = function(app, datastore) {
                     rmitID,
                     email,
                     description: "",
-                    icon: "default-user-icon.png",
+                    icon: `https://storage.cloud.google.com/${config.bucketName}/avatar.png`,
                     adminClubs: [],
-                    memberClubs: [],
-                    recentEvents: []
+                    subscribed: [],
+                    events: [],
+                    superadmin: false,
+                    lang: 'en',
                 }
             }
             datastore.upsert(entity)
