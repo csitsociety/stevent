@@ -69,7 +69,7 @@ const EventDetails = () => {
 	useEffect(() => {
 		const fetchMap = async () => {
 			const loader = new Loader({
-				apiKey: '***REMOVED***' || config.firebaseConfig.apiKey,
+				apiKey: config.firebaseConfig.apiKey,
 				version: 'weekly',
 				libraries: ['places'],
 			});
