@@ -13,10 +13,8 @@ const config = {
 			messagingSenderId: "***REMOVED***",
 			appId: "***REMOVED***"
 		},
-		tempImageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-temp-image-store-development",
 		imageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-image-store-developement",
 		imageStoreAccess: "https://storage.googleapis.com/stevent-backend-image-store-developement/",
-		tempImageStoreAccess: "https://storage.cloud.google.com/stevent-backend-temp-image-store-development/"
 	},
 	production: {
 		baseUrl: 'https://stevent-302609.ts.r.appspot.com',
@@ -31,10 +29,8 @@ const config = {
 			messagingSenderId: "***REMOVED***",
 			appId: "***REMOVED***"
 		},
-		tempImageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-temp-image-store",
 		imageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-image-store",
 		imageStoreAccess: "https://storage.googleapis.com/stevent-backend-image-store/",
-		tempImageStoreAccess: "https://storage.cloud.google.com/stevent-backend-temp-image-store/"
 	}
 }
 

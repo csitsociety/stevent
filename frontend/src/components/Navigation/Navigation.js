@@ -43,7 +43,6 @@ const Navigation = () => {
 	useEffect(() => {
 		const fetchUserDetails = async () => {
 			const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
-			console.log(user)
 			profileStore.setProfile(user);
 		}
 

@@ -84,3 +84,12 @@ export const UserImage = styled.img`
 	object-fit: cover;
 	border-radius: 100px;
 `;
+
+export const MapContainer = styled.div`
+	width: 100%;
+	border-radius: 5px;
+
+	&[data-show=true] {
+		height: 200px;
+	}
+`;

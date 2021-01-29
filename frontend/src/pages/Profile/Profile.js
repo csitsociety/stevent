@@ -4,7 +4,6 @@ import { DateTime } from 'luxon';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { LANGUAGES } from 'config';
-import config from '../../config'
 
 import {
 	Paragraph as P,
@@ -81,10 +80,14 @@ const Profile = () => {
 				let upcoming = [];
 				user.events.forEach(eventID => {
 					const event = allEvents.find(e => e.id === eventID);
-					if (event && event.finished) {
-						attended.push(event);
+					if (event && parseInt(event.date) < DateTime.local().toMillis()) {
+						if (attended.length < 3) {
+							attended.push(event);
+						}
 					} else if (event) {
-						upcoming.push(event);
+						if (upcoming.length < 3) {
+							upcoming.push(event);
+						}
 					}
 				});
 				setEvents({ attended, upcoming });
@@ -238,29 +241,6 @@ const Profile = () => {
 				<ProfileContainer>
 					{currentProfile ? (
 						<>
-							<Heading size="h2">Recent event attendance</Heading>
-							{events.attended ? (
-								events.attended.length > 0 ? (
-									<Events>
-										{events.attended.map((event, i) =>
-											<EventListing
-												key={i}
-												linkTo={`events/${event.id}`}
-												name={event.name}
-												image={event.image}
-												date={DateTime.fromMillis(event.date).toFormat('t, DD')}
-												description={truncate(event.description)}
-												hostingClubs={event.hostingClubs.join(", ")}
-											/>
-										)}
-									</Events>
-								) : (
-									<P>No events attended, yet</P>
-								)
-							) : (
-								<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
-							)}
-
 							<Heading size="h2">Upcoming events registered</Heading>
 							{events.upcoming ? (
 								events.upcoming.length > 0 ? (
@@ -279,6 +259,29 @@ const Profile = () => {
 									</Events>
 								) : (
 									<P>Not going to any upcoming events</P>
+								)
+							) : (
+								<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
+							)}
+
+							<Heading size="h2">Recent event attendance</Heading>
+							{events.attended ? (
+								events.attended.length > 0 ? (
+									<Events>
+										{events.attended.map((event, i) =>
+											<EventListing
+												key={i}
+												linkTo={`events/${event.id}`}
+												name={event.name}
+												image={event.image}
+												date={DateTime.fromMillis(event.date).toFormat('t, DD')}
+												description={truncate(event.description)}
+												hostingClubs={event.hostingClubs.join(", ")}
+											/>
+										)}
+									</Events>
+								) : (
+									<P>No events attended, yet</P>
 								)
 							) : (
 								<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
