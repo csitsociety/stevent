@@ -32,8 +32,8 @@ exports.blurOffensiveImages = async event => {
   const file = storage.bucket(object.bucket).file(object.name);
   const filePath = `gs://${object.bucket}/${object.name}`;
 	const [metadata] = await file.getMetadata();
-
-	if (metadata.metadata.moderated) {
+  console.log(metadata)
+	if (metadata.moderated) {
 		console.log(`Already processed ${file.name}, skipping`);
 		return;
 	}
