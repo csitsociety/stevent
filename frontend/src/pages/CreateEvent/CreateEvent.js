@@ -84,6 +84,7 @@ const CreateEvent = () => {
 			const response = await createClubEvent(formData);
 
 			if (response.success) {
+				await new Promise(r => setTimeout(r, 2000));
 				history.push(`/events/${response.key && response.key.id}`);
 			} else {
 				setErrors(response.errors);

@@ -40,9 +40,14 @@ const Events = () => {
 				{events ? events.map((event, i) =>
 					(
 						(
+							subscribed === 'upcoming'
+							&& parseInt(event.date) > DateTime.local().toMillis()
+						)
+						|| (
 							subscribed === 'subscribed'
 							&& event.hostingClubs.some(c => profileStore.subscribed.includes(c))
-						) || subscribed === 'all'
+						)
+						|| subscribed === 'all'
 					) && (
 						<EventListing
 							key={i}
