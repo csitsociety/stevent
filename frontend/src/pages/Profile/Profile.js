@@ -250,7 +250,7 @@ const Profile = () => {
 										{events.upcoming.map((event, i) =>
 											<EventListing
 												key={i}
-												linkTo={`events/${event.id}`}
+												linkTo={`/events/${event.id}`}
 												name={event.name}
 												image={event.image}
 												date={DateTime.fromMillis(event.date).toFormat('t, DD')}
