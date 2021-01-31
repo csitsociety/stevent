@@ -224,7 +224,7 @@ const Profile = () => {
 												<Pill
 													key={clubID}
 													icon={club.icon}
-													label={clubID} href={`clubs/${clubID}`}
+													label={clubID} href={`/clubs/${clubID}`}
 													title={club.name}
 												/>
 											);
