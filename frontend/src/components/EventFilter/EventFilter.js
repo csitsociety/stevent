@@ -22,8 +22,9 @@ export const EventFilter = ({
 				<ToggleContainer>
 					<Toggle
 						options={{
-							'all': 'All events',
+							'upcoming': 'Upcoming',
 							'subscribed': 'Subscribed only',
+							'all': 'All events',
 						}}
 						value={subscribed}
 						onChange={onSubscribedChange}

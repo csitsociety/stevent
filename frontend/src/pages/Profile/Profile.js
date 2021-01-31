@@ -91,6 +91,8 @@ const Profile = () => {
 					}
 				});
 				setEvents({ attended, upcoming });
+			} else {
+				setEvents({ attended: [], upcoming: [] });
 			}
 		}
 		fetchUserDetails();
