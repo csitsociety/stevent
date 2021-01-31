@@ -69,7 +69,7 @@ const EventDetails = () => {
 	useEffect(() => {
 		const fetchMap = async () => {
 			const loader = new Loader({
-				apiKey: '***REMOVED***' || config.firebaseConfig.apiKey,
+				apiKey: config.firebaseConfig.apiKey,
 				version: 'weekly',
 				libraries: ['places'],
 			});
@@ -111,6 +111,7 @@ const EventDetails = () => {
 		if (response.success) {
 			setGoing(response.state);
 
+			await new Promise(r => setTimeout(r, 1000));
 			setAttendees((await retrieveAttendees({ eventID: id })).attendingUsers);
 		}
 		setGoingLoading(false);
@@ -156,16 +157,25 @@ const EventDetails = () => {
 								</>
 							)}
 
-							<Heading size="h2">Are you going?</Heading>
-							<Toggle
-								options={{
-									0: 'Not attending',
-									1: 'I\'m going!'
-								}}
-								value={going}
-								disabled={goingLoading}
-								onChange={updateAttending}
-							/>
+							{parseInt(event.date) < DateTime.local().toMillis() ? (
+								<>
+									<Heading size="h2">This event is over</Heading>
+									<span>You {going ? 'went' : 'didn\'t go'} to this event</span>
+								</>
+							) : (
+								<>
+									<Heading size="h2">Are you going?</Heading>
+									<Toggle
+										options={{
+											0: 'Not attending',
+											1: 'I\'m going!'
+										}}
+										value={going}
+										disabled={goingLoading}
+										onChange={updateAttending}
+									/>
+								</>
+							)}
 
 							<Heading size="h2">Attendees</Heading>
 							<AttendeeList>
@@ -176,7 +186,7 @@ const EventDetails = () => {
 											<UserName>{user.username}</UserName>
 										</User>
 									) : (
-										<span>No one is going to this event yet</span>
+										<span>No one {parseInt(event.date) < DateTime.local().toMillis() ? 'went to this event' : 'is going to this event yet'}</span>
 									)
 								) : (
 									<LoaderWrapper>

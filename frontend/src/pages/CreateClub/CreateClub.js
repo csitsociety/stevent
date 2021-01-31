@@ -84,6 +84,7 @@ const CreateClub = () => {
 			const response = await createClubPage(formData);
 
 			if (response.success) {
+				await new Promise(r => setTimeout(r, 2000));
 				history.push(`/clubs/${values.clubID}`);
 			} else {
 				setErrors(response.errors);

@@ -91,6 +91,8 @@ const Profile = () => {
 					}
 				});
 				setEvents({ attended, upcoming });
+			} else {
+				setEvents({ attended: [], upcoming: [] });
 			}
 		}
 		fetchUserDetails();
@@ -222,7 +224,7 @@ const Profile = () => {
 												<Pill
 													key={clubID}
 													icon={club.icon}
-													label={clubID} href={`clubs/${clubID}`}
+													label={clubID} href={`/clubs/${clubID}`}
 													title={club.name}
 												/>
 											);
@@ -248,7 +250,7 @@ const Profile = () => {
 										{events.upcoming.map((event, i) =>
 											<EventListing
 												key={i}
-												linkTo={`events/${event.id}`}
+												linkTo={`/events/${event.id}`}
 												name={event.name}
 												image={event.image}
 												date={DateTime.fromMillis(event.date).toFormat('t, DD')}

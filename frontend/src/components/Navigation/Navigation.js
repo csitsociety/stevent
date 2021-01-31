@@ -42,7 +42,12 @@ const Navigation = () => {
 
 	useEffect(() => {
 		const fetchUserDetails = async () => {
-			const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+			let user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+			while (!user.username) {
+				// Wait 2 seconds and try again if user doesn't exist
+				await new Promise(r => setTimeout(r, 2000));
+				user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+			}
 			profileStore.setProfile(user);
 		}
 
