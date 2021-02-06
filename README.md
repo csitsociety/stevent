@@ -1,4 +1,4 @@
-# Cloud Computing Assignment 2 (2021)
+# Stevent
 
 By [Max](https://www.linkedin.com/in/maxwellreid/) and [Benji](https://www.linkedin.com/in/bengrant13/)
 
@@ -10,5 +10,6 @@ By [Max](https://www.linkedin.com/in/maxwellreid/) and [Benji](https://www.linke
 2. Install yarn and node.
 3. Install nodemon by running `yarn add nodemon -g`.
 4. Run `yarn i` in both frontend and backend folders to install dependencies.
-5. Run `nodemon Main.js` in the backend folder to start the backend.
-6. Run `yarn run start` in the frontend folder to start the frontend.
+5. Create `.env` files in both the frontend and backend folders based on the `.env.example`. You will also need to set up the relevant google projects and APIs.
+6. Run `nodemon` in the backend folder to start the backend.
+7. Run `yarn run start` in the frontend folder to start the frontend.

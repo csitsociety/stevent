@@ -1,3 +1,4 @@
+require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
 
 const config = {
@@ -5,32 +6,13 @@ const config = {
 		baseUrl: 'http://localhost:3000',
 		API: 'http://localhost:3001',
 		documentTitle: '[Dev] Stevent',
-		firebaseConfig: {
-			apiKey: "***REMOVED***",
-			authDomain: "stevent-development-rmit.firebaseapp.com",
-			projectId: "stevent-development-rmit",
-			storageBucket: "stevent-development-rmit.appspot.com",
-			messagingSenderId: "***REMOVED***",
-			appId: "***REMOVED***"
-		},
-		imageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-image-store-developement",
-		imageStoreAccess: "https://storage.googleapis.com/stevent-backend-image-store-developement/",
+		firebaseConfig: JSON.parse(process.env.FIREBASE_CONFIG),
 	},
 	production: {
 		baseUrl: 'https://stevent-302609.ts.r.appspot.com',
 		API: 'https://stevent-backend.ts.r.appspot.com',
 		documentTitle: 'Stevent',
-		firebaseConfig: {
-			apiKey: "***REMOVED***",
-			authDomain: "stevent-302609.firebaseapp.com",
-			databaseURL: "https://stevent-302609-default-rtdb.firebaseio.com",
-			projectId: "stevent-302609",
-			storageBucket: "stevent-302609.appspot.com",
-			messagingSenderId: "***REMOVED***",
-			appId: "***REMOVED***"
-		},
-		imageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-image-store",
-		imageStoreAccess: "https://storage.googleapis.com/stevent-backend-image-store/",
+		firebaseConfig: JSON.parse(process.env.FIREBASE_CONFIG),
 	}
 }
 
