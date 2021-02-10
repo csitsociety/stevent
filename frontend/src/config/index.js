@@ -1,3 +1,4 @@
+require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
 
 const config = {
@@ -5,16 +6,7 @@ const config = {
 		baseUrl: 'http://localhost:3000',
 		API: 'http://localhost:3001',
 		documentTitle: '[Dev] Stevent',
-		firebaseConfig: {
-			apiKey: "AIzaSyCwECQollmJIeOkohdEIKUmHZ25CUyjC1Q",
-			authDomain: "stevent-development-rmit.firebaseapp.com",
-			projectId: "stevent-development-rmit",
-			storageBucket: "stevent-development-rmit.appspot.com",
-			messagingSenderId: "111458077025",
-			appId: "1:111458077025:web:d45cf476ab5042a8ae5d20"
-		},
-		imageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-image-store-developement",
-		imageStoreAccess: "https://storage.googleapis.com/stevent-backend-image-store-developement/",
+		firebaseConfig: JSON.parse(process.env.FIREBASE_CONFIG),
 	},
 	production: {
 		baseUrl: 'https://stevent-302609.ts.r.appspot.com',
@@ -29,8 +21,6 @@ const config = {
 			messagingSenderId: "957127772601",
 			appId: "1:957127772601:web:0dc992dc90f21af6c24e68"
 		},
-		imageStore: "https://console.cloud.google.com/storage/browser/stevent-backend-image-store",
-		imageStoreAccess: "https://storage.googleapis.com/stevent-backend-image-store/",
 	}
 }
 
