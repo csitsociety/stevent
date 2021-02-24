@@ -16,6 +16,7 @@ const MultiSelect = ({
 	options = [],
 	...props
 }) => {
+    /*eslint-disable no-unused-vars*/
 	const [field, meta] = useField(props);
 
 	return (
