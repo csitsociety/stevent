@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -23,7 +23,10 @@ import { Navigation } from 'components';
 export const PrivateRoute = props => {
 	const [isLoggedIn, setIsLoggedIn] = useState(!!fire.auth().currentUser);
 
-	fire.auth().onAuthStateChanged(user => setIsLoggedIn(!!user));
+    // Subscribe to auth state changes and setup a cleanup
+	useEffect(() => {
+        return fire.auth().onAuthStateChanged(user => setIsLoggedIn(!!user));
+    })
 
 	return isLoggedIn ? (
 		<Route {...props} />
