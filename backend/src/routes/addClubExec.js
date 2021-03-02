@@ -1,5 +1,7 @@
+const expectFields = require('../middleware/expectFields.js')
+
 module.exports = function(app, datastore) {
-    app.post('/addClubExec', async (req, res) => {
+    app.post('/addClubExec', expectFields(['clubID', 'newExecID']), async (req, res) => {
         const clubID = req.body.clubID
         const newExecID = req.body.newExecID
         const query = datastore.createQuery("User").filter("__key__","=",datastore.key(['User', newExecID]))

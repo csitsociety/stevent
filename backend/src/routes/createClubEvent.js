@@ -1,7 +1,16 @@
 const uploadImage = require('../uploadImage');
+const expectFields = require('../middleware/expectFields.js')
+
+const createClubEventFields = [
+    'name',
+    'date',
+    'hostingClubs',
+    'description',
+    'location'
+]
 
 module.exports = function(app, datastore) {
-	app.post('/createClubEvent', async (req, res) => {
+	app.post('/createClubEvent', expectFields(createClubEventFields), async (req, res) => {
 		const { name, date, hostingClubs, description, location } = req.body;
 		const image = req.files[0];
 

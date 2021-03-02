@@ -1,7 +1,8 @@
 const config = require('../config');
+const expectFields = require('../middleware/expectFields.js')
 
 module.exports = function(app, datastore) {
-    app.post('/signup', async (req, res) => {
+    app.post('/signup', expectFields(['uid', 'username', 'email', 'rmitID']), async (req, res) => {
         const { uid, username, email, rmitID } = req.body;
         try {
             const entity = {

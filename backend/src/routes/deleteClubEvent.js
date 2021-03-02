@@ -1,5 +1,7 @@
+const expectFields = require('../middleware/expectFields.js')
+
 module.exports = function(app, datastore) {
-    app.post('/deleteClubEvent', async (req, res) => {
+    app.post('/deleteClubEvent', expectFields(['title']), async (req, res) => {
         const title = req.body.title
         try {
             datastore.delete(datastore.key(['Event', title]))

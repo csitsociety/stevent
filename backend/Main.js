@@ -1,10 +1,10 @@
-const config = require('./config');
+const config = require('./src/config.js');
 
 const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
-const Router = require('./Router');
+const Router = require('./src/Router');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const multer = require('multer')
@@ -16,7 +16,7 @@ const translate = new Translate({
   projectId: config.projectId,
 });
 
-const decodeIDToken = require('./authenticateToken')
+const decodeIDToken = require('./src/authenticateToken')
 
 const datastore = new Datastore({ projectId: config.projectId });
 
@@ -57,6 +57,7 @@ app.use(session({
 new Router(app, datastore, translate);
 
 app.get('/', function(req, res) {
+    console.log(req)
     res.send('<pre>Stevent API - 2021')
 });
 

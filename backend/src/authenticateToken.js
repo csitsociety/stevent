@@ -1,10 +1,11 @@
 const admin = require('firebase-admin');
 const config = require('./config');
 
-const serviceAccount = require(config.firebaseServiceAccount);
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount)
-});
+// const serviceAccount = config.firebaseServiceAccount
+// console.log(serviceAccount)
+// admin.initializeApp({
+// 	credential: admin.credential.cert(serviceAccount)
+// });
 
 async function decodeIDToken(req, res, next) {
   const header = req.headers.authorization;

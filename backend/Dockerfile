@@ -10,4 +10,5 @@ COPY . .
 
 EXPOSE 8080
 
-CMD [ "node", "Main.js" ]
+CMD ["node", "Main.js"]
+

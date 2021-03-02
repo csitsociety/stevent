@@ -1,15 +1,18 @@
+const uploadImage = require('../uploadImage');
+const expectFields = require('../middleware/expectFields.js')
+
 module.exports = function(app, datastore) {
-	app.post('/updateUserInfo', async (req, res) => {
-		const { userID, username, description, lang } = req.body;
+	app.post('/updateUserImage', expectFields(['userID']), async (req, res) => {
+		const { userID } = req.body;
+		const icon = req.files[0];
 		try {
 			const userQuery = datastore.createQuery("User").filter("__key__", "=", datastore.key(["User", userID]));
 			const user = (await datastore.runQuery(userQuery))[0][0];
-			user.username = username;
-			user.description = description;
-			user.lang = lang;
+			user.icon = await uploadImage(icon);
 			datastore.upsert(user);
 			res.json({
 				success: true,
+				icon: user.icon,
 			});
 		} catch (e) {
 			console.error(e);

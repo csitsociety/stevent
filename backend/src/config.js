@@ -1,6 +1,7 @@
 require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
 
+console.log('Running in environment: ', env)
 const projectIdDev = process.env.PROJECT_ID
 const bucketNameDev = process.env.BUCKET_NAME
 const firebaseServiceAccountDev = process.env.FIREBASE_SERVICE_ACCOUNT || process.env.GOOGLE_APPLICATION_CREDENTIALS
@@ -22,7 +23,7 @@ if (env == 'development') {
 const config = {
 	development: {
 		client: 'http://localhost:3000',
-		port: 3001,
+		port: process.env.PORT || 3001,
 		projectId: projectIdDev,
 		bucketName: bucketNameDev,
 		firebaseServiceAccount: firebaseServiceAccountDev
