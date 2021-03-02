@@ -15,8 +15,8 @@ if (env == 'development') {
     if (!firebaseServiceAccountDev)
         throw new Error("Expected environment variable 'FIREBASE_SERVICE_ACCOUNT' or 'GOOGLE_APPLICATION_CREDENTIALS'")
 } else {
-    if (!process.env.GOOGLE_APPLICATION_CREDENTIALS)
-        throw new Error("Expected environment variabke 'GOOGLE_APPLICATION_CREDENTIALS'")
+    //if (!process.env.GOOGLE_APPLICATION_CREDENTIALS)
+    //    throw new Error("Expected environment variabke 'GOOGLE_APPLICATION_CREDENTIALS'")
 } 
 
 
