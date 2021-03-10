@@ -30,8 +30,13 @@ const multerMid = multer({
 app.use(express.static(path.join(__dirname, 'index.html')));
 app.use(express.json());
 const clientRegex = new RegExp(config.client)
-app.options("*", cors({ origin: [clientRegex] }));
-app.use(cors({ origin: [clientRegex] }));
+
+//app.options("*", cors({ origin: [clientRegex] }));
+//app.use(cors({ origin: [clientRegex] }));
+app.options('*', cors())
+app.use(cors())
+
+
 app.enable('trust proxy');
 app.use(decodeIDToken);
 app.disable('x-powered-by')
