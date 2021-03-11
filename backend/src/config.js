@@ -35,7 +35,7 @@ const config = {
 	production: {
 		client: clientAddress || '^https:\\/\\/stevent-302609\\.ts\\.r\\.appspot\\.com$',
 		port: process.env.PORT || 8080,
-		projectId: projectId || 'stevent-backend',
+		projectId: projectId || 'stevent-302609',
 		bucketName: bucketName || 'stevent-backend-image-store',
 		firebaseServiceAccount: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 	},
