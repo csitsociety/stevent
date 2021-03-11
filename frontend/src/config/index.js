@@ -11,7 +11,7 @@ const config = {
 	},
 	production: {
 		baseUrl: 'https://stevent-302609.ts.r.appspot.com',
-		API: 'https://stevent-backend-xh76qhhnwa-ts.a.run.app',
+		API: 'https://backend.stevent.club',
 		documentTitle: 'Stevent',
 		firebaseConfig: {
 			apiKey: "AIzaSyDl8yW_FxdccX1JG4vqzJ_cTMYtFbQn-sM",
