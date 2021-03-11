@@ -217,7 +217,7 @@ const Profile = () => {
 									)}
 
 									<Heading size="h2">{'Clubs'}</Heading>
-									{currentProfile.subscribed.length > 0 ? (
+									{(currentProfile.subscribed ? currentProfile.subscribed.length : 0)> 0 ? (
 										clubs ? currentProfile.subscribed.map(clubID => {
 											const club = clubs.find(c => c.id == clubID);
 											return club && (
