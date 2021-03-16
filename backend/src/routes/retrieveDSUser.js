@@ -14,7 +14,7 @@ module.exports = function(app, datastore) {
           })
       }
 
-      return res.json({
+      res.json({
           user,
           uid
       })
