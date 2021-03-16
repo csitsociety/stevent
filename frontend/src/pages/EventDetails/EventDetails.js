@@ -44,7 +44,6 @@ const EventDetails = () => {
 			if (id) {
 				const details = await getEventDetails({
 					eventID: id,
-					lang: profileStore.lang
 				});
 				setEvent(details.event);
 

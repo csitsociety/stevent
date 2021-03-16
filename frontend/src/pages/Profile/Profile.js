@@ -3,7 +3,6 @@ import { useHistory, Link, useParams } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { LANGUAGES } from 'config';
 
 import {
 	Paragraph as P,
@@ -74,8 +73,7 @@ const Profile = () => {
 			setClubs((await retrieveClubs()).clubs);
 
 			if (user.events && user.events.length > 0) {
-				const lang = profileStore.profile && profileStore.profile.lang;
-				const allEvents = (await retrieveEventsFeed({ filter: '', lang: lang || 'en' })).matchingEvents;
+				const allEvents = (await retrieveEventsFeed({ filter: ''})).matchingEvents;
 				let attended = [];
 				let upcoming = [];
 				user.events.forEach(eventID => {
@@ -105,7 +103,6 @@ const Profile = () => {
 				userID: profileStore.profile.id,
 				username: values.username,
 				description: values.description,
-				lang: values.lang,
 			});
 
 			if (response.success) {
@@ -165,7 +162,6 @@ const Profile = () => {
 									initialValues={{
 										username: currentProfile.username,
 										description: currentProfile.description,
-										lang: currentProfile.lang,
 									}}
 									validationSchema={Yup.object({
 										username: Yup
@@ -175,7 +171,6 @@ const Profile = () => {
 										description: Yup
 											.string()
 											.ensure(),
-										lang: Yup.string(),
 									})}
 									onSubmit={(values, { setSubmitting }) => {
 										onSubmitUserInfo(values, setSubmitting);
@@ -193,12 +188,6 @@ const Profile = () => {
 												name="description"
 												label="About"
 												as="textarea"
-											/>
-											<SelectField
-												name="lang"
-												label="Language"
-												options={LANGUAGES}
-												required
 											/>
 
 											<ButtonArea>
