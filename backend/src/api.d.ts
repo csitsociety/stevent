@@ -5,6 +5,7 @@ export type TimeStamp = number
 export type ImagePath = string
 
 export interface User {
+  id: UserID
   username: string
   email: string
   icon: ImagePath

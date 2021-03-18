@@ -56,7 +56,7 @@ export const getEvents = async (): Promise<Event[]> => {
 export const getEventAttendees = async (eventID: EventID): Promise<User[]> => {
   const query = datastore.createQuery('User').filter('events', '=', eventID)
   const users = (await datastore.runQuery(query))[0]
-  return users.map((user) => ({ ...user, id: user[datastore.KEY].id }))
+  return users.map((user) => ({ ...user, id: user[datastore.KEY].name }))
 }
 
 export const getClub = async (clubID: ClubID): Promise<Club> => {
