@@ -8,7 +8,7 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
-    "test-dev": "nodemon --watch . --ext .ts --exec \"npm run test\""
+    "test-dev": "nodemon --watch . --ext .ts --exec \"mocha -R min -r ts-node/register test/**/*.test.ts\""
   },
   "dependencies": {
     "@google-cloud/connect-datastore": "^5.0.2",
