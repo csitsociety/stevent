@@ -70,7 +70,7 @@ export const getClub = async (clubID: ClubID): Promise<Club> => {
 export const getClubs = async (): Promise<Club[]> => {
   const query = datastore.createQuery('Club')
   const clubs = (await datastore.runQuery(query))[0]
-  return clubs.map((club) => ({ ...club, id: club[datastore.KEY].id }))
+  return clubs.map((club) => ({ ...club, id: club[datastore.KEY].name }))
 }
 
 export const createClub = async (clubID: ClubID, fields: Partial<Club>): Promise<Club> => {
