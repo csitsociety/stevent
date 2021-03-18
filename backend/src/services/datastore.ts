@@ -64,7 +64,7 @@ export const getClub = async (clubID: ClubID): Promise<Club> => {
     .createQuery('Club')
     .filter('__key__', '=', datastore.key(['Club', clubID]))
   const club = (await datastore.runQuery(query))[0][0]
-  return club
+  return club && { ...club, id: clubID }
 }
 
 export const getClubs = async (): Promise<Club[]> => {

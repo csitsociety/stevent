@@ -22,7 +22,7 @@ describe('/retrieveDSUser route', () => {
     await deleteUser(TEST_USER_UID)
   })
 
-  it('should fail when no query parameters', async function () {
+  it('should fail when no query parameters provided', async function () {
     const res = await request(app).get('/retrieveDSUser').send()
     expect(res.status).to.equal(400)
     expect(res.body).not.to.be.undefined
