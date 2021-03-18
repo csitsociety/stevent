@@ -29,7 +29,7 @@ export const getUserByName = async (username: string): Promise<User> => {
 }
 
 export const signupUser = async (id: UserID, fields: Partial<User>): Promise<void> => {
-  datastore.upsert({
+  await datastore.upsert({
     key: datastore.key(['User', id]),
     data: {
       ...fields,
@@ -143,12 +143,14 @@ export const updateUserAttendingEvent = async (
   attending: boolean
 ): Promise<void> => {
   const user = await getUser(userID)
-
+  if (!user) {
+    throw new Error(`No such user with id ${userID}`)
+  }
   const events = attending
     ? user.events.includes(eventID)
       ? user.events
       : [...user.events, eventID]
     : user.events.filter((e) => e !== eventID)
 
-  datastore.upsert({ ...user, events })
+  await datastore.upsert({ ...user, events })
 }

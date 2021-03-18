@@ -7,7 +7,7 @@ export const errorResponse: ErrorResponseF = (res, statusCode, message, error) =
     success: false,
     error: {
       message: message,
-      error,
+      error: error?.message,
     },
   })
 }
