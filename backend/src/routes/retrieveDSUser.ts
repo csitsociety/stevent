@@ -6,7 +6,7 @@ import { Route } from './routes.d'
 const retrieveUser: Route = (app) => {
   app.get('/retrieveDSUser', expectFields(['uid'], 'query'), async (req, res) => {
     try {
-      const uid = String(req.query)
+      const uid = String(req.query.uid)
       const user = await getUser(uid)
       if (!user) {
         return errorResponse(res, 404, `No such user with uid ${uid}`)

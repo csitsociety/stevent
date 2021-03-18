@@ -18,3 +18,5 @@ app.get('/', function (req, res) {
 app.listen(config.port, () => {
   console.log(`Stevent API now listening on port ${config.port}`)
 })
+
+export default app

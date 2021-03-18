@@ -43,6 +43,10 @@ export const signupUser = async (id: UserID, fields: Partial<User>): Promise<voi
   })
 }
 
+export const deleteUser = async (userID: UserID): Promise<void> => {
+  await datastore.delete(datastore.key(['User', userID]))
+}
+
 export const getEvents = async (): Promise<Event[]> => {
   const query = datastore.createQuery('Event')
   const events = (await datastore.runQuery(query))[0]

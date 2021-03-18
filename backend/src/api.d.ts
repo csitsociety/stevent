@@ -10,6 +10,7 @@ export interface User {
   icon: ImagePath
   rmitID: string
   superadmin: boolean
+  description: string
   subscribed: ClubID[] // I THINK
   events: ClubID[] // I THINK
   adminClubs: ClubID[] // I THINK
