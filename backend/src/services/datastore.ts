@@ -93,7 +93,7 @@ export const getEvent = async (eventID: EventID): Promise<Event> => {
     .createQuery('Event')
     .filter('__key__', '=', datastore.key(['Event', parseInt(eventID)]))
   const event = (await datastore.runQuery(query))[0][0]
-  return event
+  return event && { ...event, id: event[datastore.KEY].id }
 }
 
 export const createEvent = async (fields: Partial<Event>): Promise<Event> => {
