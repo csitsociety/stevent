@@ -1,4 +1,4 @@
-import app from '../../app'
+import app from '../../src/app'
 import { agent as request } from 'supertest'
 import { expect } from 'chai'
 import { v4 as uuidv4 } from 'uuid'

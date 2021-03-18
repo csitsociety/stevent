@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "app.ts",
+  "main": "main.ts",
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint . --ext .ts",
