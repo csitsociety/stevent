@@ -45,15 +45,21 @@ describe('/retrieveEventDetails route', () => {
     expect(res.body.success).to.be.true
     expect(res.body.error).to.be.undefined
     expect(res.body.event).to.be.an('object')
-  })
-  it('should return the correct user', async function () {
-    const res = await request(app).get(`/retrieveEventDetails?eventID=${testEventID}`).send()
-    expect(res.body.event.id).to.be.equal(testEventID)
     expect(res.body.event.name).to.be.a('string')
     expect(res.body.event.description).to.be.a('string')
     expect(res.body.event.location).to.be.a('string')
     expect(res.body.event.date).to.be.a('number')
     expect(res.body.event.image).to.be.a('string')
     expect(res.body.event.hostingClubs).to.be.an('array')
+  })
+  it('should return the correct user', async function () {
+    const res = await request(app).get(`/retrieveEventDetails?eventID=${testEventID}`).send()
+    expect(res.body.event.id).to.be.equal(testEventID)
+    expect(res.body.event.name).to.be.equal(TEST_EVENT.name)
+    expect(res.body.event.location).to.be.equal(TEST_EVENT.location)
+    expect(res.body.event.hostingClubs).to.be.deep.equal(TEST_EVENT.hostingClubs)
+    expect(res.body.event.description).to.be.equal(TEST_EVENT.description)
+    expect(res.body.event.date).to.be.equal(TEST_EVENT.date)
+    expect(res.body.event.image).to.be.equal(TEST_EVENT.image)
   })
 })
