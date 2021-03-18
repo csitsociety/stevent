@@ -27,6 +27,13 @@ const TEST_USER = {
   rmitID: 's3888882',
 }
 
+const TEST_USER_TWO = {
+  id: uuidv4(),
+  username: 'Temporary Test Attendee 2',
+  email: 'attendee2@test.com',
+  rmitID: 's3888883',
+}
+
 describe('/retrieveAttendees route', () => {
   let testEventID: string
 
@@ -35,16 +42,18 @@ describe('/retrieveAttendees route', () => {
     const event = await createEvent(TEST_EVENT)
     testEventID = event.id
 
-    // Create test user
+    // Create test users
     await signupUser(TEST_USER.id, TEST_USER)
+    await signupUser(TEST_USER_TWO.id, TEST_USER_TWO)
 
-    // Sign up test user for test event
+    // Sign up one test user for test event
     await updateUserAttendingEvent(TEST_USER.id, testEventID, true)
   })
 
   after(async function () {
     await deleteEvent(testEventID)
     await deleteUser(TEST_USER.id)
+    await deleteUser(TEST_USER_TWO.id)
   })
 
   it('should fail when no query parameters provided', async function () {
@@ -85,5 +94,6 @@ describe('/retrieveAttendees route', () => {
     const res = await request(app).get(`/retrieveAttendees?eventID=${testEventID}`).send()
     const ids = res.body.attendingUsers.map((user: User) => user.id)
     expect(ids).to.include(TEST_USER.id)
+    expect(ids).to.not.include(TEST_USER_TWO.id)
   })
 })
