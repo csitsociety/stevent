@@ -13,7 +13,7 @@ const TEST_EVENT = {
   image: '',
 }
 
-describe('/retrieveEvensFeed route', () => {
+describe('/retrieveEventsFeed route', () => {
   let testEventID: string
 
   before(async function () {
