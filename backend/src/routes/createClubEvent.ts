@@ -9,17 +9,16 @@ const createClubEventFields = ['name', 'date', 'hostingClubs', 'description', 'l
 const createClubEvent: Route = (app) => {
   app.post('/createClubEvent', expectFields(createClubEventFields), async (req, res) => {
     const { name, date, hostingClubs, description, location } = req.body
-    const image = (req.files as Express.Multer.File[])[0]
+    const files = req.files as Express.Multer.File[]
 
-    if (!image) {
-      return errorResponse(res, 400, `Expected image file`)
-    }
-
-    let imageURL: string
-    try {
-      imageURL = await uploadImage(image)
-    } catch (e) {
-      return errorResponse(res, 500, `There was a problem uploading the event image`, e)
+    let imageURL = ''
+    if (files && files.length > 1) {
+      try {
+        const image = files[0]
+        imageURL = await uploadImage(image)
+      } catch (e) {
+        return errorResponse(res, 500, `There was a problem uploading the event image`, e)
+      }
     }
 
     let dateObj: number
