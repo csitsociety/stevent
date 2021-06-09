@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 // Determine evn
-const env = process.env.NODE_ENV || 'development'
+const env = process.env.NODE_ENV || 'production'
 console.log('Using config for environment: ', env)
 
 type ConfigOption = {
@@ -15,7 +15,7 @@ type ConfigOption = {
 const configOptions: Record<string, ConfigOption> = {
   client: {
     envVar: 'CLIENT_ADDRESS',
-    defaultValue: 'http://localhost:3000',
+    defaultValue: 'https://stevent.club/',
   },
   port: {
     envVar: 'PORT',
@@ -35,17 +35,13 @@ const configOptions: Record<string, ConfigOption> = {
 }
 
 const configPairs = Object.entries(configOptions).map(([name, option]) => {
-  if (process.env[option.envVar] !== undefined) {
-    return [name, process.env[option.envVar]]
-  } else {
-    if (option.defaultValue !== undefined) {
-      if (env !== 'development') {
-        console.warn(`Using default value for config option ${name} of ${option.defaultValue}`)
-      }
-      return [name, option.defaultValue]
-    } else {
+  if (env == "development") {
+    if (process.env[option.envVar] == undefined) {
       throw new Error(`Expected environment variable "${option.envVar}"`)
     }
+    return [name, process.env[option.envVar]]
+  } else {
+    return [name, option.defaultValue]
   }
 })
 
