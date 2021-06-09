@@ -25,6 +25,4 @@ const config = {
 	}
 }
 
-export const LANGUAGES = require('./languages.json');
-
 export default config[env];
