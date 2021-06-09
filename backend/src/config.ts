@@ -19,7 +19,7 @@ const configOptions: Record<string, ConfigOption> = {
   },
   port: {
     envVar: 'PORT',
-    defaultValue: 8080,
+    defaultValue: '8080',
   },
   projectId: {
     envVar: 'PROJECT_ID',
