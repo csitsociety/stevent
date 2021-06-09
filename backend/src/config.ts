@@ -27,7 +27,7 @@ const configOptions: Record<string, ConfigOption> = {
   },
   bucketName: {
     envVar: 'BUCKET_NAME',
-    defaultValue: 'stevent-backend-image-store',
+    defaultValue: 'stevent-302609',
   },
   firebaseServiceAccount: {
     envVar: 'GOOGLE_APPLICATION_CREDENTIALS',
