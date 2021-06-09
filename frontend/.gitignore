@@ -17,7 +17,7 @@ node_modules
 .env.development.local
 .env.test.local
 .env.production.local
-src/config/firebase-config-dev.json
+.firebase-config-dev.json
 
 npm-debug.log*
 yarn-debug.log*
