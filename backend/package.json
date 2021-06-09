@@ -4,6 +4,7 @@
   "license": "MIT",
   "main": "main.ts",
   "scripts": {
+    "start": "ts-node .",
     "dev": "nodemon",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
