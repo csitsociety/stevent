@@ -13,7 +13,7 @@ export const getUser = async (uid: UserID): Promise<User> => {
 }
 
 export const updateUser = async (userID: UserID, fields: Partial<User>): Promise<void> => {
-  const user = getUser(userID)
+  const user = (await getUser(userID))
   await datastore.upsert({
     ...user,
     ...fields,

@@ -48,6 +48,8 @@ const Navigation = () => {
 				await new Promise(r => setTimeout(r, 2000));
 				user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
 			}
+			user.id = fire.auth().currentUser['uid']
+			console.log(JSON.stringify(user))
 			profileStore.setProfile(user);
 		}
 

@@ -61,11 +61,9 @@ const Profile = () => {
 				user = (await retrieveDSUser({uid: id})).user;
 				setCurrentProfile(user);
 			} else {
-				if (profileStore.profile) {
-					setCurrentProfile(profileStore.profile);
-				}
 				// Update anyway
 				user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
+				user.id = fire.auth().currentUser['uid']
 				profileStore.setProfile(user);
 				setCurrentProfile(user);
 			}
@@ -73,7 +71,7 @@ const Profile = () => {
 			setClubs((await retrieveClubs()).clubs);
 
 			if (user.events && user.events.length > 0) {
-				const allEvents = (await retrieveEventsFeed({ filter: ''})).matchingEvents;
+				const allEvents = (await retrieveEventsFeed({ filter: ''})).events;
 				let attended = [];
 				let upcoming = [];
 				user.events.forEach(eventID => {

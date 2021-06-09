@@ -30,7 +30,6 @@ const ClubDetails = () => {
 		const fetch = async () => {
 			if (id) {
 				setClub((await retrieveClubDetails({clubID: id})).club);
-
 				const user = (await retrieveDSUser({ uid: profileStore.id })).user;
 				if (user.subscribed && user.subscribed.includes(id)) {
 					setSubscribed(true);

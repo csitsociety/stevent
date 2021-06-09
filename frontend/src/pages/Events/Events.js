@@ -21,8 +21,7 @@ const Events = () => {
 
 	useEffect(() => {
 		const generateEventsFeed = async () =>
-			setEvents((await retrieveEventsFeed({filter: filter})).matchingEvents);
-
+			setEvents((await retrieveEventsFeed({filter: filter})).events);
 		if (profileStore) {
 			generateEventsFeed();
 		}
