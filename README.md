@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/16392483/121765875-6d564980-cb91-11eb-91c2-8e15512dd570.png" alt="drawing" width="200"/>
+<img src="https://user-images.githubusercontent.com/16392483/121765875-6d564980-cb91-11eb-91c2-8e15512dd570.png" alt="drawing" width="150"/>
 
 # Stevent
 
