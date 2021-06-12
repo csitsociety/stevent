@@ -15,6 +15,7 @@ import {
 	EventListing,
 	Spinner,
 	SelectField,
+	ProfileIcon
 } from 'components';
 import { useProfileStore } from 'stores';
 import fire from 'auth';
@@ -23,7 +24,6 @@ import {
 	PageContainer,
 	PersonalDetails,
 	ProfileContainer,
-	ProfilePicture,
 	Events,
 	LoaderWrapper,
 	SmallLoaderWrapper,
@@ -147,12 +147,12 @@ const Profile = () => {
 						<>
 							{!id ? (
 								<ProfilePictureEdit title="Upload a new profile picture">
-									<ProfilePicture src={currentProfile.icon} alt="" />
+									<ProfileIcon profile={currentProfile}/>
 									<img src={upload_icon} alt="" className="uploadIcon" />
 									<IconInput type="file" onInput={e => onSubmitUserIcon(e.currentTarget.files[0])} />
 								</ProfilePictureEdit>
 							) : (
-								<ProfilePicture src={currentProfile.icon} alt="" />
+								<ProfileIcon profile={currentProfile}/>
 							)}
 
 							{editProfile ? (

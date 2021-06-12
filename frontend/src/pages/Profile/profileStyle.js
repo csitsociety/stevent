@@ -44,15 +44,6 @@ export const ProfileContainer = styled.main`
 	}
 `;
 
-export const ProfilePicture = styled.img`
-	border-radius: 1000px;
-	height: 200px;
-	width: 200px;
-	object-fit: cover;
-	background-color: #EEE;
-	border: 0;
-`;
-
 export const Events = styled.div`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
