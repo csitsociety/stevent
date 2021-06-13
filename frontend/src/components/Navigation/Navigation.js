@@ -1,87 +1,73 @@
-import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useProfileStore } from 'stores';
-import fire from 'auth';
-import { retrieveDSUser } from 'services';
+import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useCurrentProfile } from 'hooks'
 
 import {
-	Container,
-	StyledIcon,
-	StyledLogo,
-	Spacer,
-	NavigationLogo,
-	Title,
-} from './navigationStyle.js';
+  Container,
+  StyledIcon,
+  StyledLogo,
+  Spacer,
+  NavigationLogo,
+  Title,
+} from './navigationStyle.js'
 
-import logo_textless from 'res/logo_textless.svg';
-import logout from 'res/log-out.svg';
-import events from 'res/calendar.svg';
-import profile from 'res/user.svg';
-import clubs from 'res/compass.svg';
-import plus from 'res/plus.svg';
+import LogoTextless from 'res/logo_textless.svg'
+import logoutIcon from 'res/log-out.svg'
+import eventsIcon from 'res/calendar.svg'
+import profileIcon from 'res/user.svg'
+import clubsIcon from 'res/compass.svg'
+import plusIcon from 'res/plus.svg'
 
 const NavigationItem = ({ to, label, icon, hideLabel, ...rest }) => {
-	const location = useLocation();
-	return (
-		<StyledIcon className={location.pathname === to ? 'active' : ''} title={label}>
-			<Link to={to} {...rest}>
-				{icon && (
-					<img src={icon} alt="" />
-				)}
-				{!hideLabel && (
-					<span>{label}</span>
-				)}
-			</Link>
-		</StyledIcon>
-	);
-};
+  const location = useLocation()
+  return (
+    <StyledIcon
+      className={location.pathname === to ? 'active' : ''}
+      title={label}
+    >
+      <Link to={to} {...rest}>
+        {icon && <img src={icon} alt="" />}
+        {!hideLabel && <span>{label}</span>}
+      </Link>
+    </StyledIcon>
+  )
+}
 
 const Navigation = () => {
-	const profileStore = useProfileStore();
-	const location = useLocation();
+  const profile = useCurrentProfile()
 
-	useEffect(() => {
-		const fetchUserDetails = async () => {
-			let user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
-			while (!user.username) {
-				// Wait 2 seconds and try again if user doesn't exist
-				await new Promise(r => setTimeout(r, 2000));
-				user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
-			}
-			user.id = fire.auth().currentUser['uid']
-			console.log(JSON.stringify(user))
-			profileStore.setProfile(user);
-		}
+  // Determine perms
+  let isSuperAdmin = false
+  let hasAdminClubs = false
+  if (profile) {
+    isSuperAdmin = profile.superadmin
+    hasAdminClubs = (profile.adminClubs || []).length > 0
+  }
 
-		if (fire.auth().currentUser && !profileStore.profile) {
-			fetchUserDetails();
-		}
-	}, [location.pathname]);
+  return (
+    <Container>
+      <Link to="/">
+        <NavigationLogo>
+          <StyledLogo src={LogoTextless} />
+          <Title>Stevent</Title>
+        </NavigationLogo>
+      </Link>
 
-	return (
-		<Container>
-			<Link to="/">
-				<NavigationLogo>
-					<StyledLogo src={logo_textless} />
-					<Title>Stevent</Title>
-				</NavigationLogo>
-			</Link>
+      <Spacer />
 
-			<Spacer />
+      {isSuperAdmin && (
+        <NavigationItem to="/clubs/new" label="Create Club" icon={plusIcon} />
+      )}
+      {hasAdminClubs && (
+        <NavigationItem to="/events/new" label="Create Event" icon={plusIcon} />
+      )}
 
-			{profileStore.profile && profileStore.profile.superadmin && (
-				<NavigationItem to="/clubs/new" label="Create Club" icon={plus} />
-			)}
-			{profileStore.profile && profileStore.profile.adminClubs && profileStore.profile.adminClubs.length > 0 && (
-				<NavigationItem to="/events/new" label="Create Event" icon={plus} />
-			)}
+      <NavigationItem to="/events" label="Events" icon={eventsIcon} />
+      <NavigationItem to="/clubs" label="Clubs" icon={clubsIcon} />
+      <NavigationItem to="/profile" label="My Profile" icon={profileIcon} />
+      <NavigationItem to="/logout" label="Logout" icon={logoutIcon} hideLabel />
+    </Container>
+  )
+}
 
-			<NavigationItem to="/events" label="Events" icon={events} />
-			<NavigationItem to="/clubs" label="Clubs" icon={clubs} />
-			<NavigationItem to="/profile" label="My Profile" icon={profile} />
-			<NavigationItem to="/logout" label="Logout" icon={logout} hideLabel />
-		</Container>
-	);
-};
-
-export default Navigation;
+export default Navigation
