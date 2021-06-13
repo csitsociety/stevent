@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import fire from 'auth'
-import create from 'zustand' 
+import create from 'zustand'
 
 import { retrieveDSUser } from 'services'
 
-const useProfileStore = create(set => ({
+const useProfileStore = create((set) => ({
   profile: null,
-  setProfile: (profile) => set(state => ({profile})),
-  clearProfile: () => set(state => ({profile: null})),
+  setProfile: (profile) => set((state) => ({ profile })),
+  clearProfile: () => set((state) => ({ profile: null })),
 }))
 
 export default function useCurrentProfile() {
-  const {profile, setProfile, clearProfile} = useProfileStore();
+  const { profile, setProfile, clearProfile } = useProfileStore()
 
   useEffect(() => {
     const fetchUserDetails = async () => {

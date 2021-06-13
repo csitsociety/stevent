@@ -1,37 +1,37 @@
-import styled from '@emotion/styled';
-import theme from 'styles';
+import styled from '@emotion/styled'
+import theme from 'styles'
 
 export const InputContainer = styled.div`
-	padding-bottom: 16px;
-`;
+  padding-bottom: 16px;
+`
 
 export const StyledLabel = styled.label`
-	display: block;
-	font-size: 18px;
-	margin-bottom: 2px;
+  display: block;
+  font-size: 18px;
+  margin-bottom: 2px;
 
-	&::after {
-		content: '${props => !props.required ? ' (optional)' : ''}';
-	}
-`;
+  &::after {
+    content: '${(props) => (!props.required ? ' (optional)' : '')}';
+  }
+`
 
 export const CheckboxWrapper = styled.div`
-	padding: 4px 0;
-`;
+  padding: 4px 0;
+`
 
 export const CheckboxLabel = styled.label`
-	font: inherit;
-	display: inline-block;
-	padding-left: 4px;
-	user-select: none;
-`;
+  font: inherit;
+  display: inline-block;
+  padding-left: 4px;
+  user-select: none;
+`
 
 export const Checkbox = styled.input`
-	font: inherit;
-`;
+  font: inherit;
+`
 
 export const InputError = styled.div`
-	color: ${theme.error};
-	font-size: 12px;
-	font-weight: 500;
-`;
+  color: ${theme.error};
+  font-size: 12px;
+  font-weight: 500;
+`

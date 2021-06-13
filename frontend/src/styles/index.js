@@ -1,6 +1,6 @@
 const styles = {
-	primary: '#4000d0',
-	error: '#E60028',
-};
+  primary: '#4000d0',
+  error: '#E60028',
+}
 
-export default styles;
+export default styles

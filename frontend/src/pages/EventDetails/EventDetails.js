@@ -109,7 +109,7 @@ const EventDetails = () => {
     setGoingLoading(true)
     const response = await updateAttendingEvent({
       eventID: id,
-      userID: profileStore.id,
+      userID: profile.id,
       state: value,
     })
 
@@ -135,7 +135,7 @@ const EventDetails = () => {
               <Clubs>
                 {clubs ? (
                   event.hostingClubs.map((clubID) => {
-                    const club = clubs.find((c) => c.id == clubID)
+                    const club = clubs.find((c) => c.id === clubID)
                     return (
                       club && (
                         <Pill
@@ -160,7 +160,7 @@ const EventDetails = () => {
                   <Heading size="h2">Location</Heading>
                   {event.location.startsWith('http') ? (
                     <P>
-                      <a href={event.location} target="_blank">
+                      <a href={event.location} rel="noreferrer" target="_blank">
                         {event.location}
                       </a>
                     </P>

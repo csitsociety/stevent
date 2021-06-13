@@ -65,7 +65,6 @@ const Profile = () => {
       // Get all clubs
       setClubs((await retrieveClubs()).clubs)
 
-
       if (user && user.events && user.events.length > 0) {
         const allEvents = (await retrieveEventsFeed({ filter: '' })).events
         let attended = []
