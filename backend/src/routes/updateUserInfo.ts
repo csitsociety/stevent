@@ -9,7 +9,6 @@ const updateUserInfo: Route = (app) => {
   app.post('/updateUserInfo', expectFields(updateUserInfoFields), async (req, res) => {
     const { userID } = req.body
     try {
-      console.log("HEREEE")
       await updateUser(userID, { ...req.body })
       return successResponse(res)
     } catch (e) {

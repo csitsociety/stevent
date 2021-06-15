@@ -48,14 +48,13 @@ const initialValues = {
   username: '',
   email: '',
   password: '',
+  rmitID: '',
   passwordAgain: '',
 }
 
 const Signup = () => {
   const history = useHistory()
   const [error, setError] = useState(null)
-
-  fire.auth().onAuthStateChanged((user) => user && history.push('/events'))
 
   const onSubmit = async (values, setSubmitting, setErrors) => {
     setSubmitting(true)
@@ -64,22 +63,17 @@ const Signup = () => {
       const fireUserRecord = await fire
         .auth()
         .createUserWithEmailAndPassword(values.email, values.password)
-      let username
-      if (values.username) {
-        username = values.username
-      } else {
-        username = 'Anon'
-      }
       const response = await signup({
         uid: fireUserRecord.user.uid,
         rmitID: values.rmitID,
-        username: username,
+        username: values.username,
         email: values.email,
       })
       if (response.success) {
         await fire
           .auth()
           .signInWithEmailAndPassword(values.email, values.password)
+        history.push('/events')
       }
     } catch (error) {
       console.error(error)
@@ -118,6 +112,7 @@ const Signup = () => {
                 name="username"
                 label="What is your preferred display name?"
                 placeholder="Anonymous"
+                required
               />
               <TextField
                 name="email"
