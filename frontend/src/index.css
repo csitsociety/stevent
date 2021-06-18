@@ -12,14 +12,15 @@ code {
     monospace;
 }
 
-body, #root {
-	min-height: 100vh;
+body,
+#root {
+  min-height: 100vh;
 }
 #root {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
-	color: #4000d0;
+  color: #4000d0;
 }

@@ -13,7 +13,7 @@ export const getUser = async (uid: UserID): Promise<User> => {
 }
 
 export const updateUser = async (userID: UserID, fields: Partial<User>): Promise<void> => {
-  const user = (await getUser(userID))
+  const user = await getUser(userID)
   await datastore.upsert({
     ...user,
     ...fields,
@@ -34,7 +34,7 @@ export const signupUser = async (id: UserID, fields: Partial<User>): Promise<voi
     data: {
       ...fields,
       description: '',
-      icon: `https://storage.cloud.google.com/${config.bucketName}/avatar.png`,
+      icon: '',
       adminClubs: [],
       subscribed: [],
       events: [],

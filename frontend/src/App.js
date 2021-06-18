@@ -1,10 +1,8 @@
-import Pages from 'pages';
-import React from 'react';
+import Pages from 'pages'
+import React from 'react'
 
 function App() {
-  return (
-    <Pages />
-  );
+  return <Pages />
 }
 
-export default App;
+export default App

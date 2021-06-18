@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled'
 
 export const StyledParagraph = styled.p`
-	margin: 10px 0;
-`;
+  margin: 10px 0;
+`

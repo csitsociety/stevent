@@ -1,290 +1,313 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, Link, useParams } from 'react-router-dom';
-import { DateTime } from 'luxon';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { DateTime } from 'luxon'
+import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
 
 import {
-	Paragraph as P,
-	Heading,
-	TextField,
-	Button,
-	Center,
-	StatusMessage,
-	Pill,
-	EventListing,
-	Spinner,
-	SelectField,
-	ProfileIcon
-} from 'components';
-import { useProfileStore } from 'stores';
-import fire from 'auth';
+  Paragraph as P,
+  Heading,
+  TextField,
+  Button,
+  Pill,
+  EventListing,
+  Spinner,
+  ProfileIcon,
+} from 'components'
+import { useCurrentProfile } from 'hooks'
 
 import {
-	PageContainer,
-	PersonalDetails,
-	ProfileContainer,
-	Events,
-	LoaderWrapper,
-	SmallLoaderWrapper,
-	ButtonArea,
-	IconInput,
-	ProfilePictureEdit,
-} from './profileStyle.js';
-import upload_icon from 'res/upload.svg';
+  PageContainer,
+  PersonalDetails,
+  ProfileContainer,
+  Events,
+  LoaderWrapper,
+  SmallLoaderWrapper,
+  ButtonArea,
+  IconInput,
+  ProfilePictureEdit,
+} from './profileStyle.js'
+import upload_icon from 'res/upload.svg'
 
 import {
-	retrieveDSUser,
-	retrieveClubs,
-	retrieveEventsFeed,
-	updateUserInfo,
-	updateUserImage,
-} from 'services';
+  retrieveDSUser,
+  retrieveClubs,
+  retrieveEventsFeed,
+  updateUserInfo,
+  updateUserImage,
+} from 'services'
 
-const truncate = input => input.length > 50 ? `${input.substring(0, 50)}...` : input;
+const truncate = (input) =>
+  input.length > 50 ? `${input.substring(0, 50)}...` : input
 
 const Profile = () => {
-	const { id } = useParams();
-	const [currentProfile, setCurrentProfile] = useState(undefined);
-	const [clubs, setClubs] = useState(undefined);
-	const [events, setEvents] = useState({
-		upcoming: undefined,
-		attended: undefined,
-	});
-	const [editProfile, setEditProfile] = useState(false);
-	const profileStore = useProfileStore();
+  const { id } = useParams()
+  const [viewProfile, setViewProfile] = useState(undefined)
+  const [clubs, setClubs] = useState(undefined)
+  const [events, setEvents] = useState({
+    upcoming: undefined,
+    attended: undefined,
+  })
+  const [editProfile, setEditProfile] = useState(false)
+  const [profile, clearProfile] = useCurrentProfile()
 
-	useEffect(() => {
-		const fetchUserDetails = async () => {
-			let user;
-			if (id) {
-				user = (await retrieveDSUser({uid: id})).user;
-				setCurrentProfile(user);
-			} else {
-				// Update anyway
-				user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
-				user.id = fire.auth().currentUser['uid']
-				profileStore.setProfile(user);
-				setCurrentProfile(user);
-			}
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      // Get user if id is provided, otherwise is logged in user
+      let user = profile
+      if (id) {
+        user = (await retrieveDSUser({ uid: id })).user
+      }
 
-			setClubs((await retrieveClubs()).clubs);
+      // Display this user on the view
+      setViewProfile(user)
 
-			if (user.events && user.events.length > 0) {
-				const allEvents = (await retrieveEventsFeed({ filter: ''})).events;
-				let attended = [];
-				let upcoming = [];
-				user.events.forEach(eventID => {
-					const event = allEvents.find(e => e.id === eventID);
-					if (event && parseInt(event.date) < DateTime.local().toMillis()) {
-						if (attended.length < 3) {
-							attended.push(event);
-						}
-					} else if (event) {
-						if (upcoming.length < 3) {
-							upcoming.push(event);
-						}
-					}
-				});
-				setEvents({ attended, upcoming });
-			} else {
-				setEvents({ attended: [], upcoming: [] });
-			}
-		}
-		fetchUserDetails();
-	}, [id]);
+      // Get all clubs
+      setClubs((await retrieveClubs()).clubs)
 
-	const onSubmitUserInfo = async (values, setSubmitting) => {
-		setSubmitting(true);
-		try {
-			const response = await updateUserInfo({
-				userID: profileStore.profile.id,
-				username: values.username,
-				description: values.description,
-			});
+      if (user && user.events && user.events.length > 0) {
+        const allEvents = (await retrieveEventsFeed({ filter: '' })).events
+        let attended = []
+        let upcoming = []
+        user.events.forEach((eventID) => {
+          const event = allEvents.find((e) => e.id === eventID)
+          if (event && parseInt(event.date) < DateTime.local().toMillis()) {
+            if (attended.length < 3) {
+              attended.push(event)
+            }
+          } else if (event) {
+            if (upcoming.length < 3) {
+              upcoming.push(event)
+            }
+          }
+        })
+        setEvents({ attended, upcoming })
+      } else {
+        setEvents({ attended: [], upcoming: [] })
+      }
+    }
 
-			if (response.success) {
-				// Update user
-				const user = (await retrieveDSUser({uid: fire.auth().currentUser['uid']})).user;
-				profileStore.setProfile(user);
-				setCurrentProfile(user);
-				setEditProfile(false);
-			} else {
-				console.error('Error while updating user info');
-			}
-		} catch (error) {
-			console.error(error);
-		} finally {
-			setSubmitting(false);
-		}
-	};
+    fetchUserDetails()
+  }, [id, profile])
 
-	const onSubmitUserIcon = async file => {
-		if (file) {
-			try {
-				const formData = new FormData();
-				formData.append('userID', profileStore.profile.id);
-				formData.append('icon', file);
+  const onSubmitUserInfo = async (values, setSubmitting) => {
+    setSubmitting(true)
+    try {
+      const response = await updateUserInfo({
+        userID: profile.id,
+        username: values.username,
+        description: values.description,
+      })
 
-				const response = await updateUserImage(formData);
+      if (response.success) {
+        // Update user
+        clearProfile()
+        setEditProfile(false)
+      } else {
+        console.error('Error while updating user info')
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
-				if (response.success) {
-					setCurrentProfile({...currentProfile, icon: response.icon});
-				} else {
-					console.error('Failed to change profile image');
-				}
-			} catch (e) {
-				console.error(e);
-			}
-		}
-	};
+  const onSubmitUserIcon = async (file) => {
+    if (file) {
+      try {
+        const formData = new FormData()
+        formData.append('userID', profile.id)
+        formData.append('icon', file)
 
-	return (
-		<>
-			<PageContainer>
-				<PersonalDetails>
-					{currentProfile && (
-						<>
-							{!id ? (
-								<ProfilePictureEdit title="Upload a new profile picture">
-									<ProfileIcon profile={currentProfile}/>
-									<img src={upload_icon} alt="" className="uploadIcon" />
-									<IconInput type="file" onInput={e => onSubmitUserIcon(e.currentTarget.files[0])} />
-								</ProfilePictureEdit>
-							) : (
-								<ProfileIcon profile={currentProfile}/>
-							)}
+        const response = await updateUserImage(formData)
 
-							{editProfile ? (
-								<Formik
-									initialValues={{
-										username: currentProfile.username,
-										description: currentProfile.description,
-									}}
-									validationSchema={Yup.object({
-										username: Yup
-											.string()
-											.ensure()
-											.required('Name is required'),
-										description: Yup
-											.string()
-											.ensure(),
-									})}
-									onSubmit={(values, { setSubmitting }) => {
-										onSubmitUserInfo(values, setSubmitting);
-									}}
-								>
-									{props => (
-										<Form>
-											<TextField
-												name="username"
-												label="Name"
-												placeholder="Jenny Bit"
-												required
-											/>
-											<TextField
-												name="description"
-												label="About"
-												as="textarea"
-											/>
+        if (response.success) {
+          setViewProfile({ ...viewProfile, icon: response.icon })
+        } else {
+          console.error('Failed to change profile image')
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  }
 
-											<ButtonArea>
-												<Button type="button" onClick={() => setEditProfile(false)} secondary>Cancel</Button>
-												<Button type="submit" disabled={!(props.isValid && props.dirty)} loading={props.isSubmitting}>Update</Button>
-											</ButtonArea>
-										</Form>
-									)}
-								</Formik>
-							) : (
-								<>
-									<Heading>{currentProfile.username} {!id && '(you)'}</Heading>
-									<P>{currentProfile.description}</P>
-									{!id && (
-										<Button onClick={() => setEditProfile(true)}>Edit profile</Button>
-									)}
+  return (
+    <>
+      <PageContainer>
+        <PersonalDetails>
+          {viewProfile && (
+            <>
+              {!id ? (
+                <ProfilePictureEdit title="Upload a new profile picture">
+                  <ProfileIcon profile={viewProfile} />
+                  <img src={upload_icon} alt="" className="uploadIcon" />
+                  <IconInput
+                    type="file"
+                    onInput={(e) => onSubmitUserIcon(e.currentTarget.files[0])}
+                  />
+                </ProfilePictureEdit>
+              ) : (
+                <ProfileIcon profile={viewProfile} />
+              )}
 
-									<Heading size="h2">{'Clubs'}</Heading>
-									{(currentProfile.subscribed ? currentProfile.subscribed.length : 0)> 0 ? (
-										clubs ? currentProfile.subscribed.map(clubID => {
-											const club = clubs.find(c => c.id == clubID);
-											return club && (
-												<Pill
-													key={clubID}
-													icon={club.icon}
-													label={clubID} href={`/clubs/${clubID}`}
-													title={club.name}
-												/>
-											);
-										}) : (
-											<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
-										)
-									) : (
-										<P>Not a member of any clubs</P>
-									)}
-								</>
-							)}
-						</>
-					)}
-				</PersonalDetails>
+              {editProfile ? (
+                <Formik
+                  initialValues={{
+                    username: viewProfile.username,
+                    description: viewProfile.description,
+                  }}
+                  validationSchema={Yup.object({
+                    username: Yup.string()
+                      .ensure()
+                      .required('Name is required'),
+                    description: Yup.string().ensure(),
+                  })}
+                  onSubmit={(values, { setSubmitting }) => {
+                    onSubmitUserInfo(values, setSubmitting)
+                  }}
+                >
+                  {(props) => (
+                    <Form>
+                      <TextField
+                        name="username"
+                        label="Name"
+                        placeholder="Jenny Bit"
+                        required
+                      />
+                      <TextField
+                        name="description"
+                        label="About"
+                        as="textarea"
+                      />
 
-				<ProfileContainer>
-					{currentProfile ? (
-						<>
-							<Heading size="h2">Upcoming events registered</Heading>
-							{events.upcoming ? (
-								events.upcoming.length > 0 ? (
-									<Events>
-										{events.upcoming.map((event, i) =>
-											<EventListing
-												key={i}
-												linkTo={`/events/${event.id}`}
-												name={event.name}
-												image={event.image}
-												date={DateTime.fromMillis(event.date).toFormat('t, DD')}
-												description={truncate(event.description)}
-												hostingClubs={event.hostingClubs.join(", ")}
-											/>
-										)}
-									</Events>
-								) : (
-									<P>Not going to any upcoming events</P>
-								)
-							) : (
-								<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
-							)}
+                      <ButtonArea>
+                        <Button
+                          type="button"
+                          onClick={() => setEditProfile(false)}
+                          secondary
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="submit"
+                          disabled={!(props.isValid && props.dirty)}
+                          loading={props.isSubmitting}
+                        >
+                          Update
+                        </Button>
+                      </ButtonArea>
+                    </Form>
+                  )}
+                </Formik>
+              ) : (
+                <>
+                  <Heading>
+                    {viewProfile.username} {!id && '(you)'}
+                  </Heading>
+                  <P>{viewProfile.description}</P>
+                  {!id && (
+                    <Button onClick={() => setEditProfile(true)}>
+                      Edit profile
+                    </Button>
+                  )}
 
-							<Heading size="h2">Recent event attendance</Heading>
-							{events.attended ? (
-								events.attended.length > 0 ? (
-									<Events>
-										{events.attended.map((event, i) =>
-											<EventListing
-												key={i}
-												linkTo={`events/${event.id}`}
-												name={event.name}
-												image={event.image}
-												date={DateTime.fromMillis(event.date).toFormat('t, DD')}
-												description={truncate(event.description)}
-												hostingClubs={event.hostingClubs.join(", ")}
-											/>
-										)}
-									</Events>
-								) : (
-									<P>No events attended, yet</P>
-								)
-							) : (
-								<SmallLoaderWrapper><Spinner size={16} /></SmallLoaderWrapper>
-							)}
-						</>
-					) : (
-						<LoaderWrapper>
-							<Spinner size={36} />
-						</LoaderWrapper>
-					)}
-				</ProfileContainer>
-			</PageContainer>
-		</>
-	);
-};
+                  <Heading size="h2">{'Clubs'}</Heading>
+                  {(viewProfile.subscribed
+                    ? viewProfile.subscribed.length
+                    : 0) > 0 ? (
+                    clubs ? (
+                      viewProfile.subscribed.map((clubID) => {
+                        const club = clubs.find((c) => c.id === clubID)
+                        return (
+                          club && (
+                            <Pill
+                              key={clubID}
+                              icon={club.icon}
+                              label={clubID}
+                              href={`/clubs/${clubID}`}
+                              title={club.name}
+                            />
+                          )
+                        )
+                      })
+                    ) : (
+                      <SmallLoaderWrapper>
+                        <Spinner size={16} />
+                      </SmallLoaderWrapper>
+                    )
+                  ) : (
+                    <P>Not a member of any clubs</P>
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </PersonalDetails>
 
-export default Profile;
+        <ProfileContainer>
+          {viewProfile ? (
+            <>
+              <Heading size="h2">Upcoming events registered</Heading>
+              {events.upcoming ? (
+                events.upcoming.length > 0 ? (
+                  <Events>
+                    {events.upcoming.map((event, i) => (
+                      <EventListing
+                        key={i}
+                        linkTo={`/events/${event.id}`}
+                        name={event.name}
+                        image={event.image}
+                        date={DateTime.fromMillis(event.date).toFormat('t, DD')}
+                        description={truncate(event.description)}
+                        hostingClubs={event.hostingClubs.join(', ')}
+                      />
+                    ))}
+                  </Events>
+                ) : (
+                  <P>Not going to any upcoming events</P>
+                )
+              ) : (
+                <SmallLoaderWrapper>
+                  <Spinner size={16} />
+                </SmallLoaderWrapper>
+              )}
+
+              <Heading size="h2">Recent event attendance</Heading>
+              {events.attended ? (
+                events.attended.length > 0 ? (
+                  <Events>
+                    {events.attended.map((event, i) => (
+                      <EventListing
+                        key={i}
+                        linkTo={`events/${event.id}`}
+                        name={event.name}
+                        image={event.image}
+                        date={DateTime.fromMillis(event.date).toFormat('t, DD')}
+                        description={truncate(event.description)}
+                        hostingClubs={event.hostingClubs.join(', ')}
+                      />
+                    ))}
+                  </Events>
+                ) : (
+                  <P>No events attended, yet</P>
+                )
+              ) : (
+                <SmallLoaderWrapper>
+                  <Spinner size={16} />
+                </SmallLoaderWrapper>
+              )}
+            </>
+          ) : (
+            <LoaderWrapper>
+              <Spinner size={36} />
+            </LoaderWrapper>
+          )}
+        </ProfileContainer>
+      </PageContainer>
+    </>
+  )
+}
+
+export default Profile
