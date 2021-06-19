@@ -13,15 +13,23 @@ export const PageContainer = styled.div`
 `
 
 export const PersonalDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   flex: 1;
   margin-bottom: 30px;
 
   > h1 {
     margin: 20px 0 10px;
+    text-align: center;
   }
   > h2 {
     font-size: 18px;
     margin: 20px 0 8px;
+  }
+
+  img {
+    margin: auto;
   }
 
   @media (max-width: ${BP}) {
@@ -31,6 +39,10 @@ export const PersonalDetails = styled.div`
       text-align: left;
     }
   }
+`
+
+export const ClubContainer = styled.div`
+
 `
 
 export const ProfileContainer = styled.main`
@@ -63,6 +75,13 @@ export const SmallLoaderWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+`
+
+export const CenteredButtons = styled.div`
+  display: flex;
+  width: max-content;
+  margin: auto;
+  gap: .5em;
 `
 
 export const ButtonArea = styled.div`
