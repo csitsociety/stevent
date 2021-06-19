@@ -35,6 +35,7 @@ export const StyledIcon = styled.div`
     width: 24px;
     margin: 0 8px;
   }
+
   > a span {
     margin: 0 8px;
   }
@@ -42,12 +43,29 @@ export const StyledIcon = styled.div`
   &:hover a {
     box-shadow: inset 0 0 0 2px ${theme.primary};
   }
+
   &.active a {
     background-color: ${theme.primary};
     color: #fff;
 
     > img {
       filter: invert(1);
+    }
+  }
+
+  @media (max-width: 700px) {
+    margin-right: 2px;
+
+    &:not(.active) > a span {
+      display: none;
+    }
+
+    &[title='Logout'] {
+      display: none;
+    }
+
+    &[title='My Profile'] {
+      margin-right: 10px;
     }
   }
 `
@@ -69,6 +87,10 @@ export const Title = styled.span`
   padding-right: 20px;
   font-weight: 600;
   font-size: 18px;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `
 
 export const Spacer = styled.div`

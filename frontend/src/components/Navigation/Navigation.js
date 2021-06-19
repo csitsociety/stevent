@@ -44,6 +44,8 @@ const Navigation = () => {
     hasAdminClubs = (profile.adminClubs || []).length > 0
   }
 
+  isSuperAdmin = true
+
   return (
     <Container>
       <Link to="/">
