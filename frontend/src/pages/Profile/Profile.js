@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -24,8 +24,10 @@ import {
   LoaderWrapper,
   SmallLoaderWrapper,
   ButtonArea,
+  CenteredButtons,
   IconInput,
   ProfilePictureEdit,
+  ClubContainer,
 } from './profileStyle.js'
 import upload_icon from 'res/upload.svg'
 
@@ -50,6 +52,7 @@ const Profile = () => {
   })
   const [editProfile, setEditProfile] = useState(false)
   const [profile, clearProfile] = useCurrentProfile()
+  const history = useHistory()
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -208,38 +211,45 @@ const Profile = () => {
                   </Heading>
                   <P>{viewProfile.description}</P>
                   {!id && (
-                    <Button onClick={() => setEditProfile(true)}>
-                      Edit profile
-                    </Button>
-                  )}
+                    <CenteredButtons>
+                      <Button onClick={() => setEditProfile(true)}>
+                        Edit profile
+                      </Button>
 
-                  <Heading size="h2">{'Clubs'}</Heading>
-                  {(viewProfile.subscribed
-                    ? viewProfile.subscribed.length
-                    : 0) > 0 ? (
-                    clubs ? (
-                      viewProfile.subscribed.map((clubID) => {
-                        const club = clubs.find((c) => c.id === clubID)
-                        return (
-                          club && (
-                            <Pill
-                              key={clubID}
-                              icon={club.icon}
-                              label={clubID}
-                              href={`/clubs/${clubID}`}
-                              title={club.name}
-                            />
-                          )
-                        )
-                      })
-                    ) : (
-                      <SmallLoaderWrapper>
-                        <Spinner size={16} />
-                      </SmallLoaderWrapper>
-                    )
-                  ) : (
-                    <P>Not a member of any clubs</P>
+                      <Button onClick={() => history.push('/logout')}>
+                        Sign Out
+                      </Button>
+                    </CenteredButtons>
                   )}
+                  <Heading size="h2">{'Clubs'}</Heading>
+                  <ClubContainer>
+                    {(viewProfile.subscribed
+                      ? viewProfile.subscribed.length
+                      : 0) > 0 ? (
+                      clubs ? (
+                        viewProfile.subscribed.map((clubID) => {
+                          const club = clubs.find((c) => c.id === clubID)
+                          return (
+                            club && (
+                              <Pill
+                                key={clubID}
+                                icon={club.icon}
+                                label={clubID}
+                                href={`/clubs/${clubID}`}
+                                title={club.name}
+                              />
+                            )
+                          )
+                        })
+                      ) : (
+                        <SmallLoaderWrapper>
+                          <Spinner size={16} />
+                        </SmallLoaderWrapper>
+                      )
+                    ) : (
+                      <P>Not a member of any clubs</P>
+                    )}
+                  </ClubContainer>
                 </>
               )}
             </>
