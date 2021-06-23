@@ -15,8 +15,10 @@ const validationSchema = Yup.object({
   name: Yup.string().ensure().required('Club name is required'),
   icon: Yup.string().ensure().required('Icon is required'),
   description: Yup.string().ensure().required('Description is required'),
-  discord: Yup.string().ensure().required('Discord link is required'),
-  joinLink: Yup.string().ensure().required('Join link is required'),
+  discord: Yup.string().ensure(),
+  facebook: Yup.string().ensure(),
+  linkedin: Yup.string().ensure(),
+  joinLink: Yup.string().ensure(),
 })
 
 const initialValues = {
@@ -25,7 +27,9 @@ const initialValues = {
   icon: '',
   description: '',
   discord: '',
-  joinLink: '',
+  facebook: '',
+  linkedin: '',
+  joinLink: ''
 }
 
 const CreateClub = () => {
@@ -50,6 +54,8 @@ const CreateClub = () => {
       formData.append('description', values.description)
       formData.append('icon', icon)
       formData.append('discord', values.discord)
+      formData.append('facebook'. values.facebook)
+      formData.append('linkedin'. values.linkedin)
       formData.append('joinLink', values.joinLink)
 
       const response = await createClubPage(formData)
@@ -120,16 +126,25 @@ const CreateClub = () => {
                 label="Discord link"
                 type="url"
                 placeholder="https://discord.gg/abc123"
-                required
+              />
+              <TextField
+                name="facebook"
+                label="Facebook link"
+                type="url"
+                placeholder="https://www.facebook.com/club"
+              />
+              <TextField
+                name="linkedin"
+                label="LinkedIn link"
+                type="url"
+                placeholder="https://www.linkedin.com/company/club/"
               />
               <TextField
                 name="joinLink"
                 label="Join link"
                 type="url"
                 placeholder="https://forms.google.com/join"
-                required
               />
-
               <Center>
                 <Button
                   type="submit"
