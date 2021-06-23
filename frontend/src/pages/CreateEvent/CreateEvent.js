@@ -40,7 +40,7 @@ const initialValues = {
 }
 
 const CreateEvent = () => {
-  const profile = useCurrentProfile()
+  const [profile] = useCurrentProfile()
   const history = useHistory()
   const [error, setError] = useState(null)
   const [image, setImage] = useState(undefined)
@@ -82,77 +82,80 @@ const CreateEvent = () => {
     }
   }
 
-  return (
-    <Container>
-      <FormWrapper>
-        {error && (
-          <StatusMessage onClose={() => setError(null)}>{error}</StatusMessage>
-        )}
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, setErrors }) => {
-            onSubmit(values, setSubmitting, setErrors)
-          }}
-        >
-          {(props) => (
-            <Form>
-              <TextField
-                name="name"
-                label="Event name"
-                placeholder="Notion Workshop"
-                required
-              />
-              <TextField
-                name="image"
-                label="Event banner"
-                type="file"
-                onChange={(e) => {
-                  setImage(e.currentTarget.files[0])
-                  props.handleChange(e)
-                }}
-                required
-              />
-              <TextField
-                name="date"
-                label="Date and time"
-                type="datetime-local"
-                required
-              />
-              <TextField
-                name="location"
-                label="Location"
-                placeholder="Building 80, Level 2"
-              />
-              <TextField
-                name="description"
-                label="Description"
-                as="textarea"
-                rows="6"
-                required
-              />
-              <MultiSelect
-                name="hostingClubs"
-                label="Event run by"
-                options={profile && profile.adminClubs}
-                required
-              />
-
-              <Center>
-                <Button
-                  type="submit"
-                  disabled={!(props.isValid && props.dirty)}
-                  loading={props.isSubmitting}
-                >
-                  Create event
-                </Button>
-              </Center>
-            </Form>
+  if (!profile) {
+    return <div></div>
+  } else {
+    return (
+      <Container>
+        <FormWrapper>
+          {error && (
+            <StatusMessage onClose={() => setError(null)}>{error}</StatusMessage>
           )}
-        </Formik>
-      </FormWrapper>
-    </Container>
-  )
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting, setErrors }) => {
+              onSubmit(values, setSubmitting, setErrors)
+            }}
+          >
+            {(props) => (
+              <Form>
+                <TextField
+                  name="name"
+                  label="Event name"
+                  placeholder="Notion Workshop"
+                  required
+                />
+                <TextField
+                  name="image"
+                  label="Event banner"
+                  type="file"
+                  onChange={(e) => {
+                    setImage(e.currentTarget.files[0])
+                    props.handleChange(e)
+                  }}
+                  required
+                />
+                <TextField
+                  name="date"
+                  label="Date and time"
+                  type="datetime-local"
+                  required
+                />
+                <TextField
+                  name="location"
+                  label="Location"
+                  placeholder="Building 80, Level 2"
+                />
+                <TextField
+                  name="description"
+                  label="Description"
+                  as="textarea"
+                  rows="6"
+                  required
+                />
+                <MultiSelect
+                  name="hostingClubs"
+                  label="Event run by"
+                  options={profile && profile.adminClubs}
+                  required
+                />
+                <Center>
+                  <Button
+                    type="submit"
+                    disabled={!(props.isValid && props.dirty)}
+                    loading={props.isSubmitting}
+                  >
+                    Create event
+                  </Button>
+                </Center>
+              </Form>
+            )}
+          </Formik>
+        </FormWrapper>
+      </Container>
+    )
+  }
 }
 
 export default CreateEvent

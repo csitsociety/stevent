@@ -18,7 +18,6 @@ const EventListing = ({
         <Image src={image} alt="" />
         <Name className="name">{name}</Name>
         <Date>{date}</Date>
-        <Description>{description}</Description>
         <Description>{hostingClubs}</Description>
       </Link>
     </Listing>
