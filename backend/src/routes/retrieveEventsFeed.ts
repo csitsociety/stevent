@@ -19,7 +19,7 @@ const retrieveEventsFeed: Route = (app) => {
         : events.filter(({ name, hostingClubs }) =>
             (name + hostingClubs.join('')).toLowerCase().includes(filter.toLowerCase())
           )
-
+    matchingEvents.sort((a, b) => b.date - a.date)
     successResponse(res, { events: matchingEvents })
   })
 }

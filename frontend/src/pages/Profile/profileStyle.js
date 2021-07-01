@@ -45,6 +45,10 @@ export const ClubContainer = styled.div`
 
 `
 
+export const SocialMediaLink = styled.a`
+  margin: 0px;
+`
+
 export const ProfileContainer = styled.main`
   flex: 2;
   box-sizing: border-box;
@@ -80,8 +84,8 @@ export const SmallLoaderWrapper = styled.div`
 export const CenteredButtons = styled.div`
   display: flex;
   width: max-content;
-  margin: auto;
   gap: .5em;
+  margin-bottom: 10px;
 `
 
 export const ButtonArea = styled.div`

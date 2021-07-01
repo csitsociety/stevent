@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCurrentProfile } from 'hooks'
 
@@ -34,15 +34,17 @@ const NavigationItem = ({ to, label, icon, hideLabel, ...rest }) => {
 }
 
 const Navigation = () => {
-  const profile = useCurrentProfile()
+  const [profile] = useCurrentProfile()
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
+  const [hasAdminClubs, setHasAdminClubs] = useState(false)
 
-  // Determine perms
-  let isSuperAdmin = false
-  let hasAdminClubs = false
-  if (profile) {
-    isSuperAdmin = profile.superadmin
-    hasAdminClubs = (profile.adminClubs || []).length > 0
-  }
+  // Update profile parameters
+  useEffect(() => {
+    if (profile) {
+      setIsSuperAdmin(profile.superadmin)
+      setHasAdminClubs((profile.adminClubs || []).length > 0)
+    }
+  }, [profile])
 
   return (
     <Container>

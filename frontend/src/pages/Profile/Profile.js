@@ -28,6 +28,7 @@ import {
   IconInput,
   ProfilePictureEdit,
   ClubContainer,
+  SocialMediaLink
 } from './profileStyle.js'
 import upload_icon from 'res/upload.svg'
 
@@ -160,12 +161,14 @@ const Profile = () => {
                   initialValues={{
                     username: viewProfile.username,
                     description: viewProfile.description,
+                    linkedin: viewProfile.linkedin
                   }}
                   validationSchema={Yup.object({
                     username: Yup.string()
                       .ensure()
                       .required('Name is required'),
                     description: Yup.string().ensure(),
+                    linkedin: Yup.string().ensure(),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     onSubmitUserInfo(values, setSubmitting)
@@ -184,7 +187,11 @@ const Profile = () => {
                         label="About"
                         as="textarea"
                       />
-
+                      <TextField
+                        name="linkedin"
+                        label="LinkedIn"
+                        as="textarea"
+                      />
                       <ButtonArea>
                         <Button
                           type="button"
@@ -220,6 +227,9 @@ const Profile = () => {
                         Sign Out
                       </Button>
                     </CenteredButtons>
+                  )}
+                  {viewProfile.linkedin && (
+                    <SocialMediaLink href="https://www.linkedin.com/in/maxwellreid/">{'Linked In'}</SocialMediaLink>
                   )}
                   <Heading size="h2">{'Clubs'}</Heading>
                   <ClubContainer>

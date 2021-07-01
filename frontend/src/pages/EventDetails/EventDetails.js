@@ -190,6 +190,9 @@ const EventDetails = () => {
                     disabled={goingLoading}
                     onChange={updateAttending}
                   />
+                  {event.signupLink && (
+                      <a href={event.signupLink}>{'Register'}</a>
+                  )}
                 </>
               )}
 
