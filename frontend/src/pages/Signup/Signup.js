@@ -19,6 +19,9 @@ import logo from 'res/logo.svg'
 import fire from 'auth'
 
 const validationSchema = Yup.object({
+  username: Yup.string()
+    .ensure()
+    .required('Display name is required'),
   rmitID: Yup.string()
     .ensure()
     .required('Student/staff number is required')
