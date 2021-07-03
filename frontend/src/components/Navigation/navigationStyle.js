@@ -34,6 +34,10 @@ export const StyledIcon = styled.div`
     height: 24px;
     width: 24px;
     margin: 0 8px;
+
+    @media (max-width: 700px) {
+      margin: 0;
+    }
   }
 
   > a span {
